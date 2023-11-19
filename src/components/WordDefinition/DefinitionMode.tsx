@@ -1,6 +1,5 @@
 import "./DefinitionMode.css";
 import { withFuncProps } from "../withFuncProps";
-import {getWordAndDef} from '../../helpers/connector';
 import { TextField, FormHelperText } from "@mui/material";
 import React from "react";
 
@@ -15,17 +14,27 @@ class DefinitionMode extends React.Component<any,any>{
     }
 
     forceup = async () => {
-        try{
+        try {
             const { storedInputValue } = this.state;
-            const content = await getWordAndDef(storedInputValue);
-            const words = content.map((word: String) => word.replace(/,/g, ", "));
-            this.setState({ errMessage: "", wordList: words });
-        } catch (error){
-            console.error("Error fetching word in the database:", error);
-            this.setState({ errMessage: 'The word does not exist. Please enter a valid word.' });
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${storedInputValue}`);
+            
+            if (!response.ok) {
+                throw new Error('The word does not exist. Please enter a valid word.');
+            }
+    
+            const data = await response.json();
+            const definitions = data.flatMap((entry: any) =>
+            entry.meanings.map((meaning: any) =>
+                meaning.definitions.map((definition: any) => definition.definition)
+            )
+        );
+        this.setState({ errMessage: '', wordList: definitions });
+        } catch (error: any) {
+            console.error('Error fetching word definition:', error);
+            this.setState({ errMessage: error.message || 'An error occurred while fetching word definition.' });
         }
-        
-    }
+    };
+    
 
     handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputString = event.target.value;
