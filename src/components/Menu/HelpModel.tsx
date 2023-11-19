@@ -22,9 +22,7 @@ class HelpModel extends React.Component<HelpModelProps> {
                     For example, "apple" -{'>'} "egg" -{'>'} "gear".</p>
                 <p>3. <b>Classic Mode</b>: Like in Unlimited Mode, every word you type should begin with the last letter 
                     of the word before it. For instance, "apple" -{'>'} "egg" -{'>'} "gear".</p>
-                <p>4. <b>Add Word</b>: Think we're missing a legitimate word in our database? Submit it to 
-                    our administrator for review and approval.</p>
-                <p>5. <b>Feedback</b>: We'd love to hear from you! Share your suggestions and let us know 
+                <p>4. <b>Feedback</b>: We'd love to hear from you! Share your suggestions and let us know 
                     how much you're enjoying the game.</p>
             </div>
         </div>

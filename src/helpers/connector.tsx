@@ -165,17 +165,6 @@ export async function getOnlineDefinition(word: string){
     return content.data;
 }
 
-export async function requestForWordAddition(word: string){
-    let content = await client({
-        method: 'post',
-        url: url+"requestForWordAddition",
-        params:{
-            word: word
-        }
-    });
-    return content.data;
-}
-
 export async function isWordLegitimate(word: string){
     let content = await client({
         method: 'get',
@@ -193,36 +182,6 @@ export async function isWordForAdditionExist(word: string){
         url: url+"isWordForAdditionExist",
         params:{
             word: word
-        }
-    });
-    return content.data;
-}
-
-export async function getFromWordAddition(){
-    let content = await client({
-        method: 'get',
-        url: url+"getFromWordAddition"
-    });
-    return content.data;
-}
-
-export async function storeWordDefinition(wordAdditionId: number){
-    let content = await client({
-        method: 'post',
-        url: url+"storeWordDefinition",
-        params:{
-            wordAdditionId: wordAdditionId
-        }
-    });
-    return content.data;
-}
-
-export async function deleteWordAdditionDefinition(wordAdditionId: number){
-    let content = await client({
-        method: 'post',
-        url: url+"deleteWordAdditionDefinition",
-        params:{
-            wordAdditionId: wordAdditionId
         }
     });
     return content.data;

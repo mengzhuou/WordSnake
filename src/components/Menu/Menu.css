@@ -186,17 +186,6 @@ textarea{
     text-align: left;
 }
 
-.addWordModelPopup{
-    background-color: #fbe490;
-    border-radius: 5%;
-    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
-    width: 50%;
-    top: 15%;
-    left: 25%;
-    position: fixed;
-    padding-bottom: 10px; 
-}
-
 .searchWord{
     margin-right: 0% !important;
     margin-top: 10%;
@@ -217,11 +206,12 @@ textarea{
 }
 
 .helpInstruction {
-    max-height: 70vh;
     padding: 10px;
     box-sizing: border-box;
     text-align: left;
     margin-right: 0 !important;
+    scrollbar-width: none;  /* Hiding scrollbar for Firefox */
+	-ms-overflow-style: none;  /* IE and Edge */
 }
 
 .helpInstruction p {
@@ -238,73 +228,19 @@ textarea{
 }
 
 .HelpModelPopup{
-    overflow-y: scroll;
     background-color: #fbe490;
-    border-radius: 5%;
+    border-radius: 1%;
     box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
-    width: 50%;
-    top: 15%;
-    left: 25%;
-    position: fixed;
-    padding-bottom: 10px; 
-}
-
-
-
-.adminWordAddition {
-    margin-right: 40px !important;
-}
-
-.adminWordAddition table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #0b0b0b;
-    margin: 6% 0% 10% 2%;
-}
-
-.adminWordAddition th,
-.adminWordAddition td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-
-.adminWordAddition th {
-    background-color: #f9f9f9;
-    vertical-align: middle;
-}
-
-.adminWordAddition td:nth-child(1) {
-    width: 1%;
-}
-
-.adminWordAddition td:nth-child(2) {
-    width: 7%;
-}
-
-.adminWordAddition td:nth-child(3) {
-    width: 10%;
-}
-
-.adminWordAddition td:nth-child(4) {
-  width: 50%;
-}
-
-.adminWordAddition td:nth-child(5) {
-    width: 3%;
-}
-
-.adminAddWordModelPopup{
-    background-color: #fbe490;
-    border-radius: 5%;
-    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
-    top: 10%;
-    position: fixed;
-    overflow-y: auto;
-    height: 80%;
     width: 80%;
+    left: 10%;
+    position: fixed;
+    bottom: 13%;
 }
+
+/* Hiding scrollbar for Chrome, Safari and Opera */
+.helpInstruction::-webkit-scrollbar {
+    display: none;
+  }
 
 .buttonColumn{
     background-color: #fbe490;
