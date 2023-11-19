@@ -1,7 +1,7 @@
 import "./GameoverBoard.css";
 
 import { withFuncProps } from "../withFuncProps";
-import { updateUnlimitedBestScore, getUnlimitedLeaderBoard } from '../../helpers/connector';
+import { getUnlimitedLeaderBoard } from '../../helpers/connector';
 import React from "react";
 
 class UnlimitedGameoverBoard extends React.Component<any, any>{
@@ -9,12 +9,10 @@ class UnlimitedGameoverBoard extends React.Component<any, any>{
         super(props);
         this.state = {
             username: '',
-            bestScore: -1,
             wordList: this.props.wordList,
             leaderBoardList: [],
         };
         this.menuNav = this.menuNav.bind(this);
-        this.bestScore = this.bestScore.bind(this);
     }
 
 
@@ -24,17 +22,6 @@ class UnlimitedGameoverBoard extends React.Component<any, any>{
 
     menuNav = () => {
         this.props.navigate("/")
-    }
-
-    bestScore = async() => {
-        const { wordList } = this.state;
-
-        updateUnlimitedBestScore(wordList.length).then((response) => {
-            this.setState({ bestScore: response })
-        })
-        .catch((error) => {
-            console.log("Error when fetching data.")
-        });
     }
 
     leaderBoard = async () => {
@@ -48,7 +35,6 @@ class UnlimitedGameoverBoard extends React.Component<any, any>{
     };
     
     componentDidMount(): void {
-        this.bestScore();
         this.leaderBoard();
 
         let counter = 0;
@@ -61,7 +47,7 @@ class UnlimitedGameoverBoard extends React.Component<any, any>{
         }
     }
     render() {
-        const { wordList, bestScore, leaderBoardList } = this.state;
+        const { wordList, leaderBoardList } = this.state;
         const sortedWords = [...wordList].sort();
         return (
             <div className="App">
@@ -71,7 +57,6 @@ class UnlimitedGameoverBoard extends React.Component<any, any>{
                 </div>
                 <p className="goTitle">Unlimited Mode Game Over</p>
                 <p className="scoreStyle">Your Score: {wordList.length}</p>
-                <p className="scoreStyle">Your Best Score: {bestScore}</p>
 
                 <h1 className="leaderBoardTitle">Leader Board</h1>
                 <div className="leaderBoard">

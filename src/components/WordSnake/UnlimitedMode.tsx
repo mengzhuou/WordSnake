@@ -193,12 +193,8 @@ class UnlimitedMode extends React.Component<any, any>{
                 <div className="topnav">
                     <button className="topnavButton" onClick={this.reStart} hidden={isGameStarted ? false : true}>Restart</button>
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
+                    <button className="topnavButton" onClick={this.handleShowWords}>{showWords ? 'Hide Words' : 'Show Words'}</button>
                 </div>
-                {this.state.isGameStarted ? (
-                    <div className="sidenav">
-                    <button className="sidenavButton" onClick={this.handleShowWords}>{showWords ? 'Hide Words' : 'Show Words'}</button>
-                </div>
-                ) : null}
             
                 <h1 className="wsTitle">Unlimited Word Snake</h1>
                 {isGameStarted? (

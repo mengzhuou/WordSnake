@@ -82,46 +82,6 @@ export async function getLetterFromPreviousWord(inputWord: string): Promise<Stri
     return content.data;
 }
 
-
-export async function getBestScore(){
-    let content = await client({
-        method: 'get',
-        url: url+"getBestScore"
-    });
-    return content.data;
-}
-
-export async function updateBestScore(currentScore: number): Promise<number[][]>{
-    let content = await client({
-        method: 'post',
-        url: url+"updateBestScore",
-        params: {
-            currentScore: currentScore
-        },
-    });
-    return content.data;
-}
-
-export async function getUnlimitedBestScore(){
-    let content = await client({
-        method: 'get',
-        url: url+"getUnlimitedBestScore"
-    });
-    return content.data;
-}
-
-export async function updateUnlimitedBestScore(currentScore: number): Promise<number[][]>{
-    let content = await client({
-        method: 'post',
-        url: url+"updateUnlimitedBestScore",
-        params: {
-            currentScore: currentScore
-        },
-    });
-    return content.data;
-}
-
-
 export async function getNumOfUsers(){
     let content = await client({
         method: 'get',
