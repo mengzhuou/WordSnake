@@ -3,10 +3,35 @@ import "./ClassicMode.css";
 import { withFuncProps } from "../withFuncProps";
 import { getLetterFromPreviousWord, getRandomStart } from './FuncProps'; 
 import { TextField, FormHelperText } from "@mui/material";
-import React from "react";
+import React, { Component } from 'react';
 import UnlimitedCountdownTimer from "./UnlimitedCountdownTimer";
+import { collection, onSnapshot, DocumentData, addDoc } from 'firebase/firestore';
+import db from "./firebase";
 
-class UnlimitedMode extends React.Component<any, any>{
+
+interface UnlimitedModeState {
+    isGameStarted: boolean;
+    ForceUpdateNow: boolean;
+    isGameOver: boolean;
+    showWords: boolean;
+    isTimerUpdated: boolean;
+    canbeSaved: boolean;
+    showRanking: boolean;
+    lastWord: string;
+    lastLetter: string;
+    firstWord: string;
+    inputValue: string;
+    storedInputValue: string;
+    inputValidString: string;
+    errMessage: string;
+    timeLeft: number;
+    wordList: string[];
+    history: string[];
+    leaderBoardList: DocumentData[];
+  }
+  
+
+class UnlimitedMode extends Component<any, UnlimitedModeState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -14,11 +39,14 @@ class UnlimitedMode extends React.Component<any, any>{
             ForceUpdateNow: false, 
             isGameOver: false, showWords: true, 
             isTimerUpdated: false,
+            canbeSaved: false,
+            showRanking: false,
             lastWord:"", lastLetter: "", firstWord: "", 
             inputValue: '',
             storedInputValue: '', inputValidString: '',
             errMessage: '', 
-            timeLeft: 10, wordList: [], history: []
+            timeLeft: 10, wordList: [], history: [], 
+            leaderBoardList: [],
         };
         this.menuNav = this.menuNav.bind(this);
     }
@@ -153,13 +181,35 @@ class UnlimitedMode extends React.Component<any, any>{
                 wordList: [], 
                 errMessage: "" 
             })
-            this.props.navigate("/UnlimitedResultListFunc", {
-                state: {
-                  wordList: this.state.history
-                }
-              })
+            //call leaderboard
         }
     }
+
+    componentDidMount() {
+        onSnapshot(collection(db, "UnlimitedModeRank"), (snapshot) => {
+            const sortedLeaderboard = snapshot.docs
+            .map((doc) => doc.data() as DocumentData)
+            .sort((a, b) => a.Score - b.Score);
+            
+            this.setState({ leaderBoardList: sortedLeaderboard });
+        });
+    }
+
+    //since game over is true, player can save record
+    handleGameOverLogic() {
+        this.setState({ canbeSaved: true });
+    }
+
+    handleNewRecord = async (timerVal: number) => {
+        const name = prompt(`(Want to save your score <${this.state.wordList.length} words> to the Leaderboard?) Enter your name.`);
+        if (name !== null){
+            const collectionRef = collection(db, "UnlimitedModeRank");
+            const payload = {Name: name, Score: timerVal};
+            await addDoc(collectionRef, payload);
+            this.setState({ canbeSaved: false }); // record is already saved
+        }
+    };
+    
 
     handleShowWords = () => {
         this.setState({
@@ -172,10 +222,17 @@ class UnlimitedMode extends React.Component<any, any>{
             this.setState({isTimerUpdated: false});
         }
     }
+
+    toggleRanking = () => {
+        this.setState((prevState: any) => ({
+          showRanking: !prevState.showRanking,
+        }));
+    };
+
     render() {
         const { firstWord, inputValue, wordList, errMessage, 
             isGameStarted, showWords,
-            timeLeft, isTimerUpdated
+            timeLeft, isTimerUpdated, showRanking, leaderBoardList
         } = this.state;
         const wordListWithoutFirst = wordList.slice(1);
         const sortedWords = [...wordListWithoutFirst].sort();
@@ -192,8 +249,9 @@ class UnlimitedMode extends React.Component<any, any>{
             <div className="App">
                 <div className="topnav">
                     <button className="topnavButton" onClick={this.reStart} hidden={isGameStarted ? false : true}>Restart</button>
-                    <button className="topnavButton" onClick={this.menuNav}>Menu</button>
                     <button className="topnavButton" onClick={this.handleShowWords}>{showWords ? 'Hide Words' : 'Show Words'}</button>
+                    <button className="topnavButton" onClick={this.toggleRanking}>Rank</button>
+                    <button className="topnavButton" onClick={this.menuNav}>Menu</button>
                 </div>
             
                 <h1 className="wsTitle">Unlimited Word Snake</h1>
@@ -226,6 +284,36 @@ class UnlimitedMode extends React.Component<any, any>{
                         {sortedWords.map((word: string, index: number) => (
                             <li key={index}>{word}</li>
                         ))}
+                    </div>
+                )}
+
+                {showRanking && (
+                    <div className="ranking-popup">
+                        <div className="popup-content">
+                        <button onClick={this.toggleRanking} className="close-btn">
+                            X
+                        </button>
+                        <h2 className='leaderboardTitle'>Leaderboard</h2>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Score<span className="smallText">/sec</span></th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {leaderBoardList.map((result, index) => (
+                                <tr key={result.id || index}>
+                                <td>{index + 1}</td>
+                                <td>{result.Name}</td>
+                                <td>{result.Score}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                        </div>
                     </div>
                 )}
             </div>

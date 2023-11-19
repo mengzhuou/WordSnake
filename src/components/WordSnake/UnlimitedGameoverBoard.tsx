@@ -1,7 +1,8 @@
 import "./GameoverBoard.css";
 
 import { withFuncProps } from "../withFuncProps";
-import { getUnlimitedLeaderBoard } from '../../helpers/connector';
+import { collection, onSnapshot, DocumentData, addDoc } from 'firebase/firestore';
+import db from "./firebase";
 import React from "react";
 
 class UnlimitedGameoverBoard extends React.Component<any, any>{
@@ -25,27 +26,28 @@ class UnlimitedGameoverBoard extends React.Component<any, any>{
     }
 
     leaderBoard = async () => {
-        getUnlimitedLeaderBoard()
-          .then((response) => {
-            this.setState({ leaderBoardList: response });
-          })
-          .catch((error) => {
-            console.log("Error loading leaderboard data.");
+          onSnapshot(collection(db, "Leaderboard"), (snapshot) => {
+            const sortedLeaderboard = snapshot.docs
+            .map((doc) => doc.data() as DocumentData)
+            .sort((a, b) => a.Score - b.Score);
+            
+            this.setState({ leaderBoardList: sortedLeaderboard });
           });
     };
     
     componentDidMount(): void {
         this.leaderBoard();
-
-        let counter = 0;
-        const maxUpdates = 2; 
-        this.componentDidUpdate = (prevProps: Readonly<any>, prevState: Readonly<any>) => {
-            if (prevState.leaderBoardList !== this.state.leaderBoardList && counter < maxUpdates) {
-                this.leaderBoard();
-                counter++;
-            }
-        }
     }
+
+    handleNewRecord = async (timerVal: number) => {
+        const name = prompt(`(Want to save your score <${this.state.timerRecord} seconds> to the Leaderboard?) Enter your name.`);
+        if (name !== null){
+          const collectionRef = collection(db, "Leaderboard");
+          const payload = {Name: name, Score: timerVal};
+          await addDoc(collectionRef, payload);
+          this.setState({ canbeSaved: false }); // record is already saved
+        }
+      };
     render() {
         const { wordList, leaderBoardList } = this.state;
         const sortedWords = [...wordList].sort();
