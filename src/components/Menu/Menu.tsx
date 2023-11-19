@@ -124,7 +124,7 @@ class Menu extends React.Component<any,any>{
         this.setState({ showHelpModel: false })
     }
     render(){
-        const {totalUserNum, signupRank, admin, 
+        const {admin, 
             showFeedbackModel, feedbackMessage, 
             rating, showAdminFeedbackModel, 
             showUserAddWordModel, showHelpModel,
@@ -132,17 +132,6 @@ class Menu extends React.Component<any,any>{
         } = this.state;
         return (
             <div className="App">
-                <div className="labelContainer">
-                    {admin ? 
-                        <p className="adminMenuLabel">ADMIN</p>
-                        :
-                        null
-                    }
-                    <p className="menuLabel">Registered Users : {totalUserNum}</p>
-                    <p className="menuLabel">Your User ID : {signupRank}</p>
-
-                    
-                </div>
                 <div className="buttonContainer">
                     <div className="buttonRow">
                         <button className="menuButton" onClick={this.defModeNav}>Definition Mode</button>

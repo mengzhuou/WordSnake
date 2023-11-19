@@ -31,40 +31,6 @@
     margin-right: 10px;
 }
 
-.labelContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    width: 100%;
-  }
-  
-.menuLabel {
-    width: 200px;
-    height: 30px;
-    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
-    background: linear-gradient(#04a670, #6adc95) padding-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-    margin-left: 20px;
-    letter-spacing: 2px;
-}
-
-.adminMenuLabel {
-    width: 100px;
-    height: 30px;
-    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
-    background: linear-gradient(#04a670, #6adc95) padding-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-    margin-left: 20px;
-    letter-spacing: 2px;
-}
-
 .fbpopup {
     background-color: #9f7c00;
     border-radius: 5%;
@@ -399,3 +365,26 @@ textarea{
     font-weight: bold;
     font-family: "Neucha", cursive;
 }
+
+
+.App{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    background-color:#c7fcd1;
+    font-family: "Neucha", cursive;
+    overflow:auto;
+}
+
+.App-header{
+    color: #cedcc5;
+    background-color: #04a670;
+    z-index: 1;
+    text-align: center;
+    width: 450px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    border: 3px solid transparent;
+}
+  

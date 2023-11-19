@@ -84,7 +84,7 @@ class DefinitionMode extends React.Component<any,any>{
     }
 
     menuNav = () => {
-        this.props.navigate("/menu")
+        this.props.navigate("/")
     }
 
     componentDidMount(): void {

@@ -23,7 +23,7 @@ class GameoverBoard extends React.Component<any, any>{
     }
 
     menuNav = () => {
-        this.props.navigate("/menu")
+        this.props.navigate("/")
     }
     bestScore = async() => {
         const { wordList } = this.state;

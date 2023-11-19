@@ -1,7 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Menu from "./components/Menu/Menu";
-import Main from "./components/Main/Main";
 import ClassicMode from "./components/WordSnake/ClassicMode";
 import CountdownTimer from "./components/WordSnake/CountdownTimer";
 import GameoverBoard from "./components/WordSnake/GameoverBoard";
@@ -46,8 +45,7 @@ class App extends React.Component<any,any>{
     return (
       <Router>
         <Routes>
-          <Route path="/" element={<Main/>}/>
-          <Route path="/Menu" element={<Menu/>}/>
+          <Route path="/" element={<Menu/>}/>
           <Route path="/ClassicMode" element={<ClassicMode/>}/>
           <Route path="/GameoverBoard" element={<GameoverBoard/>}/>
           <Route path="/UnlimitedGameoverBoard" element={<UnlimitedGameoverBoard/>}/>
