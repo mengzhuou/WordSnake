@@ -1,9 +1,9 @@
 import "./ClassicMode.css";
 
 import { withFuncProps } from "../withFuncProps";
-import { getLetterFromPreviousWord, getRandomStart, getHintWordAndDef } from '../../helpers/connector';
+import { getHintWordAndDef } from '../../helpers/connector';
 import { TextField, FormHelperText } from "@mui/material";
-
+import { getLetterFromPreviousWord, getRandomStart } from './FuncProps'; 
 import React from "react";
 import CountdownTimer from "./CountdownTimer";
 import HintPopup from "./HintPopupProps";
@@ -16,6 +16,7 @@ class ClassicMode extends React.Component<any, any>{
             ForceUpdateNow: false, 
             isGameOver: false, showWords: true, 
             printHints: [], showHints: false,
+            isWordExist: false,
             lastWord:"", lastLetter: "", firstWord: "", 
             inputValue: '',
             storedInputValue: '', inputValidString: '',
@@ -27,14 +28,16 @@ class ClassicMode extends React.Component<any, any>{
 
 
     forceup = async (inputValue: string) => {
-        try {
-            if (this.state.wordList.includes(inputValue)) {
-                this.setState({ errMessage: 'The word already exist. Please type another word.', inputValue: "", storedInputValue: "" })
-            } else {
-                const lastWord = this.state.wordList[this.state.wordList.length - 1]
-                const lastLetter = lastWord[lastWord.length - 1]
+        if (this.state.wordList.includes(inputValue)) {
+            this.setState({ errMessage: 'The word already exist. Please type another word.', inputValue: "", storedInputValue: "" })
+        } else {
+            const lastWord = this.state.wordList[this.state.wordList.length - 1]
+            const lastLetter = lastWord[lastWord.length - 1]
+
+            const isWordExist = await this.checkWordExist(inputValue);
+            if (isWordExist){
                 if (inputValue[0] === lastLetter) {
-                    const words = await getLetterFromPreviousWord(inputValue);
+                    const words = getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
 
                     if (this.state.showHints){
@@ -57,12 +60,20 @@ class ClassicMode extends React.Component<any, any>{
                 } else {
                     this.setState({ errMessage: `The word must start with '${lastLetter}'`, inputValue: "", storedInputValue: "" })
                 }
+            } else {
+                this.setState({ errMessage: 'The word does not exist. Please enter a valid word.', inputValue: "", storedInputValue: "" });
             }
-        } catch (error) {
-            console.error("Error fetching word in the database:", error);
-            this.setState({ errMessage: 'The word does not exist. Please enter a valid word.', inputValue: "", storedInputValue: "" });
         }
-        
+    };
+
+    checkWordExist = async (word: string): Promise<boolean> => {
+        try {
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+            return response.ok;
+        } catch (error) {
+            console.error('Error checking word existence:', error);
+            return false;
+        }
     };
 
     handleTimeUp = () => {
