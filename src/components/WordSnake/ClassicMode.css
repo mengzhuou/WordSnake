@@ -1,0 +1,122 @@
+.topnav {
+  background-color:rgb(161, 181, 161);
+  position: fixed;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  justify-content: space-around;
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+  
+.topnavButton {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 10px 10px;
+  margin-right: 10px;
+  text-decoration: none;
+  font-size: 15px;
+  background-color: #effff9;
+  cursor: pointer;
+  font-family: "Neucha", cursive;
+  border-radius: 5%;
+  font-weight: bold;
+}
+
+.wsTitle{
+  margin-top: 7%;
+  z-index: 3;
+  letter-spacing: 2px;
+  font-size: 50px;
+}
+
+.errorMessage {
+  color: red;
+}
+
+.sidenav {
+  height: 100%;
+  width: 120px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(161, 181, 161);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidenavButton {
+  color: black;
+  padding: 10px 10px;
+  margin-top: 80px;
+  font-size: 15px;
+  background-color: #effff9;
+  cursor: pointer;
+  font-family: "Neucha", cursive;
+  border-radius: 5%;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 80px 20px 20px 20px;
+}
+
+.container{
+  margin-top: 40px;
+  display: flex;
+  max-width: calc(100% - 380px);
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.container li{
+  display: flex;
+  font-family: initial;
+  min-width: 100px;
+}
+
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.countdownTimer {
+  margin-bottom: 20px;
+  font-size: 25px;
+  display: inline-block;
+} 
+
+
+.bonusMessage{
+  margin-bottom: 20px;
+  font-size: 25px;
+  display: inline-block;
+  background-color: #effff9;
+  position: absolute;
+  top: 25%;
+  right: 20%;
+  animation: fadeIn 0.5s ease-in-out;
+  opacity: 1;
+}
+
+@media (max-width: 700px) {
+  .bonusMessage{
+    margin-bottom: 20px;
+    font-size: 25px;
+    display: inline-block;
+    background-color: #effff9;
+    position: absolute;
+    top: 41%;
+    left: 20%;
+    animation: fadeIn 0.5s ease-in-out;
+    opacity: 1;
+  }
+  
+}

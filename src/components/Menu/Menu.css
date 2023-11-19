@@ -1,0 +1,401 @@
+.menuButton {
+    color: black;
+    text-decoration: none;
+    font-size: 30px;
+    background-color: #c8f3ce;
+    cursor: pointer;
+    font-family: "Neucha", cursive;
+    border-radius: 5%;
+    font-weight: bold;
+    display: block;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+    align-items:flex-end;
+    margin-bottom: 40px;
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.buttonRow div {
+    margin-right: 10px;
+}
+
+.labelContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+.menuLabel {
+    width: 200px;
+    height: 30px;
+    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
+    background: linear-gradient(#04a670, #6adc95) padding-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    letter-spacing: 2px;
+}
+
+.adminMenuLabel {
+    width: 100px;
+    height: 30px;
+    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
+    background: linear-gradient(#04a670, #6adc95) padding-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    letter-spacing: 2px;
+}
+
+.fbpopup {
+    background-color: #9f7c00;
+    border-radius: 5%;
+    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
+    width: 50%;
+    height: 60%;
+    top: 20%;
+    left: 25%;
+    position: fixed;
+}
+
+.fbClose-btn{
+    background-color: #effff9;
+    border-radius: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+@media (max-width: 730px){
+    .fbClose-btn{
+        margin-left: 90%;
+    }
+
+    textarea{
+        width: 95%;
+        height: 80%;
+        margin: 12% 0% 5% 0;
+        display: block;
+    }
+
+    .adminFbClose-btn{
+        margin-left: 90%;
+    }
+}
+
+textarea{
+    width: 95%;
+    height: 80%;
+    margin: 3% 0% 5% 0;
+    display: block;
+}
+
+.fbform{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.fbSubmitButton{
+    color: rgb(101, 58, 97);
+    background-color: #effff9;
+    border-radius: 5%;
+    width: 23%;
+    height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: "Neucha", cursive;
+}
+
+.ratingContainer {
+    display: flex;
+    margin-bottom: 2%;
+}
+  
+.star {
+    font-size: 40px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+    letter-spacing: 14px;
+    margin-bottom: 5%;
+}
+  
+.selected {
+    color: #ffc107;
+}
+
+.adminFbClose-btn{
+    background-color: #effff9;
+    border-radius: 10px;
+    position: relative;
+    margin-left: 95%;
+    width: 30px;
+    height: 30px;
+}
+
+
+.adminFBpopup {
+    background-color: #fff3c8;
+    border-radius: 5%;
+    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
+    top: 10%;
+    position: fixed;
+    overflow-y: auto;
+    height: 80%;
+    width: 80%;
+}
+
+.adminFB {
+    margin-right: 40px !important;
+}
+
+.adminFB table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #0b0b0b;
+    margin: 1% 0% 10% 2%;
+}
+
+.adminFB th,
+.adminFB td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.adminFB th {
+    background-color: #f9f9f9;
+}
+
+.adminFB td:nth-child(6) {
+  width: 15%;
+}
+
+.adminFB td:nth-child(3) {
+    width: 40%;
+}
+
+.sortHeader{
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    font-family: "Neucha", cursive;
+}
+
+
+
+.statusCss{
+    background-color: #fff3c8;
+    padding: 8px;
+    text-align: left;
+}
+
+.addWordModelPopup{
+    background-color: #fbe490;
+    border-radius: 5%;
+    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
+    width: 50%;
+    top: 15%;
+    left: 25%;
+    position: fixed;
+    padding-bottom: 10px; 
+}
+
+.searchWord{
+    margin-right: 0% !important;
+    margin-top: 10%;
+}
+
+.searchDefinition{
+    margin: 5% 3% 5% 3% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.typedWord{
+    text-align: center !important;
+    width: 100%;
+    margin-top: 5%;
+}
+
+.userAddWordModelSubmit{
+    color: rgb(101, 58, 97);
+    background-color: #effff9;
+    border-radius: 5%;
+    margin-top: 30%;
+    width: 23%;
+    height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: "Neucha", cursive;
+}
+
+.helpInstruction {
+    max-height: 70vh;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: left;
+    margin-right: 0 !important;
+}
+
+.helpInstruction p {
+    margin-bottom: 5%;
+}
+
+.helpTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-family: cursive;
+    letter-spacing: 2px;
+}
+
+.HelpModelPopup{
+    overflow-y: scroll;
+    background-color: #fbe490;
+    border-radius: 5%;
+    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
+    width: 50%;
+    top: 15%;
+    left: 25%;
+    position: fixed;
+    padding-bottom: 10px; 
+}
+
+
+
+.adminWordAddition {
+    margin-right: 40px !important;
+}
+
+.adminWordAddition table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #0b0b0b;
+    margin: 6% 0% 10% 2%;
+}
+
+.adminWordAddition th,
+.adminWordAddition td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.adminWordAddition th {
+    background-color: #f9f9f9;
+    vertical-align: middle;
+}
+
+.adminWordAddition td:nth-child(1) {
+    width: 1%;
+}
+
+.adminWordAddition td:nth-child(2) {
+    width: 7%;
+}
+
+.adminWordAddition td:nth-child(3) {
+    width: 10%;
+}
+
+.adminWordAddition td:nth-child(4) {
+  width: 50%;
+}
+
+.adminWordAddition td:nth-child(5) {
+    width: 3%;
+}
+
+.adminAddWordModelPopup{
+    background-color: #fbe490;
+    border-radius: 5%;
+    box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
+    top: 10%;
+    position: fixed;
+    overflow-y: auto;
+    height: 80%;
+    width: 80%;
+}
+
+.buttonColumn{
+    background-color: #fbe490;
+}
+
+.submitButtonAW{
+    padding: 8px;
+    margin-bottom: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    background-color: #fbe490;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    font-family: "Neucha", cursive;
+}
+
+.deleteButtonAW{
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    background-color: #fbe490;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    font-family: "Neucha", cursive;
+}
+
+.submitButtonAW:hover {
+    transform: translateY(-5px);
+}
+.deleteButtonAW:hover {
+    transform: translateY(-5px);
+}
+
+.sortHeaderAW{
+    padding: 8px;
+    margin-top: 19px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    font-family: "Neucha", cursive;
+}
