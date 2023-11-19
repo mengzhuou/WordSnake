@@ -1,11 +1,10 @@
 import "./ClassicMode.css";
 
 import { withFuncProps } from "../withFuncProps";
-import { getLetterFromPreviousWord, getRandomStart, getHintWordAndDef } from '../../helpers/connector';
+import { getLetterFromPreviousWord, getRandomStart } from './FuncProps'; 
 import { TextField, FormHelperText } from "@mui/material";
 import React from "react";
 import UnlimitedCountdownTimer from "./UnlimitedCountdownTimer";
-import HintPopup from "./HintPopupProps";
 
 class UnlimitedMode extends React.Component<any, any>{
     constructor(props: any) {
@@ -15,7 +14,6 @@ class UnlimitedMode extends React.Component<any, any>{
             ForceUpdateNow: false, 
             isGameOver: false, showWords: true, 
             isTimerUpdated: false,
-            printHints: [], showHints: false,
             lastWord:"", lastLetter: "", firstWord: "", 
             inputValue: '',
             storedInputValue: '', inputValidString: '',
@@ -35,7 +33,6 @@ class UnlimitedMode extends React.Component<any, any>{
                 if (inputValue[0] === lastLetter) {
                     const words = await getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
-                    this.handleCloseHint();
                     this.setState({
                         lastWord: lastWord,
                         errMessage: '',
@@ -47,8 +44,6 @@ class UnlimitedMode extends React.Component<any, any>{
                     });
 
                     let hisArr = this.state.history.concat(inputValue);
-                    const lastWordForHint = hisArr[hisArr.length - 1]
-                    const lastLetter = lastWordForHint[lastWordForHint.length - 1]
                     
                     this.setState({history: hisArr, lastLetter: lastLetter})
                 } else {
@@ -162,19 +157,6 @@ class UnlimitedMode extends React.Component<any, any>{
         })
     }
 
-    handleGiveHints = async() => {
-        const hints = await getHintWordAndDef(this.state.lastLetter);
-
-        this.setState({
-            showHints: !this.state.showHints,
-            printHints: hints
-        })
-    }
-
-    handleCloseHint = () => {
-        this.setState({ showHints: false, printHints: []})
-    }
-
     componentDidUpdate(){
         if (this.state.isTimerUpdated === true) {
             this.setState({isTimerUpdated: false});
@@ -182,7 +164,7 @@ class UnlimitedMode extends React.Component<any, any>{
     }
     render() {
         const { firstWord, inputValue, wordList, errMessage, 
-            isGameStarted, showWords, printHints, showHints,
+            isGameStarted, showWords,
             timeLeft, isTimerUpdated
         } = this.state;
         const wordListWithoutFirst = wordList.slice(1);
@@ -205,8 +187,6 @@ class UnlimitedMode extends React.Component<any, any>{
                 {this.state.isGameStarted ? (
                     <div className="sidenav">
                     <button className="sidenavButton" onClick={this.handleShowWords}>{showWords ? 'Hide Words' : 'Show Words'}</button>
-                    <button className="sidenavButton" onClick={this.handleGiveHints}>Hint</button>
-                    {showHints && <HintPopup hint={printHints} onClose={this.handleCloseHint} />}
                 </div>
                 ) : null}
             

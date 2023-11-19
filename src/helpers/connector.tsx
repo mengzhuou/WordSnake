@@ -82,17 +82,6 @@ export async function getLetterFromPreviousWord(inputWord: string): Promise<Stri
     return content.data;
 }
 
-export async function getHintWordAndDef(inputWordLetter: string): Promise<String[]>{
-    let content = await client({
-        method: 'get',
-        url: url+"getHintWordAndDef",
-        params: {
-            inputWordLetter: inputWordLetter
-        },
-        withCredentials: true
-    });
-    return content.data;
-}
 
 export async function getBestScore(){
     let content = await client({

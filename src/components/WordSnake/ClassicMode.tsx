@@ -1,12 +1,10 @@
 import "./ClassicMode.css";
 
 import { withFuncProps } from "../withFuncProps";
-import { getHintWordAndDef } from '../../helpers/connector';
 import { TextField, FormHelperText } from "@mui/material";
 import { getLetterFromPreviousWord, getRandomStart } from './FuncProps'; 
 import React from "react";
 import CountdownTimer from "./CountdownTimer";
-import HintPopup from "./HintPopupProps";
 
 class ClassicMode extends React.Component<any, any>{
     constructor(props: any) {
@@ -15,7 +13,6 @@ class ClassicMode extends React.Component<any, any>{
             isGameStarted: false,
             ForceUpdateNow: false, 
             isGameOver: false, showWords: true, 
-            printHints: [], showHints: false,
             isWordExist: false,
             lastWord:"", lastLetter: "", firstWord: "", 
             inputValue: '',
@@ -29,7 +26,7 @@ class ClassicMode extends React.Component<any, any>{
 
     forceup = async (inputValue: string) => {
         if (this.state.wordList.includes(inputValue)) {
-            this.setState({ errMessage: 'The word already exist. Please type another word.', inputValue: "", storedInputValue: "" })
+            this.setState({ errMessage: 'You already typed the word. Please type another word.', inputValue: "", storedInputValue: "" })
         } else {
             const lastWord = this.state.wordList[this.state.wordList.length - 1]
             const lastLetter = lastWord[lastWord.length - 1]
@@ -39,10 +36,6 @@ class ClassicMode extends React.Component<any, any>{
                 if (inputValue[0] === lastLetter) {
                     const words = getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
-
-                    if (this.state.showHints){
-                        this.handleCloseHint();
-                    }
                     
                     this.setState({
                         lastWord: lastWord,
@@ -53,8 +46,6 @@ class ClassicMode extends React.Component<any, any>{
                     });
                     
                     let hisArr = this.state.history.concat(inputValue);
-                    const lastWordForHint = hisArr[hisArr.length - 1]
-                    const lastLetter = lastWordForHint[lastWordForHint.length - 1]
                     
                     this.setState({history: hisArr, lastLetter: lastLetter})
                 } else {
@@ -176,22 +167,9 @@ class ClassicMode extends React.Component<any, any>{
         })
     }
 
-    handleGiveHints = async() => {
-        const hints = await getHintWordAndDef(this.state.lastLetter);
-
-        this.setState({
-            showHints: !this.state.showHints,
-            printHints: hints
-        })
-    }
-
-    handleCloseHint = () => {
-        this.setState({ showHints: false, printHints: []})
-    }
-
     render() {
         const { firstWord, inputValue, wordList, errMessage, 
-            isGameStarted, showWords, printHints, showHints, 
+            isGameStarted, showWords, 
         } = this.state;
         const wordListWithoutFirst = wordList.slice(1);
         const sortedWords = [...wordListWithoutFirst].sort();
@@ -205,8 +183,6 @@ class ClassicMode extends React.Component<any, any>{
                 {isGameStarted ? (
                     <div className="sidenav">
                     <button className="sidenavButton" onClick={this.handleShowWords}>{showWords ? 'Hide Words' : 'Show Words'}</button>
-                    <button className="sidenavButton" onClick={this.handleGiveHints}>Hint</button>
-                    {showHints && <HintPopup hint={printHints} onClose={this.handleCloseHint} />}
                 </div>
                 ) : null}
             
