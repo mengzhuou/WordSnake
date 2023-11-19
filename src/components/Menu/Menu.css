@@ -216,19 +216,6 @@ textarea{
     margin-top: 5%;
 }
 
-.userAddWordModelSubmit{
-    color: rgb(101, 58, 97);
-    background-color: #effff9;
-    border-radius: 5%;
-    margin-top: 30%;
-    width: 23%;
-    height: 50px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    font-family: "Neucha", cursive;
-}
-
 .helpInstruction {
     max-height: 70vh;
     padding: 10px;

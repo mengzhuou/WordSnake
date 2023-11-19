@@ -1,11 +1,9 @@
 import { withFuncProps } from "../withFuncProps";
-import { getNumOfUsers, getSignupRank, isAdmin, addFeedback, requestForWordAddition} from '../../helpers/connector';
+import { getNumOfUsers, getSignupRank, isAdmin, addFeedback} from '../../helpers/connector';
 import React from "react";
 import "./Menu.css";
 import FeedbackModel from "./FeedbackModel";
 import AdminFeedbackModel from "./AdminFeedbackModel";
-import UserAddWordModel from "./UserAddWordModel";
-import AdminAddWordModel from "./AdminAddWordModel";
 import HelpModel from "./HelpModel";
 
 
@@ -18,8 +16,6 @@ class Menu extends React.Component<any,any>{
             admin: false,
             showFeedbackModel: false,
             showAdminFeedbackModel: false,
-            showUserAddWordModel: false,
-            showAdminAddWordModel: false,
             showHelpModel: false,
             feedbackMessage: "",
             rating: 5,
@@ -95,28 +91,6 @@ class Menu extends React.Component<any,any>{
         })
     }
 
-
-    handleRequestForWordAddition = async (word: string) => {
-        requestForWordAddition(word).then(()=>{
-            alert("Request for adding the corresponding new word is sent")
-            this.handleUserAddWordModelClose();
-        });
-      }
-
-    handleUserAddWordModelOpen = () => {
-        this.setState({ showUserAddWordModel: true })
-    }
-    handleUserAddWordModelClose = () => {
-        this.setState({ showUserAddWordModel: false })
-    }
-
-    handleshowAdminAddWordModelOpen = () => {
-        this.setState({ showAdminAddWordModel: true })
-    }
-    handleshowAdminAddWordModelClose = () => {
-        this.setState({ showAdminAddWordModel: false })
-    }
-
     handleHelpModelOpen = () => {
         this.setState({ showHelpModel: true })
     }
@@ -127,8 +101,8 @@ class Menu extends React.Component<any,any>{
         const {admin, 
             showFeedbackModel, feedbackMessage, 
             rating, showAdminFeedbackModel, 
-            showUserAddWordModel, showHelpModel,
-            showAdminAddWordModel
+            showHelpModel
+            
         } = this.state;
         return (
             <div className="App">
@@ -141,36 +115,6 @@ class Menu extends React.Component<any,any>{
                     </div>
                     <div className="buttonRow">
                         <button className="menuButton" onClick={this.classicModeNav}>Classic Mode</button>
-                    </div>
-                    <div className="buttonRow">
-                        {admin?
-                            (
-                                <>
-                                    <button 
-                                        className="menuButton" onClick={this.handleshowAdminAddWordModelOpen}> Add Word
-                                    </button>
-                                    {showAdminAddWordModel && (
-                                        <AdminAddWordModel
-                                            onClose={this.handleshowAdminAddWordModelClose}
-                                        />
-                                    )}
-                                </>
-                            )
-                            :
-                            (
-                                <>
-                                    <button 
-                                        className="menuButton" onClick={this.handleUserAddWordModelOpen}>Add Word
-                                    </button>
-                                    {showUserAddWordModel &&
-                                        <UserAddWordModel
-                                            onClose={this.handleUserAddWordModelClose}
-                                            onSubmit={this.handleRequestForWordAddition}
-                                        />
-                                    }
-                                </>
-                            )
-                        }
                     </div>
                     <div className="buttonRow">
                         {admin? 

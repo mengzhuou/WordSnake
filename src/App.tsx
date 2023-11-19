@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Menu from "./components/Menu/Menu";
 import ClassicMode from "./components/WordSnake/ClassicMode";
