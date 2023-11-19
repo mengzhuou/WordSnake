@@ -24,12 +24,14 @@ class UnlimitedMode extends React.Component<any, any>{
     }
 
     forceup = async (inputValue: string) => {
-        try {
-            if (this.state.wordList.includes(inputValue)) {
-                this.setState({ errMessage: 'The word already exist. Please type another word.', inputValue: "", storedInputValue: "" })
-            } else {
-                const lastWord = this.state.wordList[this.state.wordList.length - 1]
-                const lastLetter = lastWord[lastWord.length - 1]
+        if (this.state.wordList.includes(inputValue)) {
+            this.setState({ errMessage: 'The word already exist. Please type another word.', inputValue: "", storedInputValue: "" })
+        } else {
+            const lastWord = this.state.wordList[this.state.wordList.length - 1]
+            const lastLetter = lastWord[lastWord.length - 1]
+
+            const isWordExist = await this.checkWordExist(inputValue);
+            if (isWordExist){
                 if (inputValue[0] === lastLetter) {
                     const words = await getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
@@ -42,19 +44,27 @@ class UnlimitedMode extends React.Component<any, any>{
                         timeLeft: this.state.timeLeft,
                         isTimerUpdated: true
                     });
-
+    
                     let hisArr = this.state.history.concat(inputValue);
                     
                     this.setState({history: hisArr, lastLetter: lastLetter})
                 } else {
                     this.setState({ isTimerUpdated: false, errMessage: `The word must start with '${lastLetter}'`,  inputValue: "", storedInputValue: "" })
                 }
+            } else{
+                this.setState({ errMessage: 'The word does not exist. Please enter a valid word.', inputValue: "", storedInputValue: "" });
             }
-        } catch (error) {
-            console.error("Error fetching word in the database:", error);
-            this.setState({ isTimerUpdated: false, errMessage: 'The word does not exist. Please enter a valid word.',  inputValue: "", storedInputValue: "" });
         }
-        
+    };
+
+    checkWordExist = async (word: string): Promise<boolean> => {
+        try {
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+            return response.ok;
+        } catch (error) {
+            console.error('Error checking word existence:', error);
+            return false;
+        }
     };
 
     handleEndGame = () => {
