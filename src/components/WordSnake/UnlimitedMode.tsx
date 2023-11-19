@@ -1,7 +1,7 @@
 import "./ClassicMode.css";
 
 import { withFuncProps } from "../withFuncProps";
-import { logout, getLetterFromPreviousWord, getRandomStart, getHintWordAndDef } from '../../helpers/connector';
+import { getLetterFromPreviousWord, getRandomStart, getHintWordAndDef } from '../../helpers/connector';
 import { TextField, FormHelperText } from "@mui/material";
 import React from "react";
 import UnlimitedCountdownTimer from "./UnlimitedCountdownTimer";
@@ -130,12 +130,6 @@ class UnlimitedMode extends React.Component<any, any>{
         this.props.navigate("/menu")
     }
 
-    pagelogout = () => {
-        logout().then(() => {
-            this.props.navigate("/")
-        }).catch(() => (alert("logout error")));
-    }
-
     updateGameState = async (isGameStarted: boolean, isGameOver: boolean) => {
         if (isGameStarted) {
             const fWord = await getRandomStart();
@@ -207,7 +201,6 @@ class UnlimitedMode extends React.Component<any, any>{
                 <div className="topnav">
                     <button className="topnavButton" onClick={this.reStart} hidden={isGameStarted ? false : true}>Restart</button>
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
-                    <button className="topnavButton" onClick={this.pagelogout}>Logout</button>
                 </div>
                 {this.state.isGameStarted ? (
                     <div className="sidenav">

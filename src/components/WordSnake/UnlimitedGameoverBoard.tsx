@@ -1,7 +1,7 @@
 import "./GameoverBoard.css";
 
 import { withFuncProps } from "../withFuncProps";
-import { logout, updateUnlimitedBestScore, getUnlimitedLeaderBoard } from '../../helpers/connector';
+import { updateUnlimitedBestScore, getUnlimitedLeaderBoard } from '../../helpers/connector';
 import React from "react";
 
 class UnlimitedGameoverBoard extends React.Component<any, any>{
@@ -24,12 +24,6 @@ class UnlimitedGameoverBoard extends React.Component<any, any>{
 
     menuNav = () => {
         this.props.navigate("/menu")
-    }
-
-    pagelogout = () => {
-        logout().then(() => {
-            this.props.navigate("/")
-        }).catch(() => (alert("logout error")));
     }
 
     bestScore = async() => {
@@ -74,7 +68,6 @@ class UnlimitedGameoverBoard extends React.Component<any, any>{
                 <div className="topnav">
                     <button className="topnavButton" onClick={this.reStart}>Restart</button>
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
-                    <button className="topnavButton" onClick={this.pagelogout}>Logout</button>
                 </div>
                 <p className="goTitle">Unlimited Mode Game Over</p>
                 <p className="scoreStyle">Your Score: {wordList.length}</p>

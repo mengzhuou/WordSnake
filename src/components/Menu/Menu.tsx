@@ -1,5 +1,5 @@
 import { withFuncProps } from "../withFuncProps";
-import {logout, getNumOfUsers, getSignupRank, isAdmin, addFeedback, requestForWordAddition} from '../../helpers/connector';
+import { getNumOfUsers, getSignupRank, isAdmin, addFeedback, requestForWordAddition} from '../../helpers/connector';
 import React from "react";
 import "./Menu.css";
 import FeedbackModel from "./FeedbackModel";
@@ -33,12 +33,6 @@ class Menu extends React.Component<any,any>{
         this.displayUserNum();
         this.displayUserSignupRank();
         this.displayAdmin();
-    }
-
-    pagelogout = ()=>{
-        logout().then(()=>{
-            this.props.navigate("/")
-        }).catch(()=>(alert("logout error")));
     }
 
     defModeNav = () => {
@@ -220,9 +214,6 @@ class Menu extends React.Component<any,any>{
                                     }
                                 </>
                         }
-                    </div>
-                    <div className="buttonRow">
-                        <button className="menuButton" onClick={this.pagelogout}>Logout</button>
                     </div>
                     <div className="buttonRow">
                         <button className="menuButton" onClick={this.handleHelpModelOpen}>Help</button>

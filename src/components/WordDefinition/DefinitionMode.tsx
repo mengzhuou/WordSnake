@@ -1,6 +1,6 @@
 import "./DefinitionMode.css";
 import { withFuncProps } from "../withFuncProps";
-import {logout, getWordAndDef} from '../../helpers/connector';
+import {getWordAndDef} from '../../helpers/connector';
 import { TextField, FormHelperText } from "@mui/material";
 import React from "react";
 
@@ -87,12 +87,6 @@ class DefinitionMode extends React.Component<any,any>{
         this.props.navigate("/menu")
     }
 
-    pagelogout = ()=>{
-        logout().then(()=>{
-            this.props.navigate("/")
-        }).catch(()=>(alert("logout error")));
-    }
-
     componentDidMount(): void {
         this.setState({ errMessage: "",  inputValue: "", wordList: []})
     }
@@ -103,7 +97,6 @@ class DefinitionMode extends React.Component<any,any>{
             <div className="App">
                 <div className="topnav">
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
-                    <button className="topnavButton" onClick={this.pagelogout}>Logout</button>
                 </div>    
                 <h1 className="wsTitle">Word Definition</h1>
                 <div>

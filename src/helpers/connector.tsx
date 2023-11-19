@@ -36,14 +36,6 @@ export async function login(email: string, password: string){
 }
 
 
-export async function logout(){
-    let content = await client({
-        method: 'post',
-        url: url+"logout",
-        withCredentials: true
-    });
-    return content;
-}
 export async function getWordAndDef(inputWord: string): Promise<String[]>{
     let content = await client({
         method: 'get',
