@@ -170,7 +170,8 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                 isGameStarted: true, isGameOver: false, canbeSaved: false,
                 wordList: this.state.wordList.concat(fWord), 
                 firstWord: fWord, 
-                lastLetter: fWord 
+                lastLetter: fWord,
+                history: []
             });
         }
 
@@ -238,7 +239,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         const { firstWord, inputValue, wordList, errMessage, 
             isGameStarted, showWords, canbeSaved,
             timeLeft, isTimerUpdated, showRanking, leaderBoardList,
-            isGameOver
+            isGameOver, history
         } = this.state;
         const wordListWithoutFirst = wordList.slice(1);
         const sortedWords = [...wordListWithoutFirst].sort();
@@ -323,6 +324,22 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                         </div>
                     </div>
                 )}
+
+                {isGameOver && (
+                    <div>
+                        <p className="scoreStyle">Your Score: {history.length}</p>
+                        {history.length === 0 ? (
+                            '' 
+                        ) : (
+                            <div className="wordListStyle">
+                                {Array.isArray(history) && history.map((word: string, index: number) => (
+                                    <li key={index}>{word}</li>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+
             </div>
         );
     }
