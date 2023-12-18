@@ -203,7 +203,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
     }
 
     handleNewRecord = async (timerVal: number) => {
-        const name = prompt(`(Want to save your score <${this.state.wordList.length} words> to the Leaderboard?) Enter your name.`);
+        const name = prompt(`(Want to save your score <${this.state.history.length} words> to the Leaderboard?) Enter your name.`);
         if (name !== null){
             const collectionRef = collection(db, "UnlimitedModeRank");
             const payload = {Name: name, Score: timerVal};
@@ -232,7 +232,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
     };
 
     toggleSavedRecord = () => {
-        this.handleNewRecord(this.state.wordList.length);
+        this.handleNewRecord(this.state.history.length);
     };
 
     render() {
@@ -314,9 +314,9 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                             <tbody>
                             {leaderBoardList.map((result, index) => (
                                 <tr key={result.id || index}>
-                                <td>{index + 1}</td>
-                                <td>{result.Name}</td>
-                                <td>{result.Score}</td>
+                                    <td>{index + 1}</td>
+                                    <td>{result.Name}</td>
+                                    <td>{result.Score}</td>
                                 </tr>
                             ))}
                             </tbody>
