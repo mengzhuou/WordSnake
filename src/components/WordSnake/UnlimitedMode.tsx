@@ -167,7 +167,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         if (isGameStarted) {
             const fWord = await getRandomStart();
             this.setState({ 
-                isGameStarted: true, isGameOver: false, 
+                isGameStarted: true, isGameOver: false, canbeSaved: false,
                 wordList: this.state.wordList.concat(fWord), 
                 firstWord: fWord, 
                 lastLetter: fWord 
@@ -178,6 +178,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
             this.setState({ 
                 isGameStarted: false, 
                 isGameOver: true, 
+                canbeSaved: true,
                 wordList: [], 
                 errMessage: "" 
             })
@@ -229,10 +230,15 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         }));
     };
 
+    toggleSavedRecord = () => {
+        this.handleNewRecord(this.state.wordList.length);
+    };
+
     render() {
         const { firstWord, inputValue, wordList, errMessage, 
-            isGameStarted, showWords,
-            timeLeft, isTimerUpdated, showRanking, leaderBoardList
+            isGameStarted, showWords, canbeSaved,
+            timeLeft, isTimerUpdated, showRanking, leaderBoardList,
+            isGameOver
         } = this.state;
         const wordListWithoutFirst = wordList.slice(1);
         const sortedWords = [...wordListWithoutFirst].sort();
@@ -251,6 +257,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                     <button className="topnavButton" onClick={this.reStart} hidden={isGameStarted ? false : true}>Restart</button>
                     <button className="topnavButton" onClick={this.handleShowWords}>{showWords ? 'Hide Words' : 'Show Words'}</button>
                     <button className="topnavButton" onClick={this.toggleRanking}>Rank</button>
+                    <button className="topnavButton" onClick={this.toggleSavedRecord} hidden={!canbeSaved}>Save Score </button>
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
                 </div>
             
