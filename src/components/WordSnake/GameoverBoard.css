@@ -5,6 +5,14 @@
   margin-bottom: 1%;
 }
 
+.container li{
+  font-size: larger !important; 
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+  font-size: 30px !important;
+}
+
 .wordListStyle{
   display: flex;
   align-items: flex-start;

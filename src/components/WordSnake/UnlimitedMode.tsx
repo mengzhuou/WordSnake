@@ -176,11 +176,13 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         }
 
         if (isGameOver) {
+            const sortedWords = [...this.state.history].sort();
             this.setState({ 
                 isGameStarted: false, 
                 isGameOver: true, 
                 canbeSaved: true,
                 wordList: [], 
+                history: sortedWords,
                 errMessage: "" 
             })
             //call leaderboard
@@ -191,7 +193,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         onSnapshot(collection(db, "UnlimitedModeRank"), (snapshot) => {
             const sortedLeaderboard = snapshot.docs
             .map((doc) => doc.data() as DocumentData)
-            .sort((a, b) => a.Score - b.Score);
+            .sort((a, b) => b.Score - a.Score);
             
             this.setState({ leaderBoardList: sortedLeaderboard });
         });
@@ -205,10 +207,15 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
     handleNewRecord = async (timerVal: number) => {
         const name = prompt(`(Want to save your score <${this.state.history.length} words> to the Leaderboard?) Enter your name.`);
         if (name !== null){
-            const collectionRef = collection(db, "UnlimitedModeRank");
-            const payload = {Name: name, Score: timerVal};
-            await addDoc(collectionRef, payload);
-            this.setState({ canbeSaved: false }); // record is already saved
+            const isNameValid = name.length === 0 || name.length >= 20;
+            if (isNameValid){
+                alert(`Please make sure: 0 < length of name < 20.`);
+            } else{
+                const collectionRef = collection(db, "UnlimitedModeRank");
+                const payload = {Name: name, Score: timerVal};
+                await addDoc(collectionRef, payload);
+                this.setState({ canbeSaved: false }); // record is already saved
+            }
         }
     };
     
@@ -276,9 +283,8 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                         onChange={this.handleInputChange}
                         onKeyDown={this.handleEnterKeyDown}
                         style={{
-                            display: isGameStarted ? 'block' : 'none'
+                            display: isGameStarted ? 'block' : 'none',
                         }}
-
                     />
                 </div>
                 <div>
