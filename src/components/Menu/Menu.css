@@ -299,6 +299,13 @@ textarea{
     background-color:#c7fcd1;
     font-family: "Neucha", cursive;
     overflow:auto;
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/* Hiding scrollbar for Chrome, Safari and Opera */
+.App::-webkit-scrollbar {
+    display: none;
 }
 
 .App-header{
