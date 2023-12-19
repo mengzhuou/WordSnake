@@ -22,12 +22,12 @@ interface UnlimitedModeState {
     firstWord: string;
     inputValue: string;
     storedInputValue: string;
-    inputValidString: string;
     errMessage: string;
     timeLeft: number;
     wordList: string[];
     history: string[];
     leaderBoardList: DocumentData[];
+    timerInputLength: number;
   }
   
 
@@ -43,10 +43,11 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
             showRanking: false,
             lastWord:"", lastLetter: "", firstWord: "", 
             inputValue: '',
-            storedInputValue: '', inputValidString: '',
+            storedInputValue: '', 
             errMessage: '', 
             timeLeft: 10, wordList: [], history: [], 
             leaderBoardList: [],
+            timerInputLength: -1
         };
         this.menuNav = this.menuNav.bind(this);
     }
@@ -63,6 +64,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                 if (inputValue[0] === lastLetter) {
                     const words = await getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
+                    const wordLength = inputValue.length;
                     this.setState({
                         lastWord: lastWord,
                         errMessage: '',
@@ -70,9 +72,10 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                         ForceUpdateNow: false,
                         wordList: wordList,
                         timeLeft: this.state.timeLeft,
-                        isTimerUpdated: true
+                        isTimerUpdated: true,
+                        timerInputLength: wordLength
                     });
-    
+                    
                     let hisArr = this.state.history.concat(inputValue);
                     
                     this.setState({history: hisArr, lastLetter: lastLetter})
@@ -247,7 +250,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         const { firstWord, inputValue, wordList, errMessage, 
             isGameStarted, showWords, canbeSaved,
             timeLeft, isTimerUpdated, showRanking, leaderBoardList,
-            isGameOver, history
+            isGameOver, history, timerInputLength
         } = this.state;
         const wordListWithoutFirst = wordList.slice(1);
         const sortedWords = [...wordListWithoutFirst].sort();
@@ -255,8 +258,9 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         const countdownTimer = (
             <UnlimitedCountdownTimer
               duration={timeLeft}
+              wordLength={timerInputLength}
               onTimeUp={this.handleEndGame}
-              isTimerUpdated ={isTimerUpdated}
+              isTimerUpdated={isTimerUpdated}
             />
           );
 

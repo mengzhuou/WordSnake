@@ -235,12 +235,19 @@ textarea{
     left: 10%;
     position: fixed;
     bottom: 13%;
+    max-height: 80%; /* Added max-height to prevent the popup from taking the entire screen */
+    overflow-y: auto;
+    scrollbar-width: none;  /* Hiding scrollbar for Firefox */
+	-ms-overflow-style: none;  /* IE and Edge */
 }
 
 /* Hiding scrollbar for Chrome, Safari and Opera */
 .helpInstruction::-webkit-scrollbar {
     display: none;
-  }
+}
+.HelpModelPopup::-webkit-scrollbar {
+    display: none;
+}
 
 .buttonColumn{
     background-color: #fbe490;

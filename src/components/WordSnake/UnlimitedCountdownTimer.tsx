@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 
 type Props = {
   duration: number;
+  wordLength: number;
   onTimeUp: () => void;
   isTimerUpdated: boolean;
 };
 
-const UnlimitedCountdownTimer: React.FC<Props> = ({ duration, onTimeUp, isTimerUpdated }) => {
+const UnlimitedCountdownTimer: React.FC<Props> = ({ duration, wordLength, onTimeUp, isTimerUpdated }) => {
   const [timeLeft, setTimeLeft] = useState(duration);
   const [isMessageVisible, setIsMessageVisible] = useState(false);
+  const [bonusValue, setBonusValue] = useState<number | null>(null);
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTimeLeft(timeLeft => timeLeft > 0 ? timeLeft - 1 : 0);
@@ -27,15 +29,31 @@ const UnlimitedCountdownTimer: React.FC<Props> = ({ duration, onTimeUp, isTimerU
 
   useEffect(() => {
     if (isTimerUpdated) {
-      setTimeLeft(timeLeft => {
+      setTimeLeft((timeLeft) => {
         setIsMessageVisible(true);
-        return timeLeft + 5;
+        if (timeLeft !== undefined) {
+          let bonus: number = 0;
+          if (wordLength >= 0 && wordLength <= 5) {
+            bonus = 3;
+          } else if (wordLength >= 6 && wordLength <= 10) {
+            bonus = 6;
+          } else if (wordLength > 10 && wordLength <= 20) {
+            bonus = 15;
+          } else if (wordLength > 20) {
+            bonus = 30;
+          }
+
+          setBonusValue(bonus); // Set the bonus value in the state
+          return timeLeft + bonus;
+        }
+        return timeLeft;
       });
       setTimeout(() => {
         setIsMessageVisible(false);
+        setBonusValue(null); // Reset bonus value after hiding the message
       }, 1500);
     }
-  }, [isTimerUpdated]);
+  }, [isTimerUpdated, wordLength]);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
@@ -46,8 +64,7 @@ const UnlimitedCountdownTimer: React.FC<Props> = ({ duration, onTimeUp, isTimerU
   return (
     <div className='countdownTimer'>
       {formatTime(timeLeft)}
-      {isMessageVisible && <p className='bonusMessage'> +5</p>}
-
+      {isMessageVisible && <p className='bonusMessage'> +{bonusValue}</p>}
     </div>
   );
 };
