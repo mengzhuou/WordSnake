@@ -171,7 +171,8 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                 wordList: this.state.wordList.concat(fWord), 
                 firstWord: fWord, 
                 lastLetter: fWord,
-                history: []
+                history: [],
+                inputValue: ''
             });
         }
 

@@ -64,32 +64,34 @@
 } 
 
 
-.bonusMessage{
-  margin-bottom: 20px;
-  font-size: 25px;
+.bonusMessage {
+  font-size: 15px;
   display: inline-block;
-  background-color: #effff9;
-  position: absolute;
-  top: 25%;
-  right: 20%;
-  animation: fadeIn 0.5s ease-in-out;
-  opacity: 1;
+  padding-inline-start: 20px;
+  background-color: transparent;
+  position: fixed;
+  animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out forwards; /* forwards to keep the final state */
+  opacity: 0;
 }
 
-@media (max-width: 700px) {
-  .bonusMessage{
-    margin-bottom: 20px;
-    font-size: 25px;
-    display: inline-block;
-    background-color: #effff9;
-    position: absolute;
-    top: 41%;
-    left: 20%;
-    animation: fadeIn 0.5s ease-in-out;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
     opacity: 1;
   }
-  
 }
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 
 .ranking-popup {
   position: fixed;
