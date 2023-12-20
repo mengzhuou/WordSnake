@@ -1,32 +1,59 @@
 import "./ClassicMode.css";
-
 import { withFuncProps } from "../withFuncProps";
-import { TextField, FormHelperText } from "@mui/material";
 import { getLetterFromPreviousWord, getRandomStart } from './FuncProps'; 
-import React from "react";
+import { TextField, FormHelperText } from "@mui/material";
+import React, { Component } from 'react';
 import CountdownTimer from "./CountdownTimer";
+import { collection, onSnapshot, DocumentData, addDoc } from 'firebase/firestore';
+import db from "./firebase";
 
-class ClassicMode extends React.Component<any, any>{
+
+interface ClassicModeState {
+    isGameStarted: boolean;
+    ForceUpdateNow: boolean;
+    isGameOver: boolean;
+    showWords: boolean;
+    isTimerUpdated: boolean;
+    canbeSaved: boolean;
+    showRanking: boolean;
+    lastWord: string;
+    lastLetter: string;
+    firstWord: string;
+    inputValue: string;
+    storedInputValue: string;
+    errMessage: string;
+    timeLeft: number;
+    wordList: string[];
+    history: string[];
+    leaderBoardList: DocumentData[];
+    timerInputLength: number;
+  }
+  
+
+class ClassicMode extends Component<any, ClassicModeState> {
     constructor(props: any) {
         super(props);
         this.state = {
             isGameStarted: false,
             ForceUpdateNow: false, 
             isGameOver: false, showWords: true, 
-            isWordExist: false,
+            isTimerUpdated: false,
+            canbeSaved: false,
+            showRanking: false,
             lastWord:"", lastLetter: "", firstWord: "", 
             inputValue: '',
-            storedInputValue: '', inputValidString: '',
+            storedInputValue: '', 
             errMessage: '', 
-            wordList: [], history: []
+            timeLeft: 10, wordList: [], history: [], 
+            leaderBoardList: [],
+            timerInputLength: -1
         };
         this.menuNav = this.menuNav.bind(this);
     }
 
-
     forceup = async (inputValue: string) => {
         if (this.state.wordList.includes(inputValue)) {
-            this.setState({ errMessage: 'You already typed the word. Please type another word.', inputValue: "", storedInputValue: "" })
+            this.setState({ errMessage: 'The word already exist. Please type another word.', inputValue: "", storedInputValue: "" })
         } else {
             const lastWord = this.state.wordList[this.state.wordList.length - 1]
             const lastLetter = lastWord[lastWord.length - 1]
@@ -34,24 +61,27 @@ class ClassicMode extends React.Component<any, any>{
             const isWordExist = await this.checkWordExist(inputValue);
             if (isWordExist){
                 if (inputValue[0] === lastLetter) {
-                    const words = getLetterFromPreviousWord(inputValue);
+                    const words = await getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
-                    
+                    const wordLength = inputValue.length;
                     this.setState({
                         lastWord: lastWord,
                         errMessage: '',
                         firstWord: words,
                         ForceUpdateNow: false,
                         wordList: wordList,
+                        timeLeft: this.state.timeLeft,
+                        isTimerUpdated: true,
+                        timerInputLength: wordLength
                     });
                     
                     let hisArr = this.state.history.concat(inputValue);
                     
                     this.setState({history: hisArr, lastLetter: lastLetter})
                 } else {
-                    this.setState({ errMessage: `The word must start with '${lastLetter}'`, inputValue: "", storedInputValue: "" })
+                    this.setState({ isTimerUpdated: false, errMessage: `The word must start with '${lastLetter}'`,  inputValue: "", storedInputValue: "" })
                 }
-            } else {
+            } else{
                 this.setState({ errMessage: 'The word does not exist. Please enter a valid word.', inputValue: "", storedInputValue: "" });
             }
         }
@@ -67,7 +97,7 @@ class ClassicMode extends React.Component<any, any>{
         }
     };
 
-    handleTimeUp = () => {
+    handleEndGame = () => {
         this.updateGameState(false, true)
     };
 
@@ -102,25 +132,25 @@ class ClassicMode extends React.Component<any, any>{
 
     handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-            this.storeInputValue(this.state.inputValue).then(() => {
-                this.setState({ inputValue: "" });
-            });
+            const { inputValue } = this.state;
+            if (inputValue.endsWith('\'') || inputValue.endsWith('-')) {
+                this.setState({ 
+                    errMessage: 'Apostrophes and/or hyphens cannot be used in the ending of a word.' 
+                });
+            } else {
+                this.storeInputValue(this.state.inputValue).then(() => {
+                    this.setState({ inputValue: "" });
+                });
+            }
         }
     }
 
     storeInputValue = async (inputValue: string) => {
         try {
             if (inputValue !== this.state.storedInputValue) {
-                if (inputValue.endsWith('\'') || inputValue.endsWith('-')){
-                    this.setState({ 
-                        errMessage: 'Apostrophes and/or hyphens cannot be used in the ending of a word.' 
-                    });
-                }
-                else{
-                    const lowerInput = inputValue.toLowerCase();
-                    this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true })
-                    this.forceup(lowerInput);
-                }
+                const lowerInput = inputValue.toLowerCase();
+                this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true })
+                this.forceup(lowerInput);
             }
         } catch (error) {
             console.error(error)
@@ -139,27 +169,59 @@ class ClassicMode extends React.Component<any, any>{
         if (isGameStarted) {
             const fWord = await getRandomStart();
             this.setState({ 
-                isGameStarted: true, isGameOver: false, 
+                isGameStarted: true, isGameOver: false, canbeSaved: false,
                 wordList: this.state.wordList.concat(fWord), 
                 firstWord: fWord, 
-                lastLetter: fWord 
+                lastLetter: fWord,
+                history: [],
+                inputValue: ''
             });
         }
 
         if (isGameOver) {
+            const sortedWords = [...this.state.history].sort();
             this.setState({ 
                 isGameStarted: false, 
                 isGameOver: true, 
+                canbeSaved: true,
                 wordList: [], 
+                history: sortedWords,
                 errMessage: "" 
             })
-            this.props.navigate("/ResultListFunc", {
-                state: {
-                  wordList: this.state.history
-                }
-              })
+            //call leaderboard
         }
     }
+
+    componentDidMount() {
+        onSnapshot(collection(db, "ClassicModeRank"), (snapshot) => {
+            const sortedLeaderboard = snapshot.docs
+            .map((doc) => doc.data() as DocumentData)
+            .sort((a, b) => b.Score - a.Score);
+            
+            this.setState({ leaderBoardList: sortedLeaderboard });
+        });
+    }
+
+    //since game over is true, player can save record
+    handleGameOverLogic() {
+        this.setState({ canbeSaved: true });
+    }
+
+    handleNewRecord = async (timerVal: number) => {
+        const name = prompt(`(Want to save your score <${this.state.history.length} words> to the Leaderboard?) Enter your name.`);
+        if (name !== null){
+            const isNameValid = name.length === 0 || name.length >= 20;
+            if (isNameValid){
+                alert(`Please make sure: 0 < length of name < 20.`);
+            } else{
+                const collectionRef = collection(db, "UnlimitedModeRank");
+                const payload = {Name: name, Score: timerVal};
+                await addDoc(collectionRef, payload);
+                this.setState({ canbeSaved: false }); // record is already saved
+            }
+        }
+    };
+    
 
     handleShowWords = () => {
         this.setState({
@@ -167,23 +229,51 @@ class ClassicMode extends React.Component<any, any>{
         })
     }
 
+    componentDidUpdate(){
+        if (this.state.isTimerUpdated === true) {
+            this.setState({isTimerUpdated: false});
+        }
+    }
+
+    toggleRanking = () => {
+        this.setState((prevState: any) => ({
+          showRanking: !prevState.showRanking,
+        }));
+    };
+
+    toggleSavedRecord = () => {
+        this.handleNewRecord(this.state.history.length);
+    };
+
     render() {
         const { firstWord, inputValue, wordList, errMessage, 
-            isGameStarted, showWords, 
+            isGameStarted, showWords, canbeSaved,
+            timeLeft, isTimerUpdated, showRanking, leaderBoardList,
+            isGameOver, history, timerInputLength
         } = this.state;
         const wordListWithoutFirst = wordList.slice(1);
         const sortedWords = [...wordListWithoutFirst].sort();
+
+        const countdownTimer = (
+            <CountdownTimer
+              duration={30}
+              onTimeUp={this.handleEndGame}
+            />
+          );
 
         return (
             <div className="App">
                 <div className="topnav">
                     <button className="topnavButton" onClick={this.reStart} hidden={isGameStarted ? false : true}>Restart</button>
+                    <button className="topnavButton" onClick={this.handleShowWords} hidden={!isGameStarted}>{showWords ? 'Hide Words' : 'Show Words'}</button>
+                    <button className="topnavButton" onClick={this.toggleRanking}>Rank</button>
+                    <button className="topnavButton" onClick={this.toggleSavedRecord} hidden={!canbeSaved}>Save Score </button>
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
-                    <button className="topnavButton" onClick={this.handleShowWords}>{showWords ? 'Hide Words' : 'Show Words'}</button>
                 </div>
-                <h1 className="wsTitle">Word Snake</h1>
-                {isGameStarted ? (
-                    <CountdownTimer duration={30} onTimeUp={this.handleTimeUp}/>
+            
+                <h1 className="wsTitle">Unlimited Word Snake</h1>
+                {isGameStarted? (
+                    countdownTimer
                 ) : (
                     <button className="topnavButton" onClick={() => this.updateGameState(true, false)} hidden={isGameStarted ? true : false}>Start Game</button>
                 )}
@@ -195,9 +285,8 @@ class ClassicMode extends React.Component<any, any>{
                         onChange={this.handleInputChange}
                         onKeyDown={this.handleEnterKeyDown}
                         style={{
-                            display: isGameStarted ? 'block' : 'none'
+                            display: isGameStarted ? 'block' : 'none',
                         }}
-
                     />
                 </div>
                 <div>
@@ -213,6 +302,52 @@ class ClassicMode extends React.Component<any, any>{
                         ))}
                     </div>
                 )}
+
+                {showRanking && (
+                    <div className="ranking-popup">
+                        <div className="popup-content">
+                        <button onClick={this.toggleRanking} className="close-btn">
+                            X
+                        </button>
+                        <h2 className='leaderboardTitle'>Leaderboard</h2>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Score<span className="smallText">/sec</span></th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {leaderBoardList.map((result, index) => (
+                                <tr key={result.id || index}>
+                                    <td>{index + 1}</td>
+                                    <td>{result.Name}</td>
+                                    <td>{result.Score}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                )}
+
+                {isGameOver && (
+                    <div>
+                        <p className="scoreStyle">Your Score: {history.length}</p>
+                        {history.length === 0 ? (
+                            '' 
+                        ) : (
+                            <div className="wordListStyle">
+                                {Array.isArray(history) && history.map((word: string, index: number) => (
+                                    <li key={index}>{word}</li>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+
             </div>
         );
     }

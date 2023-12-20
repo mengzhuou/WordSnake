@@ -25,7 +25,7 @@ li {
   display: flex;
   align-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 1;
 }
 
 
@@ -46,7 +46,7 @@ li {
 
 .wsTitle{
   margin-top: 7%;
-  z-index: 3;
+  z-index: 0;
   letter-spacing: 2px;
   font-size: 50px;
 }
@@ -54,8 +54,6 @@ li {
 @media (max-width: 700px){
   .wsTitle{
     margin:  9% auto 5%;
-    z-index: 3;
-    letter-spacing: 2px;
     font-size: 40px;
   }
 }

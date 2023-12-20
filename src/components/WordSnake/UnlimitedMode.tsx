@@ -268,7 +268,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
             <div className="App">
                 <div className="topnav">
                     <button className="topnavButton" onClick={this.reStart} hidden={isGameStarted ? false : true}>Restart</button>
-                    <button className="topnavButton" onClick={this.handleShowWords}>{showWords ? 'Hide Words' : 'Show Words'}</button>
+                    <button className="topnavButton" onClick={this.handleShowWords} hidden={!isGameStarted}>{showWords ? 'Hide Words' : 'Show Words'}</button>
                     <button className="topnavButton" onClick={this.toggleRanking}>Rank</button>
                     <button className="topnavButton" onClick={this.toggleSavedRecord} hidden={!canbeSaved}>Save Score </button>
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
