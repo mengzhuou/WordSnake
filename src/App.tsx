@@ -2,10 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Menu from "./components/Menu/Menu";
 import ClassicMode from "./components/WordSnake/ClassicMode";
 import CountdownTimer from "./components/WordSnake/CountdownTimer";
-import GameoverBoard from "./components/WordSnake/GameoverBoard";
 import UnlimitedCountdownTimer from "./components/WordSnake/UnlimitedCountdownTimer";
 import UnlimitedMode from "./components/WordSnake/UnlimitedMode";
-import ResultListFunc from "./components/WordSnake/ResultListFunc";
 import DefinitionMode from "./components/WordDefinition/DefinitionMode";
 import FuncProps from "./components/WordSnake/FuncProps";
 
@@ -45,7 +43,6 @@ class App extends React.Component<any,any>{
         <Routes>
           <Route path="/" element={<Menu/>}/>
           <Route path="/ClassicMode" element={<ClassicMode/>}/>
-          <Route path="/GameoverBoard" element={<GameoverBoard/>}/>
           <Route path="/UnlimitedMode" element={<UnlimitedMode/>}/>
           <Route path="/CountdownTimer" element={
             <CountdownTimer
@@ -61,9 +58,6 @@ class App extends React.Component<any,any>{
               isTimerUpdated = {false}
             />
           }/>
-          <Route path="/ResultListFunc" element={<ResultListFunc
-              wordList={this.props.wordList}
-          />}/>
 
           <Route path="/DefinitionMode" element={<DefinitionMode/>}/>
           <Route path="/FuncProps" element={<FuncProps/>}/>
