@@ -44,6 +44,9 @@
   max-width: 100%;
 }
 
+.scoreStyle{
+  text-align: center;
+}
 
 .container li{
   display: flex;
@@ -51,6 +54,15 @@
   min-width: 100px;
 }
 
+.wordListStyle {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
+  border: 2px inset #cccccc;
+  padding: 10px; 
+  background-color: azure;
+}
 
 @keyframes fadeIn {
   0% { opacity: 0; }
@@ -132,7 +144,6 @@ scrollbar-width: none;  /* Firefox */
 -ms-overflow-style: none;  /* IE and Edge */
 }
 
-
 .close-btn {
   position: fixed;
   top: 6%;
@@ -180,4 +191,44 @@ tbody tr {
 
 tbody tr:hover {
   background-color: rgb(199, 170, 154); /* Dark gray on hover */
+}
+
+footer {
+  background-color: black;
+  color: white;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer .footer-text {
+  font-size: 20px;
+  display: inline-block;
+}
+
+footer .footer-find-me {
+  font-size: 20px;
+  color: white;
+  margin-left: 10px;
+  display: inline-block;
+  border: 1px dashed white;
+  transition: border-color 0.3s ease;
+}
+
+footer .footer-find-me a {
+  color: white;
+  text-decoration: none;
+}
+
+footer .footer-find-me a:hover {
+  text-decoration:none;
+  border-color: rgb(255, 255, 255);
+  background-color: #88a5df;
 }
