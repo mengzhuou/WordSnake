@@ -13,7 +13,6 @@ interface ClassicModeState {
     ForceUpdateNow: boolean;
     isGameOver: boolean;
     showWords: boolean;
-    isTimerUpdated: boolean;
     canbeSaved: boolean;
     showRanking: boolean;
     lastWord: string;
@@ -22,11 +21,9 @@ interface ClassicModeState {
     inputValue: string;
     storedInputValue: string;
     errMessage: string;
-    timeLeft: number;
     wordList: string[];
     history: string[];
     leaderBoardList: DocumentData[];
-    timerInputLength: number;
   }
   
 
@@ -37,16 +34,14 @@ class ClassicMode extends Component<any, ClassicModeState> {
             isGameStarted: false,
             ForceUpdateNow: false, 
             isGameOver: false, showWords: true, 
-            isTimerUpdated: false,
             canbeSaved: false,
             showRanking: false,
             lastWord:"", lastLetter: "", firstWord: "", 
             inputValue: '',
             storedInputValue: '', 
             errMessage: '', 
-            timeLeft: 10, wordList: [], history: [], 
+            wordList: [], history: [], 
             leaderBoardList: [],
-            timerInputLength: -1
         };
         this.menuNav = this.menuNav.bind(this);
     }
@@ -63,23 +58,19 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 if (inputValue[0] === lastLetter) {
                     const words = await getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
-                    const wordLength = inputValue.length;
                     this.setState({
                         lastWord: lastWord,
                         errMessage: '',
                         firstWord: words,
                         ForceUpdateNow: false,
                         wordList: wordList,
-                        timeLeft: this.state.timeLeft,
-                        isTimerUpdated: true,
-                        timerInputLength: wordLength
                     });
                     
                     let hisArr = this.state.history.concat(inputValue);
                     
                     this.setState({history: hisArr, lastLetter: lastLetter})
                 } else {
-                    this.setState({ isTimerUpdated: false, errMessage: `The word must start with '${lastLetter}'`,  inputValue: "", storedInputValue: "" })
+                    this.setState({ errMessage: `The word must start with '${lastLetter}'`,  inputValue: "", storedInputValue: "" })
                 }
             } else{
                 this.setState({ errMessage: 'The word does not exist. Please enter a valid word.', inputValue: "", storedInputValue: "" });
@@ -229,12 +220,6 @@ class ClassicMode extends Component<any, ClassicModeState> {
         })
     }
 
-    componentDidUpdate(){
-        if (this.state.isTimerUpdated === true) {
-            this.setState({isTimerUpdated: false});
-        }
-    }
-
     toggleRanking = () => {
         this.setState((prevState: any) => ({
           showRanking: !prevState.showRanking,
@@ -248,15 +233,15 @@ class ClassicMode extends Component<any, ClassicModeState> {
     render() {
         const { firstWord, inputValue, wordList, errMessage, 
             isGameStarted, showWords, canbeSaved,
-            timeLeft, isTimerUpdated, showRanking, leaderBoardList,
-            isGameOver, history, timerInputLength
+            showRanking, leaderBoardList,
+            isGameOver, history
         } = this.state;
         const wordListWithoutFirst = wordList.slice(1);
         const sortedWords = [...wordListWithoutFirst].sort();
 
         const countdownTimer = (
             <CountdownTimer
-              duration={30}
+              duration={60}
               onTimeUp={this.handleEndGame}
             />
           );
