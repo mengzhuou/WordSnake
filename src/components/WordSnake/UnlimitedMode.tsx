@@ -278,7 +278,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                 {isGameStarted? (
                     countdownTimer
                 ) : (
-                    <button className="topnavButton" onClick={() => this.updateGameState(true, false)} hidden={isGameStarted ? true : false}>Start Game</button>
+                    <button className="startGameButton" onClick={() => this.updateGameState(true, false)} hidden={isGameStarted ? true : false}>Start Game</button>
                 )}
 
                 <div>
@@ -318,8 +318,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                             <tr>
                                 <th>Rank</th>
                                 <th>Name</th>
-                                <th>Score<span className="smallText">/sec</span></th>
-
+                                <th>Score</th>
                             </tr>
                             </thead>
                             <tbody>

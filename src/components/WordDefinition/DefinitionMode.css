@@ -43,17 +43,3 @@ li {
   border-radius: 5%;
   font-weight: bold;
 }
-
-.wsTitle{
-  margin-top: 7%;
-  z-index: 0;
-  letter-spacing: 2px;
-  font-size: 50px;
-}
-
-@media (max-width: 700px){
-  .wsTitle{
-    margin:  9% auto 5%;
-    font-size: 40px;
-  }
-}

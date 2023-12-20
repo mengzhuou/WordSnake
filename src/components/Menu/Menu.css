@@ -67,6 +67,10 @@
     .adminFbClose-btn{
         margin-left: 90%;
     }
+
+    .App{
+        font-family: 'Times New Roman', Times, serif !important; 
+    }
 }
 
 textarea{

@@ -26,11 +26,23 @@
   font-weight: bold;
 }
 
+.startGameButton{
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 10px 10px;
+  background-color: #effff9;
+  cursor: pointer;
+  border-radius: 5%;
+  font-weight: bold;
+}
 .wsTitle{
-  margin-top: 7%;
-  z-index: 3;
+  z-index: 0;
   letter-spacing: 2px;
-  font-size: 50px;
+  margin: 5% 5% 5% 5%;
+  font-size: 40px;
+  text-align: center;
 }
 
 .errorMessage {
@@ -46,6 +58,7 @@
 
 .scoreStyle{
   text-align: center;
+  font-weight: bold;
 }
 
 .container li{
@@ -231,4 +244,10 @@ footer .footer-find-me a:hover {
   text-decoration:none;
   border-color: rgb(255, 255, 255);
   background-color: #88a5df;
+}
+
+@media (max-width: 730px){
+  .wsTitle{
+    margin: 15% 5% 5% 5%;
+  }
 }
