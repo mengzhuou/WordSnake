@@ -10,7 +10,7 @@
   align-content: center;
   align-items: center;
 }
-  
+
 .topnavButton {
   float: left;
   color: black;
@@ -246,8 +246,17 @@ footer .footer-find-me a:hover {
   background-color: #88a5df;
 }
 
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{
+  width: 100%;
+}
+
 @media (max-width: 730px){
   .wsTitle{
     margin: 15% 5% 5% 5%;
   }
+
+  .topnavButton{
+    font-family: 'Times New Roman', Times, serif; 
+  }
 }
+
