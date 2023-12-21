@@ -3,7 +3,6 @@ import { getNumOfUsers, getSignupRank, isAdmin, addFeedback} from '../../helpers
 import React from "react";
 import "./Menu.css";
 import FeedbackModel from "./FeedbackModel";
-import AdminFeedbackModel from "./AdminFeedbackModel";
 import HelpModel from "./HelpModel";
 
 
@@ -117,35 +116,18 @@ class Menu extends React.Component<any,any>{
                         <button className="menuButton" onClick={this.classicModeNav}>Classic Mode</button>
                     </div>
                     <div className="buttonRow">
-                        {admin? 
-                            (
-                                <>
-                                    <button 
-                                        className="menuButton" onClick={this.handleAdminFeedbackOpen}> Feedback
-                                    </button>
-                                    {showAdminFeedbackModel && (
-                                        <AdminFeedbackModel
-                                            onClose={this.handleAdminFeedbackClose}
-                                        />
-                                    )}
-                                </>
-                            )
-                            :
-                                <>
-                                    <button 
-                                        className="menuButton" onClick={this.handleFeedbackModelOpen}>Feedback
-                                    </button>
-                                    {showFeedbackModel && 
-                                        <FeedbackModel
-                                            message={feedbackMessage}
-                                            rating={rating}
-                                            onClose={this.handleFeedbackModelClose}
-                                            onChange={this.handleFeedbackMessageChange}
-                                            onRatingChange={this.handleRatingChange}
-                                            onSubmit={this.handleFeedbackSubmit}
-                                        />
-                                    }
-                                </>
+                        <button 
+                            className="menuButton" onClick={this.handleFeedbackModelOpen}>Feedback
+                        </button>
+                        {showFeedbackModel && 
+                            <FeedbackModel
+                                message={feedbackMessage}
+                                rating={rating}
+                                onClose={this.handleFeedbackModelClose}
+                                onChange={this.handleFeedbackMessageChange}
+                                onRatingChange={this.handleRatingChange}
+                                onSubmit={this.handleFeedbackSubmit}
+                            />
                         }
                     </div>
                     <div className="buttonRow">
