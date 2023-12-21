@@ -232,7 +232,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
           },
           (error) => {
             const errorMes =
-              "Oops, something is wrong with the server and I'm fixing it, please come back tomorrow!";
+              "Oops, something is wrong with the server. Please come back tomorrow!";
             this.setState({ dbErrorMessage: errorMes, isError: true });
           }
         );

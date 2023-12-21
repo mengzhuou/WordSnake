@@ -192,12 +192,11 @@ class ClassicMode extends Component<any, ClassicModeState> {
     componentDidMount() {
         if (!this.state.initialDataLoaded) {
             this.loadInitialData();
-          }
+        }
         onSnapshot(collection(db, "ClassicModeRank"), (snapshot) => {
             const sortedLeaderboard = snapshot.docs
             .map((doc) => doc.data() as DocumentData)
             .sort((a, b) => b.Score - a.Score);
-            
             this.setState({ leaderBoardList: sortedLeaderboard });
         });
     }
@@ -216,17 +215,13 @@ class ClassicMode extends Component<any, ClassicModeState> {
           },
           (error) => {
             const errorMes =
-              "Oops, something is wrong with the server and I'm fixing it, please come back tomorrow!";
+              "Oops, something is wrong with the server. Please come back tomorrow!";
             this.setState({ dbErrorMessage: errorMes, isError: true });
           }
         );
       }
 
-    //since game over is true, player can save record
-    handleGameOverLogic() {
-        this.setState({ canbeSaved: true });
-    }
-
+    
     handleNewRecord = async (timerVal: number) => {
         const name = prompt(`(Want to save your score <${this.state.history.length} words> to the Leaderboard?) Enter your name.`);
         if (name !== null){
@@ -234,7 +229,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
             if (isNameValid){
                 alert(`Please make sure: 0 < length of name < 20.`);
             } else{
-                const collectionRef = collection(db, "UnlimitedModeRank");
+                const collectionRef = collection(db, "ClassicModeRank");
                 const payload = {Name: name, Score: timerVal};
                 await addDoc(collectionRef, payload);
                 this.setState({ canbeSaved: false, initialDataLoaded: false }); // record is already saved
@@ -242,6 +237,10 @@ class ClassicMode extends Component<any, ClassicModeState> {
         }
     };
     
+    //since game over is true, player can save record
+    handleGameOverLogic() {
+        this.setState({ canbeSaved: true });
+    }
 
     handleShowWords = () => {
         this.setState({
@@ -285,7 +284,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
                 </div>
             
-                <h1 className="wsTitle">Unlimited Word Snake</h1>
+                <h1 className="wsTitle">Classic Word Snake</h1>
                 {isGameStarted? (
                     countdownTimer
                 ) : (
