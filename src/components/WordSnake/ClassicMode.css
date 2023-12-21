@@ -21,7 +21,7 @@
   font-size: 15px;
   background-color: #effff9;
   cursor: pointer;
-  font-family: "Neucha", cursive;
+  font-family: 'Times New Roman', Times, serif; 
   border-radius: 5%;
   font-weight: bold;
 }
@@ -253,10 +253,6 @@ footer .footer-find-me a:hover {
 @media (max-width: 730px){
   .wsTitle{
     margin: 15% 5% 5% 5%;
-  }
-
-  .topnavButton{
-    font-family: 'Times New Roman', Times, serif; 
   }
 }
 

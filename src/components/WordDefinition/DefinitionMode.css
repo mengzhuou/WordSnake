@@ -39,7 +39,7 @@ li {
   font-size: 15px;
   background-color: #effff9;
   cursor: pointer;
-  font-family: "Neucha", cursive;
+  font-family: 'Times New Roman', Times, serif; 
   border-radius: 5%;
   font-weight: bold;
 }

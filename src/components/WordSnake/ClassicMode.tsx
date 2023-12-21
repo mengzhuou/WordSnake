@@ -24,6 +24,9 @@ interface ClassicModeState {
     wordList: string[];
     history: string[];
     leaderBoardList: DocumentData[];
+    initialDataLoaded: boolean;
+    errorMessage: string;
+    isError: boolean;
   }
   
 
@@ -42,6 +45,9 @@ class ClassicMode extends Component<any, ClassicModeState> {
             errMessage: '', 
             wordList: [], history: [], 
             leaderBoardList: [],
+            initialDataLoaded: false,
+            errorMessage: "",
+            isError: false,
         };
         this.menuNav = this.menuNav.bind(this);
     }
@@ -184,6 +190,9 @@ class ClassicMode extends Component<any, ClassicModeState> {
     }
 
     componentDidMount() {
+        if (!this.state.initialDataLoaded) {
+            this.loadInitialData();
+          }
         onSnapshot(collection(db, "ClassicModeRank"), (snapshot) => {
             const sortedLeaderboard = snapshot.docs
             .map((doc) => doc.data() as DocumentData)
@@ -192,6 +201,26 @@ class ClassicMode extends Component<any, ClassicModeState> {
             this.setState({ leaderBoardList: sortedLeaderboard });
         });
     }
+
+    async loadInitialData() {  
+        // leaderboard is the name of the database collection
+        const leaderboardCollection = collection(db, "ClassicModeRank");
+        const unsubscribe = onSnapshot(
+          leaderboardCollection,
+          (snapshot) => {
+            const sortedLeaderboard = snapshot.docs
+            .map((doc) => doc.data() as DocumentData)
+            .sort((a, b) => b.Score - a.Score);
+
+            this.setState({ leaderBoardList: sortedLeaderboard, isError: false, initialDataLoaded: true });
+          },
+          (error) => {
+            const errorMes =
+              "Oops, something is wrong with the server and I'm fixing it, please come back tomorrow!";
+            this.setState({ errorMessage: errorMes, isError: true });
+          }
+        );
+      }
 
     //since game over is true, player can save record
     handleGameOverLogic() {
@@ -208,7 +237,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 const collectionRef = collection(db, "UnlimitedModeRank");
                 const payload = {Name: name, Score: timerVal};
                 await addDoc(collectionRef, payload);
-                this.setState({ canbeSaved: false }); // record is already saved
+                this.setState({ canbeSaved: false, initialDataLoaded: false }); // record is already saved
             }
         }
     };
@@ -234,7 +263,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
         const { firstWord, inputValue, wordList, errMessage, 
             isGameStarted, showWords, canbeSaved,
             showRanking, leaderBoardList,
-            isGameOver, history
+            isGameOver, history, isError
         } = this.state;
         const wordListWithoutFirst = wordList.slice(1);
         const sortedWords = [...wordListWithoutFirst].sort();
@@ -291,29 +320,35 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 {showRanking && (
                     <div className="ranking-popup">
                         <div className="popup-content">
-                        <button onClick={this.toggleRanking} className="close-btn">
-                            X
-                        </button>
-                        <h2 className='leaderboardTitle'>Leaderboard</h2>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Name</th>
-                                <th>Score</th>
+                            <button onClick={this.toggleRanking} className="close-btn">
+                                X
+                            </button>
+                            <h2 className='leaderboardTitle'>Leaderboard</h2>
+                            {!isError? (
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Name</th>
+                                    <th>Score</th>
 
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {leaderBoardList.map((result, index) => (
-                                <tr key={result.id || index}>
-                                    <td>{index + 1}</td>
-                                    <td>{result.Name}</td>
-                                    <td>{result.Score}</td>
                                 </tr>
-                            ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {leaderBoardList.map((result, index) => (
+                                    <tr key={result.id || index}>
+                                        <td>{index + 1}</td>
+                                        <td>{result.Name}</td>
+                                        <td>{result.Score}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                            ) : (
+                                <div className="error-message">
+                                    {this.state.errorMessage}
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}

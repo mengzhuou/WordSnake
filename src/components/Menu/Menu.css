@@ -4,7 +4,7 @@
     font-size: 30px;
     background-color: #c8f3ce;
     cursor: pointer;
-    font-family: "Neucha", cursive;
+    font-family: 'Times New Roman', Times, serif; 
     border-radius: 5%;
     font-weight: bold;
     display: block;
@@ -67,10 +67,6 @@
     .adminFbClose-btn{
         margin-left: 90%;
     }
-
-    .App{
-        font-family: 'Times New Roman', Times, serif; 
-    }
 }
 
 textarea{
@@ -97,7 +93,7 @@ textarea{
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
-    font-family: "Neucha", cursive;
+    font-family: 'Times New Roman', Times, serif; 
 }
 
 .ratingContainer {
@@ -179,7 +175,7 @@ textarea{
     cursor: pointer;
     font-size: 1em;
     font-weight: bold;
-    font-family: "Neucha", cursive;
+    font-family: 'Times New Roman', Times, serif; 
 }
 
 
@@ -266,7 +262,7 @@ textarea{
     cursor: pointer;
     font-size: 1em;
     font-weight: bold;
-    font-family: "Neucha", cursive;
+    font-family: 'Times New Roman', Times, serif; 
 }
 
 .deleteButtonAW{
@@ -277,7 +273,7 @@ textarea{
     cursor: pointer;
     font-size: 1em;
     font-weight: bold;
-    font-family: "Neucha", cursive;
+    font-family: 'Times New Roman', Times, serif; 
 }
 
 .submitButtonAW:hover {
@@ -297,7 +293,7 @@ textarea{
     cursor: pointer;
     font-size: 1em;
     font-weight: bold;
-    font-family: "Neucha", cursive;
+    font-family: 'Times New Roman', Times, serif; 
 }
 
 
@@ -308,7 +304,7 @@ textarea{
     flex-direction:column;
     align-items: center;
     background-color:#c7fcd1;
-    font-family: "Neucha", cursive;
+    font-family: 'Times New Roman', Times, serif; 
     overflow:auto;
     scrollbar-width: none;  /* Firefox */
     -ms-overflow-style: none;  /* IE and Edge */
