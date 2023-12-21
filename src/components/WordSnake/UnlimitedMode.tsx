@@ -28,6 +28,9 @@ interface UnlimitedModeState {
     history: string[];
     leaderBoardList: DocumentData[];
     timerInputLength: number;
+    initialDataLoaded: boolean;
+    dbErrorMessage: string;
+    isError: boolean;
   }
   
 
@@ -47,7 +50,10 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
             errMessage: '', 
             timeLeft: 10, wordList: [], history: [], 
             leaderBoardList: [],
-            timerInputLength: -1
+            timerInputLength: -1,
+            initialDataLoaded: false,
+            dbErrorMessage: "",
+            isError: false,
         };
         this.menuNav = this.menuNav.bind(this);
     }
@@ -193,7 +199,16 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         }
     }
 
+
+    //since game over is true, player can save record
+    handleGameOverLogic() {
+        this.setState({ canbeSaved: true });
+    }
+
     componentDidMount() {
+        if (!this.state.initialDataLoaded) {
+            this.loadInitialData();
+        }
         onSnapshot(collection(db, "UnlimitedModeRank"), (snapshot) => {
             const sortedLeaderboard = snapshot.docs
             .map((doc) => doc.data() as DocumentData)
@@ -203,11 +218,26 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         });
     }
 
-    //since game over is true, player can save record
-    handleGameOverLogic() {
-        this.setState({ canbeSaved: true });
-    }
+    async loadInitialData() {  
+        // leaderboard is the name of the database collection
+        const leaderboardCollection = collection(db, "UnlimitedModeRank");
+        const unsubscribe = onSnapshot(
+          leaderboardCollection,
+          (snapshot) => {
+            const sortedLeaderboard = snapshot.docs
+            .map((doc) => doc.data() as DocumentData)
+            .sort((a, b) => b.Score - a.Score);
 
+            this.setState({ leaderBoardList: sortedLeaderboard, isError: false, initialDataLoaded: true });
+          },
+          (error) => {
+            const errorMes =
+              "Oops, something is wrong with the server and I'm fixing it, please come back tomorrow!";
+            this.setState({ dbErrorMessage: errorMes, isError: true });
+          }
+        );
+    }
+    
     handleNewRecord = async (timerVal: number) => {
         const name = prompt(`(Want to save your score <${this.state.history.length} words> to the Leaderboard?) Enter your name.`);
         if (name !== null){
@@ -218,11 +248,10 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                 const collectionRef = collection(db, "UnlimitedModeRank");
                 const payload = {Name: name, Score: timerVal};
                 await addDoc(collectionRef, payload);
-                this.setState({ canbeSaved: false }); // record is already saved
+                this.setState({ canbeSaved: false, initialDataLoaded: false }); // record is already saved
             }
         }
     };
-    
 
     handleShowWords = () => {
         this.setState({

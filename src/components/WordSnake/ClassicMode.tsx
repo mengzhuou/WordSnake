@@ -25,7 +25,7 @@ interface ClassicModeState {
     history: string[];
     leaderBoardList: DocumentData[];
     initialDataLoaded: boolean;
-    errorMessage: string;
+    dbErrorMessage: string;
     isError: boolean;
   }
   
@@ -46,7 +46,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
             wordList: [], history: [], 
             leaderBoardList: [],
             initialDataLoaded: false,
-            errorMessage: "",
+            dbErrorMessage: "",
             isError: false,
         };
         this.menuNav = this.menuNav.bind(this);
@@ -217,7 +217,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
           (error) => {
             const errorMes =
               "Oops, something is wrong with the server and I'm fixing it, please come back tomorrow!";
-            this.setState({ errorMessage: errorMes, isError: true });
+            this.setState({ dbErrorMessage: errorMes, isError: true });
           }
         );
       }
@@ -346,7 +346,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                             </table>
                             ) : (
                                 <div className="error-message">
-                                    {this.state.errorMessage}
+                                    {this.state.dbErrorMessage}
                                 </div>
                             )}
                         </div>

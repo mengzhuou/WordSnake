@@ -223,7 +223,7 @@ textarea{
     justify-content: center;
     align-items: center;
     margin: 0;
-    font-family: cursive;
+    font-family: 'Times New Roman', Times, serif; 
     letter-spacing: 2px;
 }
 
