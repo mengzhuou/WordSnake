@@ -1,46 +1,56 @@
-import React from "react";
+import React, { Component, ChangeEvent } from "react";
+import { collection, onSnapshot, DocumentData, addDoc } from 'firebase/firestore';
+import db from "../WordSnake/firebase";
 
 interface FeedbackModelProps {
     message: string,
-    rating: number,
+    time: Date,
     onClose: () => void,
     onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void,
     onRatingChange: (rating: number) => void,
     onSubmit: () => void
 }
 
-const FeedbackModel: React.FC<FeedbackModelProps> = ({ message, rating, onClose, onChange, onRatingChange, onSubmit }) => {
-    
-    const handleSelectedStar = (selectedStar: number) => {
-        onRatingChange(selectedStar);
-    };
+interface FeedbackModelState {
+    initialDataLoaded: boolean,
+    leaderBoardList: DocumentData[]
+}
 
-    return (
-        <div className="fbpopup">
-            <button className="fbClose-btn" onClick={onClose}>
-            X
-            </button>
-            <h1 className="helpTitle">FEEDBACK</h1>
+class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
+    constructor(props: FeedbackModelProps) {
+        super(props);
+        this.state = {
+            initialDataLoaded: false,
+            leaderBoardList: []
+        };
+    }
 
-            <form className="fbform" onSubmit={(event) => {event.preventDefault(); onSubmit();}}>
-                <textarea value={message} onChange={onChange}></textarea>
+    fbSubmit = async () => {
+        const collectionRef = collection(db, "Feedback");
+        const { message, time } = this.props;
+        const payload = {Comment: message, Time: time};
+        await addDoc(collectionRef, payload);
+        
+    }
 
-                <div className="ratingContainer">
-                    {[1,2,3,4,5].map((star) => (
-                    <span
-                        key = {star}
-                        className = {`star ${star <= rating ? "selected" : ""}`}
-                        onClick={() => {handleSelectedStar(star);}}
-                    >
-                        &#9733;
-                    </span>
-                    ))}
-                </div>
+    render() {
+        const { message, onClose, onChange, onSubmit } = this.props;
 
-                <button type="submit" className="fbSubmitButton">Submit</button>
-            </form>
-        </div>
-    );
-};
+        return (
+            <div className="fbpopup">
+                <button className="fbClose-btn" onClick={onClose}>
+                    X
+                </button>
+                <h1 className="helpTitle">FEEDBACK</h1>
+
+                <form className="fbform" onSubmit={(event) => { event.preventDefault(); onSubmit(); }}>
+                    <textarea value={message} onChange={onChange}></textarea>
+
+                    <button type="submit" className="fbSubmitButton" onClick={this.fbSubmit}>Submit</button>
+                </form>
+            </div>
+        );
+    }
+}
 
 export default FeedbackModel;

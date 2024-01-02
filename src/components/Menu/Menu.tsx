@@ -16,6 +16,7 @@ class Menu extends React.Component<any,any>{
             showFeedbackModel: false,
             showAdminFeedbackModel: false,
             showHelpModel: false,
+            time: new Date(),
             feedbackMessage: "",
             rating: 5,
             adminFeedbackMessages: [],
@@ -97,11 +98,9 @@ class Menu extends React.Component<any,any>{
         this.setState({ showHelpModel: false })
     }
     render(){
-        const {admin, 
-            showFeedbackModel, feedbackMessage, 
-            rating, showAdminFeedbackModel, 
+        const {
+            showFeedbackModel, feedbackMessage, time,
             showHelpModel
-            
         } = this.state;
         return (
             <div className="App">
@@ -122,7 +121,7 @@ class Menu extends React.Component<any,any>{
                         {showFeedbackModel && 
                             <FeedbackModel
                                 message={feedbackMessage}
-                                rating={rating}
+                                time={time}
                                 onClose={this.handleFeedbackModelClose}
                                 onChange={this.handleFeedbackMessageChange}
                                 onRatingChange={this.handleRatingChange}
