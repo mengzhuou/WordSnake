@@ -46,12 +46,15 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
                 <button className="fbClose-btn" onClick={onClose}>
                     X
                 </button>
-                <h1 className="helpTitle">FEEDBACK</h1>
 
                 <form className="fbform" onSubmit={(event) => { event.preventDefault(); onSubmit(); }}>
+                    <h1 className="helpTitle">FEEDBACK</h1>
                     <textarea value={message} onChange={onChange}></textarea>
 
-                    <button type="submit" className="fbSubmitButton" onClick={this.fbSubmit}>Submit</button>
+                    <div className="buttonRow">
+                        <button type="submit" className="fbSubmitButton" onClick={this.fbSubmit}>Submit</button>
+                        <button className="fbSubmitButton" onClick={onClose}>Cancel</button>
+                    </div>
                 </form>
             </div>
         );
