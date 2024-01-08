@@ -7,7 +7,6 @@ interface FeedbackModelProps {
     time: Date,
     onClose: () => void,
     onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void,
-    onRatingChange: (rating: number) => void,
     onSubmit: () => void
 }
 
@@ -29,7 +28,13 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
         const collectionRef = collection(db, "Feedback");
         const { message, time } = this.props;
         const payload = {Comment: message, Time: time};
-        await addDoc(collectionRef, payload);
+        try {
+            await addDoc(collectionRef, payload);
+            alert("Submit Successfully!");
+            this.props.onClose();
+        } catch (error) {
+            console.error("Error submitting feedback: ", error);
+        }
         
     }
 

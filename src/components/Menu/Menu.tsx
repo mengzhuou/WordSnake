@@ -1,5 +1,4 @@
 import { withFuncProps } from "../withFuncProps";
-import { getNumOfUsers, getSignupRank, isAdmin, addFeedback} from '../../helpers/connector';
 import React from "react";
 import "./Menu.css";
 import FeedbackModel from "./FeedbackModel";
@@ -25,12 +24,6 @@ class Menu extends React.Component<any,any>{
         this.classicModeNav = this.classicModeNav.bind(this);
     }
 
-    componentDidMount() {
-        this.displayUserNum();
-        this.displayUserSignupRank();
-        this.displayAdmin();
-    }
-
     defModeNav = () => {
         this.props.navigate("/DefinitionMode")
     }
@@ -39,20 +32,6 @@ class Menu extends React.Component<any,any>{
     }
     unlimitedModeNav = () => {
         this.props.navigate("/UnlimitedMode")
-    }
-    displayUserNum = async () => {
-        const num = await getNumOfUsers();
-        this.setState({ totalUserNum: num })
-    }
-
-    displayUserSignupRank = async () => {
-        const num = await getSignupRank();
-        this.setState({ signupRank: num })
-    }
-    
-    displayAdmin = async () => {
-        const isAdminTrue = await isAdmin();
-        this.setState({ admin: isAdminTrue })
     }
     
     handleFeedbackModelOpen = () => {
@@ -67,28 +46,8 @@ class Menu extends React.Component<any,any>{
         this.setState({ feedbackMessage: event.target.value });
     }
     
-    handleRatingChange = (rating: number) => {
-        this.setState({ rating: rating });
-    }
-    
-    handleAdminFeedbackOpen = () => {
-        this.setState({ showAdminFeedbackModel: true })
-    }
-    
-    handleAdminFeedbackClose = () => {
-        this.setState({ showAdminFeedbackModel: false })
-    }
-    
     handleFeedbackSubmit = () => {
-        const { feedbackMessage, rating } = this.state;
-        
-        addFeedback(feedbackMessage, rating).then(() => {
-            this.setState({ feedbackMessage: "", rating: 5 })
-            alert("Feedback is sent")
-            this.handleFeedbackModelClose();
-        }).catch((error: Error) => {
-            console.error("Error submitting feedback: ", error);
-        })
+        this.handleFeedbackModelClose();
     }
 
     handleHelpModelOpen = () => {
@@ -124,7 +83,6 @@ class Menu extends React.Component<any,any>{
                                 time={time}
                                 onClose={this.handleFeedbackModelClose}
                                 onChange={this.handleFeedbackMessageChange}
-                                onRatingChange={this.handleRatingChange}
                                 onSubmit={this.handleFeedbackSubmit}
                             />
                         }
