@@ -6,6 +6,7 @@ import UnlimitedCountdownTimer from "./components/WordSnake/UnlimitedCountdownTi
 import UnlimitedMode from "./components/WordSnake/UnlimitedMode";
 import DefinitionMode from "./components/WordDefinition/DefinitionMode";
 import FuncProps from "./components/WordSnake/FuncProps";
+import NotFound from "./components/NotFound";
 
 import React from "react";
 
@@ -61,6 +62,7 @@ class App extends React.Component<any,any>{
 
           <Route path="/DefinitionMode" element={<DefinitionMode/>}/>
           <Route path="/FuncProps" element={<FuncProps/>}/>
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
       </Router>
     );
