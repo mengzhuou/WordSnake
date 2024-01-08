@@ -310,7 +310,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                     <button className="startGameButton" onClick={() => this.updateGameState(true, false)} hidden={isGameStarted ? true : false}>Start Game</button>
                 )}
 
-                <div>
+                <div className="textField">
                     <TextField
                         label={`Enter a word starts with '${firstWord}'`}
                         value={inputValue}

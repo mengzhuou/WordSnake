@@ -254,5 +254,9 @@ footer .footer-find-me a:hover {
   .wsTitle{
     margin: 15% 5% 5% 5%;
   }
+  
+  .textField {
+    width: 80%;
+  }
 }
 
