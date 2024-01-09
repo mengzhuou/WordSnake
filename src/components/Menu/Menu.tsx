@@ -9,16 +9,11 @@ class Menu extends React.Component<any,any>{
     constructor(props:any){
         super(props);
         this.state = {
-            totalUserNum: -1,
-            signupRank: -1,
-            admin: false,
             showFeedbackModel: false,
-            showAdminFeedbackModel: false,
             showHelpModel: false,
             time: new Date(),
             feedbackMessage: "",
             rating: 5,
-            adminFeedbackMessages: [],
         }
         this.defModeNav = this.defModeNav.bind(this);
         this.classicModeNav = this.classicModeNav.bind(this);

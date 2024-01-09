@@ -134,7 +134,7 @@
 .popup-content {
   height: 70%;
   width: 70%;
-  background: linear-gradient(to bottom, #55bd59, #afeccf);
+  background: linear-gradient(to bottom, #fdffc1, #ffee74);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
@@ -161,7 +161,7 @@ scrollbar-width: none;  /* Firefox */
   position: fixed;
   top: 6%;
   right: 9%;
-  background: transparent;
+  background: white;
   color: #000;
   font-weight: bold;
   font-size: 30px;
@@ -172,6 +172,7 @@ scrollbar-width: none;  /* Firefox */
   position: absolute;
   top: 3%;
   color: #000000;
+  font-size: 35px;
 }
 
 table {
