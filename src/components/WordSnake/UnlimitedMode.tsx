@@ -319,6 +319,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                         style={{
                             display: isGameStarted ? 'block' : 'none',
                         }}
+                        fullWidth={true}
                     />
                 </div>
                 <div>

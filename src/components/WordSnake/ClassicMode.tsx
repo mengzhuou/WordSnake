@@ -300,6 +300,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                         style={{
                             display: isGameStarted ? 'block' : 'none',
                         }}
+                        fullWidth={true}
                     />
                 </div>
                 <div>
