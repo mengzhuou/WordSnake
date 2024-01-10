@@ -28,6 +28,9 @@ class Menu extends React.Component<any,any>{
     unlimitedModeNav = () => {
         this.props.navigate("/UnlimitedMode")
     }
+    wordCloudNav = () => {
+        this.props.navigate("/WordCloud")
+    }
     
     handleFeedbackModelOpen = () => {
         this.setState({ showFeedbackModel: true })
@@ -67,6 +70,9 @@ class Menu extends React.Component<any,any>{
                     </div>
                     <div className="buttonRow">
                         <button className="menuButton" onClick={this.classicModeNav}>Classic Mode</button>
+                    </div>
+                    <div className="buttonRow">
+                        <button className="menuButton" onClick={this.wordCloudNav}>Word Cloud</button>
                     </div>
                     <div className="buttonRow">
                         <button 
