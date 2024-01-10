@@ -1,11 +1,11 @@
 import "./ClassicMode.css";
 
 import { withFuncProps } from "../withFuncProps";
-import { getLetterFromPreviousWord, getRandomStart } from './FuncProps'; 
+import { getLetterFromPreviousWord, getRandomStart, updateWordCloud } from './FuncProps'; 
 import { TextField, FormHelperText } from "@mui/material";
 import React, { Component } from 'react';
 import UnlimitedCountdownTimer from "./UnlimitedCountdownTimer";
-import { collection, onSnapshot, DocumentData, addDoc, doc, getDoc, getDocs, updateDoc, query, where, limit  } from 'firebase/firestore';
+import { collection, onSnapshot, DocumentData, addDoc } from 'firebase/firestore';
 import db from "./firebase";
 
 
@@ -71,7 +71,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                     const words = await getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
                     const wordLength = inputValue.length;
-                    this.updateWordCloud(inputValue);
+                    await updateWordCloud(inputValue);
                     this.setState({
                         lastWord: lastWord,
                         errMessage: '',
@@ -199,28 +199,6 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
             //call leaderboard
         }
     }
-
-    async updateWordCloud(word: string) {
-        const wordCloudRef = collection(db, "WordCloud");
-      
-        const q = query(wordCloudRef, where('Word', '==', word.toLowerCase()), limit(1));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          // Document with the word already exists
-          const docRef = doc(wordCloudRef, querySnapshot.docs[0].id);
-          const currentOccurrence = querySnapshot.docs[0].data().Occurrence;
-          // Update the occurrence value
-          await updateDoc(docRef, {
-            Occurrence: currentOccurrence + 1
-          });
-        } else {
-          // Document with the word does not exist, add a new one
-          const payload = { Word: word, Occurrence: 10000 };
-          await addDoc(wordCloudRef, payload);
-        }
-    }
-      
-
 
     //since game over is true, player can save record
     handleGameOverLogic() {

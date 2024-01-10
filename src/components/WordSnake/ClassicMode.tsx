@@ -1,6 +1,6 @@
 import "./ClassicMode.css";
 import { withFuncProps } from "../withFuncProps";
-import { getLetterFromPreviousWord, getRandomStart } from './FuncProps'; 
+import { getLetterFromPreviousWord, getRandomStart, updateWordCloud } from './FuncProps'; 
 import { TextField, FormHelperText } from "@mui/material";
 import React, { Component } from 'react';
 import CountdownTimer from "./CountdownTimer";
@@ -64,6 +64,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 if (inputValue[0] === lastLetter) {
                     const words = await getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
+                    await updateWordCloud(inputValue);
                     this.setState({
                         lastWord: lastWord,
                         errMessage: '',

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import WordCloud from 'react-d3-cloud';
 import { collection, onSnapshot, DocumentData } from 'firebase/firestore';
 import db from "./WordSnake/firebase";
@@ -13,14 +12,20 @@ interface WordCloudState {
 
 class WordCloudComponent extends Component<any, WordCloudState> {
     constructor(props: any) {
-        super(props);
-        this.state = {
-            wordListAndOccurrence: [],
-            initialDataLoaded: false,
-            dbErrorMessage: "",
-            isError: false,
-        };
+      super(props);
+      this.state = {
+          wordListAndOccurrence: [],
+          initialDataLoaded: false,
+          dbErrorMessage: "",
+          isError: false,
+      };
+      this.menuNav = this.menuNav.bind(this);
     }
+
+    menuNav = () => {
+      this.props.navigate("/")
+    } 
+
     componentDidMount() {
         if (!this.state.initialDataLoaded) {
         this.loadInitialData();
@@ -66,7 +71,12 @@ class WordCloudComponent extends Component<any, WordCloudState> {
     console.log("data", data);
 
     return (
-      <WordCloud data={data} />
+      <div>
+        <div className="topnav">
+                      <button className="topnavButton" onClick={this.menuNav}>Menu</button>
+        </div>   
+        <WordCloud data={data} />
+      </div>
     );
   }
 }
