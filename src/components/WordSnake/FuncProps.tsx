@@ -41,7 +41,7 @@ export const updateWordCloud = async (word: string) => {
     });
   } else {
     // Document with the word does not exist, add a new one
-    const payload = { Word: word, Occurrence: 10000 };
+    const payload = { Word: word, Occurrence: 1 };
     await addDoc(wordCloudRef, payload);
   }
 }

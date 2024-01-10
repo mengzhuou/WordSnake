@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import WordCloud from 'react-d3-cloud';
+import { withFuncProps } from "./withFuncProps";
 import { collection, onSnapshot, DocumentData } from 'firebase/firestore';
 import db from "./WordSnake/firebase";
 
@@ -71,14 +72,25 @@ class WordCloudComponent extends Component<any, WordCloudState> {
     console.log("data", data);
 
     return (
-      <div>
+      <div className="customWordCloud">
         <div className="topnav">
-                      <button className="topnavButton" onClick={this.menuNav}>Menu</button>
+          <button className="topnavButton" onClick={this.menuNav}>Menu</button>
         </div>   
-        <WordCloud data={data} />
+        <div>
+          <WordCloud 
+              data={data}
+              font="Times"
+              fontWeight="bold"
+              fontSize={(word) => Math.max(1, (word.value * 5))}
+              spiral="rectangular"
+              rotate={(word) => word.value % 80}
+              padding={2}
+              random={Math.random}
+            />
+        </div>
       </div>
     );
   }
 }
 
-export default WordCloudComponent;
+export default withFuncProps(WordCloudComponent);

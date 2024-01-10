@@ -253,3 +253,16 @@ footer .footer-find-me a:hover {
   }
 }
 
+.customWordCloud{
+  width: 100vw;
+  height: 100vh;
+  background-color:transparent;
+  overflow:auto;
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/* Hiding scrollbar for Chrome, Safari and Opera */
+.customWordCloud::-webkit-scrollbar {
+  display: none;
+}

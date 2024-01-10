@@ -6,7 +6,7 @@
       function handleRouting() {
         const path = window.location.pathname;
 
-        if (!["/", "/ClassicMode", "/UnlimitedMode", "/DefinitionMode"].includes(path)) {
+        if (!["/", "/ClassicMode", "/UnlimitedMode", "/DefinitionMode", "/WordCloud"].includes(path)) {
           window.location.href = "/NotFound";
         }
       }
