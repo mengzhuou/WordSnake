@@ -1,6 +1,8 @@
 import "./DefinitionMode.css";
 import { withFuncProps } from "../withFuncProps";
 import { TextField, FormHelperText } from "@mui/material";
+import { missingWordDef, checkMissingWordExist } from '../WordSnake/FuncProps';
+
 import React from "react";
 
 class DefinitionMode extends React.Component<any,any>{
@@ -14,8 +16,8 @@ class DefinitionMode extends React.Component<any,any>{
     }
 
     forceup = async () => {
+        const { storedInputValue } = this.state;
         try {
-            const { storedInputValue } = this.state;
             const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${storedInputValue}`);
             
             if (!response.ok) {
@@ -30,8 +32,14 @@ class DefinitionMode extends React.Component<any,any>{
         );
         this.setState({ errMessage: '', wordList: definitions });
         } catch (error: any) {
-            console.error('Error fetching word definition:', error);
-            this.setState({ errMessage: error.message || 'An error occurred while fetching word definition.' });
+            const isMissingWord = await checkMissingWordExist(storedInputValue);
+            if (isMissingWord) {
+                const definition = await missingWordDef(storedInputValue);
+                this.setState({ errMessage: '', wordList: [definition] });
+            } else{
+                console.error('Error fetching word definition:', error);
+                this.setState({ errMessage: error.message || 'An error occurred while fetching word definition.' });
+            }
         }
     };
     
