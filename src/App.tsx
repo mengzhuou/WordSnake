@@ -8,6 +8,7 @@ import DefinitionMode from "./components/WordDefinition/DefinitionMode";
 import FuncProps from "./components/WordSnake/FuncProps";
 import NotFound from "./components/NotFound";
 import WordCloud from "./components/WordCloud";
+import FooterNav from "./components/FooterNav";
 
 import React from "react";
 
@@ -64,6 +65,7 @@ class App extends React.Component<any,any>{
           <Route path="/DefinitionMode" element={<DefinitionMode/>}/>
           <Route path="/FuncProps" element={<FuncProps/>}/>
           <Route path="/WordCloud" element={<WordCloud/>}/>
+          <Route path="/FooterNav" element={<FooterNav/>}/>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
       </Router>

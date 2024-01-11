@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import WordCloud from 'react-d3-cloud';
+import FooterNav from "./FooterNav";
 import { withFuncProps } from "./withFuncProps";
 import { collection, onSnapshot, DocumentData } from 'firebase/firestore';
 import db from "./WordSnake/firebase";
@@ -88,6 +89,7 @@ class WordCloudComponent extends Component<any, WordCloudState> {
               random={Math.random}
             />
         </div>
+        <FooterNav/>
       </div>
     );
   }
