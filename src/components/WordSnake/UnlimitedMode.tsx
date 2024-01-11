@@ -1,7 +1,7 @@
 import "./ClassicMode.css";
 
 import { withFuncProps } from "../withFuncProps";
-import { getLetterFromPreviousWord, getRandomStart, updateWordCloud } from './FuncProps'; 
+import { getLetterFromPreviousWord, getRandomStart, updateWordCloud, checkWordExist, checkMissingWordExist } from './FuncProps';
 import { TextField, FormHelperText } from "@mui/material";
 import React, { Component } from 'react';
 import UnlimitedCountdownTimer from "./UnlimitedCountdownTimer";
@@ -64,9 +64,9 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         } else {
             const lastWord = this.state.wordList[this.state.wordList.length - 1]
             const lastLetter = lastWord[lastWord.length - 1]
-
-            const isWordExist = await this.checkWordExist(inputValue);
-            if (isWordExist){
+            const isWordExist = await checkWordExist(inputValue);
+            const missingWordExists = await checkMissingWordExist(inputValue);
+            if (isWordExist || missingWordExists) {
                 if (inputValue[0] === lastLetter) {
                     const words = await getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
@@ -92,16 +92,6 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
             } else{
                 this.setState({ errMessage: 'The word does not exist. Please enter a valid word.', inputValue: "", storedInputValue: "" });
             }
-        }
-    };
-
-    checkWordExist = async (word: string): Promise<boolean> => {
-        try {
-            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-            return response.ok;
-        } catch (error) {
-            console.error('Error checking word existence:', error);
-            return false;
         }
     };
 
@@ -196,7 +186,6 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                 history: sortedWords,
                 errMessage: "" 
             })
-            //call leaderboard
         }
     }
 

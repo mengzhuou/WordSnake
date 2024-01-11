@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { collection, onSnapshot, DocumentData, addDoc, doc, getDoc, getDocs, updateDoc, query, where, limit  } from 'firebase/firestore';
+import { collection, addDoc, doc, getDocs, updateDoc, query, where, limit  } from 'firebase/firestore';
 import db from "./firebase";
 
 interface Definition {
@@ -44,6 +44,22 @@ export const updateWordCloud = async (word: string) => {
     const payload = { Word: word, Occurrence: 1 };
     await addDoc(wordCloudRef, payload);
   }
+}
+
+export const checkWordExist = async (word: string): Promise<boolean> => {
+  try {
+      const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+      return response.ok;
+  } catch (error) {
+      console.error('Error checking word existence:', error);
+      return false;
+  }
+};
+
+export const checkMissingWordExist = async (word: string): Promise<boolean> => {
+  const missingWord = ["kite", "fuck", "hell", "nigga"];
+  const missingWordExists = missingWord.includes(word);
+  return missingWordExists;
 }
 
 
