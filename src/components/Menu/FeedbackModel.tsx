@@ -30,7 +30,8 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
         const payload = {Comment: message, Time: time};
         try {
             await addDoc(collectionRef, payload);
-            alert("Submit Successfully!");
+            alert("Submit Successfully! Thank you " + String.fromCharCode(10084));
+            // this.setState({message: ""})
             this.props.onClose();
         } catch (error) {
             console.error("Error submitting feedback: ", error);
@@ -53,7 +54,7 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
 
                     <div className="buttonRow">
                         <button type="submit" className="fbSubmitButton" onClick={this.fbSubmit}>Submit</button>
-                        <button className="fbSubmitButton" onClick={onClose}>Cancel</button>
+                        <button className="fbCancelButton" onClick={onClose}>Cancel</button>
                     </div>
                 </form>
             </div>

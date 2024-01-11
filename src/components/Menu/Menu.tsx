@@ -37,7 +37,7 @@ class Menu extends React.Component<any,any>{
     }
     
     handleFeedbackModelClose = () => {
-        this.setState({ showFeedbackModel: false })
+        this.setState({ showFeedbackModel: false, feedbackMessage: "" })
     }
     
     handleFeedbackMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
