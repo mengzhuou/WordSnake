@@ -172,7 +172,8 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                 firstWord: fWord, 
                 lastLetter: fWord,
                 history: [],
-                inputValue: ''
+                inputValue: '',
+                showWords: true
             });
         }
 
@@ -184,7 +185,8 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                 canbeSaved: true,
                 wordList: [], 
                 history: sortedWords,
-                errMessage: "" 
+                errMessage: "" ,
+                showWords: false,
             })
         }
     }
@@ -265,13 +267,12 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
     };
 
     render() {
-        const { firstWord, inputValue, wordList, errMessage, 
+        const { firstWord, inputValue, errMessage, 
             isGameStarted, showWords, canbeSaved,
             timeLeft, isTimerUpdated, showRanking, leaderBoardList,
             isGameOver, history, timerInputLength
         } = this.state;
-        const wordListWithoutFirst = wordList.slice(1);
-        const sortedWords = [...wordListWithoutFirst].sort();
+        const sortedWords = history.sort();
 
         const countdownTimer = (
             <UnlimitedCountdownTimer
@@ -280,7 +281,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
               onTimeUp={this.handleEndGame}
               isTimerUpdated={isTimerUpdated}
             />
-          );
+        );
 
         return (
             <div className="App">

@@ -162,7 +162,8 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 firstWord: fWord,
                 lastLetter: fWord,
                 history: [],
-                inputValue: ''
+                inputValue: '',
+                showWords: true
             });
         }
 
@@ -174,7 +175,8 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 canbeSaved: true,
                 wordList: [],
                 history: sortedWords,
-                errMessage: ""
+                errMessage: "",
+                showWords: false,
             })
         }
     }
@@ -249,13 +251,12 @@ class ClassicMode extends Component<any, ClassicModeState> {
     };
 
     render() {
-        const { firstWord, inputValue, wordList, errMessage,
+        const { firstWord, inputValue, errMessage,
             isGameStarted, showWords, canbeSaved,
             showRanking, leaderBoardList,
             isGameOver, history, isError
         } = this.state;
-        const wordListWithoutFirst = wordList.slice(1);
-        const sortedWords = [...wordListWithoutFirst].sort();
+        const sortedWords = history.sort();
 
         const countdownTimer = (
             <CountdownTimer
