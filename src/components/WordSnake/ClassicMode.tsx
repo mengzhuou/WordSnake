@@ -53,7 +53,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
     }
 
     forceup = async (inputValue: string) => {
-        if (this.state.wordList.includes(inputValue)) {
+        if (this.state.history.includes(inputValue) || (this.state.storedInputValue === inputValue)) {
             this.setState({ errMessage: 'The word already exist. Please type another word.', inputValue: "", storedInputValue: "" })
         } else {
             const lastWord = this.state.wordList[this.state.wordList.length - 1]
@@ -66,6 +66,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                     const words = await getLetterFromPreviousWord(inputValue);
                     let wordList = this.state.wordList.concat(inputValue);
                     await updateWordCloud(inputValue);
+
                     this.setState({
                         lastWord: lastWord,
                         errMessage: '',
@@ -126,22 +127,10 @@ class ClassicMode extends Component<any, ClassicModeState> {
                     errMessage: 'Apostrophes and/or hyphens cannot be used in the ending of a word.'
                 });
             } else {
-                this.storeInputValue(this.state.inputValue).then(() => {
-                    this.setState({ inputValue: "" });
-                });
-            }
-        }
-    }
-
-    storeInputValue = async (inputValue: string) => {
-        try {
-            if (inputValue !== this.state.storedInputValue) {
                 const lowerInput = inputValue.toLowerCase();
-                this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true })
+                this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: ""})
                 this.forceup(lowerInput);
             }
-        } catch (error) {
-            console.error(error)
         }
     }
 
