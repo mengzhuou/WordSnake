@@ -1,5 +1,5 @@
 import React, { Component, ChangeEvent } from "react";
-import { collection, onSnapshot, DocumentData, addDoc } from 'firebase/firestore';
+import { collection, DocumentData, addDoc } from 'firebase/firestore';
 import db from "../WordSnake/firebase";
 
 interface FeedbackModelProps {

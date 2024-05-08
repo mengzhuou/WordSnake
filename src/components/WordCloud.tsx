@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import WordCloud from 'react-d3-cloud';
 import FooterNav from "./FooterNav";
 import { withFuncProps } from "./withFuncProps";
-import { collection, onSnapshot, DocumentData, getDocs } from 'firebase/firestore';
+import { collection, DocumentData, getDocs } from 'firebase/firestore';
 import db from "./WordSnake/firebase";
 
 interface WordCloudState {
@@ -33,7 +33,6 @@ class WordCloudComponent extends Component<any, WordCloudState> {
         this.loadInitialData();
         console.log("initialDataLoaded", this.state.initialDataLoaded)
       }
-
   }
 
   async loadInitialData() {
