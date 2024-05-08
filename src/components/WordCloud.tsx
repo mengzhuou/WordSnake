@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import WordCloud from 'react-d3-cloud';
 import FooterNav from "./FooterNav";
 import { withFuncProps } from "./withFuncProps";
-import { collection, onSnapshot, DocumentData } from 'firebase/firestore';
+import { collection, onSnapshot, DocumentData, getDocs } from 'firebase/firestore';
 import db from "./WordSnake/firebase";
 
 interface WordCloudState {
@@ -29,34 +29,25 @@ class WordCloudComponent extends Component<any, WordCloudState> {
     } 
 
     componentDidMount() {
-        if (!this.state.initialDataLoaded) {
+      if (!this.state.initialDataLoaded) {
         this.loadInitialData();
-    }
+        console.log("initialDataLoaded", this.state.initialDataLoaded)
+      }
 
-    onSnapshot(collection(db, "WordCloud"), (snapshot) => {
-      const wordList = snapshot.docs
-        .map((doc) => doc.data() as DocumentData);
-
-      this.setState({ wordListAndOccurrence: wordList });
-    });
   }
 
   async loadInitialData() {
-    const leaderboardCollection = collection(db, "WordCloud");
-    const unsubscribe = onSnapshot(
-      leaderboardCollection,
-      (snapshot) => {
-        const wordList = snapshot.docs
-          .map((doc) => doc.data() as DocumentData);
-
-        this.setState({ wordListAndOccurrence: wordList, isError: false, initialDataLoaded: true });
-      },
-      (error) => {
-        const errorMes = "Oops, something is wrong with the server. Please come back tomorrow!";
-        this.setState({ dbErrorMessage: errorMes, isError: true });
-      }
-    );
+    try {
+      const leaderboardCollection = collection(db, "WordCloud");
+      const snapshot = await getDocs(leaderboardCollection);
+      const wordList = snapshot.docs.map((doc) => doc.data());
+      this.setState({ wordListAndOccurrence: wordList, isError: false, initialDataLoaded: true });
+    } catch (error) {
+      const errorMes = "Oops, something is wrong with the server. Please come back tomorrow!";
+      this.setState({ dbErrorMessage: errorMes, isError: true });
+    }
   }
+  
 
   transformDataForWordCloud(wordList: DocumentData[]): { text: string; value: number }[] {
     return wordList.map((word) => ({
@@ -68,6 +59,7 @@ class WordCloudComponent extends Component<any, WordCloudState> {
 
   render() {
     const { wordListAndOccurrence } = this.state ?? { wordListAndOccurrence: [] };
+    console.log("initialDataLoaded", this.state.initialDataLoaded)
 
     const data = this.transformDataForWordCloud(wordListAndOccurrence);
     console.log("data", data);
