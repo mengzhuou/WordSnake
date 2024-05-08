@@ -5,7 +5,7 @@ import { getLetterFromPreviousWord, getRandomStart, updateWordCloud, checkWordEx
 import { TextField, FormHelperText } from "@mui/material";
 import React, { Component } from 'react';
 import UnlimitedCountdownTimer from "./UnlimitedCountdownTimer";
-import { collection, onSnapshot, DocumentData, addDoc } from 'firebase/firestore';
+import { collection, getDocs, DocumentData, addDoc } from 'firebase/firestore';
 import db from "./firebase";
 
 
@@ -184,37 +184,13 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         this.setState({ canbeSaved: true });
     }
 
-    componentDidMount() {
-        if (!this.state.initialDataLoaded) {
-            this.loadInitialData();
-        }
-        onSnapshot(collection(db, "UnlimitedModeRank"), (snapshot) => {
-            const sortedLeaderboard = snapshot.docs
-            .map((doc) => doc.data() as DocumentData)
-            .sort((a, b) => b.Score - a.Score);
-            
-            this.setState({ leaderBoardList: sortedLeaderboard });
-        });
-    }
-
     async loadInitialData() {  
-        // leaderboard is the name of the database collection
         const leaderboardCollection = collection(db, "UnlimitedModeRank");
-        const unsubscribe = onSnapshot(
-          leaderboardCollection,
-          (snapshot) => {
-            const sortedLeaderboard = snapshot.docs
-            .map((doc) => doc.data() as DocumentData)
-            .sort((a, b) => b.Score - a.Score);
-
-            this.setState({ leaderBoardList: sortedLeaderboard, isError: false, initialDataLoaded: true });
-          },
-          (error) => {
-            const errorMes =
-              "Oops, something is wrong with the server. Please come back tomorrow!";
-            this.setState({ dbErrorMessage: errorMes, isError: true });
-          }
-        );
+        const snapshot = await getDocs(leaderboardCollection);
+        const sortedLeaderboard = snapshot.docs
+                .map((doc) => doc.data())
+                .sort((a, b) => b.Score - a.Score);;
+        this.setState({ leaderBoardList: sortedLeaderboard, isError: false, initialDataLoaded: true });
     }
     
     handleNewRecord = async (timerVal: number) => {
@@ -245,8 +221,12 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
     }
 
     toggleRanking = () => {
+        // initialDataLoaded is set to false when game is over. So, when user toggle the ranking, the ranking data will be updated.
+        if (!this.state.initialDataLoaded) {
+            this.loadInitialData();
+        }
         this.setState((prevState: any) => ({
-          showRanking: !prevState.showRanking,
+            showRanking: !prevState.showRanking,
         }));
     };
 
