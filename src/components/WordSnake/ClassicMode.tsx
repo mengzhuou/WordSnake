@@ -106,7 +106,6 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 errMessage: ""
             });
         } else {
-            // const isValid = /^[a-zA-Z'-]*$/.test(inputString);
             const isValid = /^[a-zA-Z' -]*$/.test(inputString); 
             if (isValid) {
                 this.setState({

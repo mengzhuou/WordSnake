@@ -100,7 +100,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
     };
 
     handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const inputString = event.target.value;
+        let inputString = event.target.value.trim();
         if (
             inputString.startsWith('-') || 
             inputString.startsWith('\''))
@@ -115,7 +115,8 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                 errMessage: ""
             });
         } else {
-            const isValid = /^[a-zA-Z'-]*$/.test(inputString);
+            const isValid = /^[a-zA-Z' -]*$/.test(inputString); 
+
 
             if (isValid) {
                 this.setState({
