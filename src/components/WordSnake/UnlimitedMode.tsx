@@ -234,6 +234,20 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         this.handleNewRecord(this.state.history.length);
     };
 
+    handleConfirmButtonClick = () => {
+        const { inputValue } = this.state;
+        if (inputValue.endsWith('\'') || inputValue.endsWith('-')) {
+            this.setState({
+                errMessage: 'Apostrophes and/or hyphens cannot be used in the ending of a word.'
+            });
+        } else {
+            const lowerInput = inputValue.toLowerCase();
+            this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: ""})
+            this.forceup(lowerInput);
+        }
+    }
+    
+
     render() {
         const { firstWord, inputValue, errMessage, 
             isGameStarted, showWords, canbeSaved,
@@ -285,6 +299,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                         {errMessage}
                     </FormHelperText>
                 </div>
+                <button className="confirmButton" onClick={this.handleConfirmButtonClick} hidden={!isGameStarted}>Confirm</button>
 
                 {showWords && sortedWords.length > 0 && (
                     <div className="container">
