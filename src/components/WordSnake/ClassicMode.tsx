@@ -134,6 +134,20 @@ class ClassicMode extends Component<any, ClassicModeState> {
         }
     }
 
+    handleSubmitButtonClick = () => {
+        const { inputValue } = this.state;
+        if (inputValue.endsWith('\'') || inputValue.endsWith('-')) {
+            this.setState({
+                errMessage: 'Apostrophes and/or hyphens cannot be used in the ending of a word.'
+            });
+        } else {
+            const lowerInput = inputValue.toLowerCase();
+            this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: ""})
+            this.forceup(lowerInput);
+        }
+    }
+    
+
     reStart = () => {
         window.location.reload();
     }
@@ -269,6 +283,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                         {errMessage}
                     </FormHelperText>
                 </div>
+                <button className="confirmButton" onClick={this.handleSubmitButtonClick} hidden={!isGameStarted}>Confirm</button>
 
                 {showWords && sortedWords.length > 0 && (
                     <div className="container">

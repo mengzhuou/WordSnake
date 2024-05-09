@@ -266,3 +266,16 @@ footer .footer-find-me a:hover {
 .customWordCloud::-webkit-scrollbar {
   display: none;
 }
+
+.confirmButton{
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  padding: 5px 8px;
+  margin: 30px 0px 30px 0px;
+  background-color: #effff9;
+  cursor: pointer;
+  border-radius: 5%;
+  font-size: 15px;
+  box-shadow: 8px 6px 8px rgba(0, 0, 0, 0.1)
+}
