@@ -26,8 +26,9 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
 
     fbSubmit = async () => {
         const collectionRef = collection(db, "Feedback");
+        const adminFeedback = "No";
         const { message, time } = this.props;
-        const payload = {Comment: message, Time: time};
+        const payload = {Comment: message, Time: time, Admin: adminFeedback};
         try {
             await addDoc(collectionRef, payload);
             alert("Submit Successfully! Thank you " + String.fromCharCode(10084));
