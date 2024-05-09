@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { collection, addDoc, doc, getDocs, updateDoc, query, where, limit  } from 'firebase/firestore';
+import { collection, addDoc, doc, getDocs, updateDoc, query, where, limit, DocumentData  } from 'firebase/firestore';
 import db from "./firebase";
 
 interface Definition {
@@ -45,6 +45,26 @@ export const updateWordCloud = async (word: string) => {
     await addDoc(wordCloudRef, payload);
   }
 }
+
+// export const addAdditionalWord = async (word: string) => {
+//   const additionalDictionaryRef = collection(db, "AdditionalDictionary");
+
+//   const q = query(additionalDictionaryRef, where('Word', '==', word.toLowerCase()), limit(1));
+//   const querySnapshot = await getDocs(q);
+//   if (!querySnapshot.empty) {
+//     // Document with the word already exists
+//     const docRef = doc(additionalDictionaryRef, querySnapshot.docs[0].id);
+//     const currentOccurrence = querySnapshot.docs[0].data().Occurrence;
+//     // Update the occurrence value
+//     await updateDoc(docRef, {
+//       Occurrence: currentOccurrence + 1
+//     });
+//   } else {
+//     // Document with the word does not exist, add a new one
+//     const payload = { Word: word, Occurrence: 1 };
+//     await addDoc(wordCloudRef, payload);
+//   }
+// }
 
 export const checkWordExist = async (word: string): Promise<boolean> => {
   try {
