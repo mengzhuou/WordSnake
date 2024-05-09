@@ -31,7 +31,6 @@ class WordCloudComponent extends Component<any, WordCloudState> {
     componentDidMount() {
       if (!this.state.initialDataLoaded) {
         this.loadInitialData();
-        console.log("initialDataLoaded", this.state.initialDataLoaded)
       }
   }
 
@@ -58,10 +57,7 @@ class WordCloudComponent extends Component<any, WordCloudState> {
 
   render() {
     const { wordListAndOccurrence } = this.state ?? { wordListAndOccurrence: [] };
-    console.log("initialDataLoaded", this.state.initialDataLoaded)
-
     const data = this.transformDataForWordCloud(wordListAndOccurrence);
-    console.log("data", data);
 
     return (
       <div className="customWordCloud">
@@ -71,13 +67,15 @@ class WordCloudComponent extends Component<any, WordCloudState> {
         <div>
           <WordCloud 
               data={data}
+              width={500}
+              height={630}
               font="Times"
               fontWeight="bold"
-              fontSize={(word) => Math.max(1, (word.value * 5))}
-              spiral="rectangular"
-              rotate={(word) => word.value % 80}
-              padding={2}
+              fontSize={(word) => Math.max(1, (word.value * 3))}
+              padding={3}
               random={Math.random}
+              spiral="archimedean"
+              // rotate={(word) => word.value % 2}
             />
         </div>
         <FooterNav/>
