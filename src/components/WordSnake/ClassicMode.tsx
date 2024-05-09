@@ -277,7 +277,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                     />
                 </div>
                 <div>
-                    <FormHelperText style={{ color: 'red' }}>
+                    <FormHelperText style={{ color: 'red', margin: '0px 10px 0px 20px' }}>
                         {errMessage}
                     </FormHelperText>
                 </div>
