@@ -61,6 +61,8 @@ class Menu extends React.Component<any,any>{
         } = this.state;
         return (
             <div className="App">
+                <p className="wsMenuTitle">Word Snake</p>
+                
                 <div className="buttonContainer">
                     <div className="buttonRow">
                         <button className="menuButton" onClick={this.defModeNav}>Definition Mode</button>

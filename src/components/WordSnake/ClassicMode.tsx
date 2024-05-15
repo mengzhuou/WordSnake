@@ -257,7 +257,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
                 </div>
 
-                <h1 className="wsTitle">Classic Word Snake</h1>
+                <h1 className="wsTitle">Classic Mode</h1>
                 {isGameStarted ? (
                     countdownTimer
                 ) : (

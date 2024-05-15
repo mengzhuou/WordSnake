@@ -276,7 +276,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
                 </div>
             
-                <h1 className="wsTitle">Unlimited Word Snake</h1>
+                <h1 className="wsTitle">Unlimited Mode</h1>
                 {isGameStarted? (
                     countdownTimer
                 ) : (
