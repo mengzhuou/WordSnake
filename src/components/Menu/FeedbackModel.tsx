@@ -25,9 +25,10 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
     }
 
     fbSubmit = async () => {
+        const { message, time } = this.props;
+        
         const collectionRef = collection(db, "Feedback");
         const adminFeedback = "No";
-        const { message, time } = this.props;
         const payload = {Comment: message, Time: time, Admin: adminFeedback};
         try {
             await addDoc(collectionRef, payload);
@@ -53,7 +54,7 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
                     <h1 className="helpTitle">FEEDBACK</h1>
                     <textarea value={message} onChange={onChange}></textarea>
 
-                    <div className="buttonRow">
+                    <div className="fbButtonRow">
                         <button type="submit" className="fbSubmitButton" onClick={this.fbSubmit}>Submit</button>
                         <button className="fbCancelButton" onClick={onClose}>Cancel</button>
                     </div>

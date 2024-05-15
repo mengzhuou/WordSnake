@@ -37,29 +37,15 @@
     margin-bottom: 40px;
 }
 
-.buttonRow {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    margin-left: 20px;
-}
-
-.buttonRow div {
-    margin-right: 10px;
-}
-
 .fbpopup {
     background-color: #ffeba6;
     border-radius: 5%;
     box-shadow: rgb(50 50 93 / 25%) 0px 50px 100px -20px, rgb(0 0 0 / 30%) 0px 30px 60px -30px, rgb(10 37 64 / 35%) 0px -2px 6px 0px inset;
     position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 90%;
-    margin-top: 2%;
+    left: 5%;
+    top: 5%;
+    width: 90%;
+    height: 80%;
 }
 
 .buttonRow {
@@ -70,11 +56,6 @@
     margin-top: 10px;
     width: 100%;
 }
-
-.buttonRow button {
-    margin-right: 10px;
-}
-
 
 .fbClose-btn{
     background-color: #000000;
@@ -121,30 +102,43 @@ textarea{
     height: 100%;
 }
 
+.fbButtonRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+    margin-top: 10px;
+    width: 30%;
+}
+
 .fbSubmitButton{
     color: rgb(255 255 255);
     background-color: #000000;
-    margin-bottom: 10px;
     border-radius: 5%;
     height: 30px;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
     font-family: 'Times New Roman', Times, serif; 
+    flex: 1; 
+    margin: 0 25px 0 10px;
+    border-radius: 25px;
 }
 
 .fbCancelButton{
     color: rgb(255 255 255);
     background-color: #000000;
-    margin-bottom: 10px;
-    margin-left: 40px;
     border-radius: 5%;
     height: 30px;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
     font-family: 'Times New Roman', Times, serif; 
+    flex: 1; 
+    margin: 0 10px 0 25px;
+    border-radius: 25px;
 }
+
 
 .ratingContainer {
     display: flex;
