@@ -7,7 +7,7 @@ interface FeedbackModelProps {
     time: Date,
     onClose: () => void,
     onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void,
-    onSubmit: () => void
+    onSubmit: (event: React.FormEvent) => void 
 }
 
 interface FeedbackModelState {
@@ -24,25 +24,30 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
         };
     }
 
-    fbSubmit = async () => {
-        const { message, time } = this.props;
-        
+    fbSubmit = async (event: React.FormEvent) => {
+        event.preventDefault(); // Prevent the form from submitting
+
+        const { message, time, onClose } = this.props;
+
+        if (!message) {
+            alert("You can't submit an empty message. Please try again.");
+            return;
+        }
+
         const collectionRef = collection(db, "Feedback");
         const adminFeedback = "No";
         const payload = {Comment: message, Time: time, Admin: adminFeedback};
         try {
             await addDoc(collectionRef, payload);
             alert("Submit Successfully! Thank you " + String.fromCharCode(10084));
-            // this.setState({message: ""})
-            this.props.onClose();
+            onClose();
         } catch (error) {
             console.error("Error submitting feedback: ", error);
         }
-        
     }
 
     render() {
-        const { message, onClose, onChange, onSubmit } = this.props;
+        const { message, onClose, onChange } = this.props;
 
         return (
             <div className="fbpopup">
@@ -50,7 +55,7 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
                     X
                 </button>
 
-                <form className="fbform" onSubmit={(event) => { event.preventDefault(); onSubmit(); }}>
+                <form className="fbform" onSubmit={this.fbSubmit}>
                     <h1 className="helpTitle">FEEDBACK</h1>
                     <textarea value={message} onChange={onChange}></textarea>
 
