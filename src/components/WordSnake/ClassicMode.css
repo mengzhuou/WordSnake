@@ -266,6 +266,12 @@ footer .footer-find-me a:hover {
   }
 }
 
+.customWordCloud {
+  padding-top: 30px; 
+  padding-bottom: 20px; 
+  box-sizing: border-box; 
+}
+
 .customWordCloud{
   width: 100vw;
   height: 100vh;

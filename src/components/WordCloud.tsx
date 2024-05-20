@@ -64,7 +64,7 @@ class WordCloudComponent extends Component<any, WordCloudState> {
         <div className="topnav">
           <button className="topnavButton" onClick={this.menuNav}>Menu</button>
         </div>   
-        <div>
+        <div className='customWordCloud'>
           <WordCloud 
               data={data}
               width={500}
