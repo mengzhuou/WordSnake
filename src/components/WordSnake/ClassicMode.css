@@ -40,7 +40,7 @@
 .wsTitle{
   z-index: 0;
   letter-spacing: 2px;
-  margin: 5% 5% 5% 5%;
+  margin: 8% 5% 5% 5%;
   font-size: 40px;
   text-align: center;
 }
@@ -253,12 +253,16 @@ footer .footer-find-me a:hover {
 
 @media (max-width: 730px){
   .wsTitle{
-    margin: 15% 5% 5% 5%;
+    margin: 30% 5% 5% 5%;
   }
 
   .close-btn{
     top: 10%;
     right: 6%;
+  }
+
+  .topnavButton{
+    font-size: 10px;
   }
 }
 
