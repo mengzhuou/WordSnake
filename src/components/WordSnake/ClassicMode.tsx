@@ -105,7 +105,8 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 inputValue: "",
                 errMessage: ""
             });
-        } else {
+        } 
+        else {
             const isValid = /^[a-zA-Z' -]*$/.test(inputString); 
             if (isValid) {
                 this.setState({
@@ -125,10 +126,25 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 this.setState({
                     errMessage: 'Apostrophes and/or hyphens cannot be used in the ending of a word.'
                 });
-            } else {
+            } 
+            else {
                 const lowerInput = inputValue.toLowerCase();
-                this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: ""})
-                this.forceup(lowerInput);
+                if (lowerInput.length === 1) {
+                    if (inputValue == "a" || inputValue == "i" || inputValue == "o"){
+                        console.log("called but not")
+                        this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: "" })
+                        this.forceup(lowerInput);
+                    } 
+                    else{
+                        this.setState({
+                            errMessage: 'This single letter does not form a word'
+                        });
+                    }
+                } 
+                else{
+                    this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: ""})
+                    this.forceup(lowerInput);
+                }
             }
         }
     }
@@ -227,8 +243,21 @@ class ClassicMode extends Component<any, ClassicModeState> {
             });
         } else {
             const lowerInput = inputValue.toLowerCase();
-            this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: ""})
-            this.forceup(lowerInput);
+            if (lowerInput.length === 1) {
+                if (inputValue == "a" || inputValue == "i" || inputValue == "o"){
+                    this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: "" })
+                    this.forceup(lowerInput);
+                } 
+                else{
+                    this.setState({
+                        errMessage: 'This single letter does not form a word'
+                    });
+                }
+            } 
+            else{
+                this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: ""})
+                this.forceup(lowerInput);
+            }
         }
     }
 
