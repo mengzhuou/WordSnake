@@ -137,7 +137,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
             } else {
                 const lowerInput = inputValue.toLowerCase();
                 if (lowerInput.length === 1) {
-                    if (inputValue == "a" || inputValue == "i" || inputValue == "o"){
+                    if (inputValue === "a" || inputValue === "i" || inputValue === "o"){
                         this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: "" })
                         this.forceup(lowerInput);
                     } 
@@ -255,7 +255,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
         } else {
             const lowerInput = inputValue.toLowerCase();
             if (lowerInput.length === 1) {
-                if (inputValue == "a" || inputValue == "i" || inputValue == "o"){
+                if (inputValue === "a" || inputValue === "i" || inputValue === "o"){
                     this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: "" })
                     this.forceup(lowerInput);
                 } 
