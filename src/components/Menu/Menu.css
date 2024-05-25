@@ -68,6 +68,10 @@
     height: 30px;
 }
 
+.textField{
+    width: 30%;
+}
+
 @media (max-width: 730px){
     .fbClose-btn{
         margin-left: 90%;
