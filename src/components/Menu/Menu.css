@@ -1,3 +1,34 @@
+.wordAdditionTextArea {
+    width: 40%;
+    height: 150px;
+    padding: 10px 30px 10px 30px;
+    margin: 10px 0;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    resize: vertical;
+}
+
+.feedbackTextArea {
+    width: 80%;
+    height: 50%;
+    padding: 30px;
+    margin: 30px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    resize: vertical;
+}
+
+.wordAdditionText {
+    padding: 10px 30px;
+    font-size: 18px;
+    color: #333;
+    line-height: 1.5;
+}
+
 .wsMenuTitle {
     text-align: center;
     font-size: 50px;

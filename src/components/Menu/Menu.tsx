@@ -2,6 +2,7 @@ import { withFuncProps } from "../withFuncProps";
 import React from "react";
 import "./Menu.css";
 import FeedbackModel from "./FeedbackModel";
+import WordAdditionModel from "./WordAdditionModel";
 import HelpModel from "./HelpModel";
 
 
@@ -10,10 +11,11 @@ class Menu extends React.Component<any,any>{
         super(props);
         this.state = {
             showFeedbackModel: false,
+            showWordAdditionModel: false,
             showHelpModel: false,
             time: new Date(),
             feedbackMessage: "",
-            rating: 5,
+            wordAdditionMessage: "",
         }
         this.defModeNav = this.defModeNav.bind(this);
         this.classicModeNav = this.classicModeNav.bind(this);
@@ -47,6 +49,21 @@ class Menu extends React.Component<any,any>{
     handleFeedbackSubmit = () => {
         this.handleFeedbackModelClose();
     }
+    handleWordAdditionModelOpen = () => {
+        this.setState({ showWordAdditionModel: true })
+    }
+    
+    handleWordAdditionModelClose = () => {
+        this.setState({ showWordAdditionModel: false, wordAdditionMessage: "" })
+    }
+    
+    handleWordAdditionMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        this.setState({ wordAdditionMessage: event.target.value });
+    }
+    
+    handleWordAdditionSubmit = () => {
+        this.handleWordAdditionModelClose();
+    }
 
     handleHelpModelOpen = () => {
         this.setState({ showHelpModel: true })
@@ -56,7 +73,9 @@ class Menu extends React.Component<any,any>{
     }
     render(){
         const {
-            showFeedbackModel, feedbackMessage, time,
+            showFeedbackModel, feedbackMessage,
+            showWordAdditionModel, wordAdditionMessage, 
+            time,
             showHelpModel
         } = this.state;
         return (
@@ -72,6 +91,20 @@ class Menu extends React.Component<any,any>{
                     </div>
                     <div className="buttonRow">
                         <button className="menuButton" onClick={this.classicModeNav}>Classic Mode</button>
+                    </div>
+                    <div className="buttonRow">
+                        <button 
+                            className="menuButton" onClick={this.handleWordAdditionModelOpen}>Add A Word
+                        </button>
+                        {showWordAdditionModel && 
+                            <WordAdditionModel
+                                message={wordAdditionMessage}
+                                time={time}
+                                onClose={this.handleWordAdditionModelClose}
+                                onChange={this.handleWordAdditionMessageChange}
+                                onSubmit={this.handleWordAdditionSubmit}
+                            />
+                        }
                     </div>
                     <div className="buttonRow">
                         <button className="menuButton" onClick={this.wordCloudNav}>Word Cloud</button>

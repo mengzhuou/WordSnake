@@ -2,7 +2,7 @@ import React, { Component, ChangeEvent } from "react";
 import { collection, DocumentData, addDoc } from 'firebase/firestore';
 import db from "../WordSnake/firebase";
 
-interface FeedbackModelProps {
+interface WordAdditionProps {
     message: string,
     time: Date,
     onClose: () => void,
@@ -10,13 +10,13 @@ interface FeedbackModelProps {
     onSubmit: (event: React.FormEvent) => void 
 }
 
-interface FeedbackModelState {
+interface WordAdditionState {
     initialDataLoaded: boolean,
     leaderBoardList: DocumentData[]
 }
 
-class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
-    constructor(props: FeedbackModelProps) {
+class WordAdditionModel extends Component<WordAdditionProps, WordAdditionState> {
+    constructor(props: WordAdditionProps) {
         super(props);
         this.state = {
             initialDataLoaded: false,
@@ -24,25 +24,25 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
         };
     }
 
-    fbSubmit = async (event: React.FormEvent) => {
+    wordAdditionSubmit = async (event: React.FormEvent) => {
         event.preventDefault(); // Prevent the form from submitting
 
         const { message, time, onClose } = this.props;
 
         if (!message) {
-            alert("You can't submit an empty message. Please try again.");
+            alert("You can't submit an empty word. Please try again.");
             return;
         }
 
-        const collectionRef = collection(db, "Feedback");
+        const collectionRef = collection(db, "WordAdditionRequest");
         const adminFeedback = "No";
-        const payload = {Comment: message, Time: time, Admin: adminFeedback};
+        const payload = {Word: message, Time: time, Admin: adminFeedback};
         try {
             await addDoc(collectionRef, payload);
             alert("Submit Successfully! Thank you " + String.fromCharCode(10084));
             onClose();
         } catch (error) {
-            console.error("Error submitting feedback: ", error);
+            console.error("Error submitting word: ", error);
         }
     }
 
@@ -55,12 +55,13 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
                     X
                 </button>
 
-                <form className="fbform" onSubmit={this.fbSubmit}>
-                    <h1 className="helpTitle">FEEDBACK</h1>
-                    <textarea className="feedbackTextArea" value={message} onChange={onChange}></textarea>
+                <form className="fbform" onSubmit={this.wordAdditionSubmit}>
+                    <h1 className="helpTitle">Add A Word</h1>
+                    <p className="wordAdditionText">If the word does not exist in our dictionary, you may request for adding such word. The word will be available to use in all mode (Definition/Unlimited/Classic) once the admin approved it.</p>
+                    <textarea className="wordAdditionTextArea" value={message} onChange={onChange}></textarea>
 
                     <div className="fbButtonRow">
-                        <button type="submit" className="fbSubmitButton" onClick={this.fbSubmit}>Submit</button>
+                        <button type="submit" className="fbSubmitButton" onClick={this.wordAdditionSubmit}>Submit</button>
                         <button className="fbCancelButton" onClick={onClose}>Cancel</button>
                     </div>
                 </form>
@@ -69,4 +70,4 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
     }
 }
 
-export default FeedbackModel;
+export default WordAdditionModel;
