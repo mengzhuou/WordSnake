@@ -1,5 +1,5 @@
-import React, { Component, ChangeEvent } from "react";
-import { collection, DocumentData, addDoc } from 'firebase/firestore';
+import React, { Component } from "react";
+import { collection, addDoc } from 'firebase/firestore';
 import db from "../WordSnake/firebase";
 
 interface FeedbackModelProps {
@@ -10,18 +10,9 @@ interface FeedbackModelProps {
     onSubmit: (event: React.FormEvent) => void 
 }
 
-interface FeedbackModelState {
-    initialDataLoaded: boolean,
-    leaderBoardList: DocumentData[]
-}
-
-class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
+class FeedbackModel extends Component<FeedbackModelProps> {
     constructor(props: FeedbackModelProps) {
         super(props);
-        this.state = {
-            initialDataLoaded: false,
-            leaderBoardList: []
-        };
     }
 
     fbSubmit = async (event: React.FormEvent) => {
@@ -57,7 +48,7 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
 
                 <form className="fbform" onSubmit={this.fbSubmit}>
                     <h1 className="helpTitle">FEEDBACK</h1>
-                    <textarea className="feedbackTextArea" value={message} onChange={onChange}></textarea>
+                    <textarea className="feedbackTextArea" placeholder="Enter your feedback..."  value={message} onChange={onChange}></textarea>
 
                     <div className="fbButtonRow">
                         <button type="submit" className="fbSubmitButton" onClick={this.fbSubmit}>Submit</button>
