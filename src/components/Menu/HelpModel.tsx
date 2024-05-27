@@ -47,11 +47,13 @@ class HelpModel extends React.Component<HelpModelProps> {
             in the timer.
           </p>
           <p>
-            4. <b>Word Cloud</b>: Hey, this section displays the words that all players have entered, where a larger font size indicates a higher frequency of occurrence.
+            4. <b>Add A Word</b>: If a word is not already in our dictionary, you can request to add it. 
           </p>
           <p>
-            5. <b>Feedback</b>: We'd love to hear from you! Share your
-            suggestions and let us know how much you're enjoying the game.
+            5. <b>Word Cloud</b>: This section showcases the words entered by all players in Classic/Unlimited Mode. The larger the font size, the more frequently the word has been used.
+          </p>
+          <p>
+            6. <b>Feedback</b>: I'd love to hear your feedback! Please share your suggestions and let me know how much you're enjoying the game.
           </p>
         </div>
       </div>
