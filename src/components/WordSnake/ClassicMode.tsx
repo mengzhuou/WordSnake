@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import CountdownTimer from "./CountdownTimer";
 import { collection, getDocs, DocumentData, addDoc } from 'firebase/firestore';
 import db from "./firebase";
-
+import FooterNav from "../FooterNav";
 
 interface ClassicModeState {
     isGameStarted: boolean;
@@ -370,7 +370,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                         )}
                     </div>
                 )}
-
+            <FooterNav/>
             </div>
         );
     }

@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import UnlimitedCountdownTimer from "./UnlimitedCountdownTimer";
 import { collection, getDocs, DocumentData, addDoc } from 'firebase/firestore';
 import db from "./firebase";
-
+import FooterNav from "../FooterNav";
 
 interface UnlimitedModeState {
     isGameStarted: boolean;
@@ -377,7 +377,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                         )}
                     </div>
                 )}
-
+            <FooterNav/>
             </div>
         );
     }

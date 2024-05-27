@@ -2,7 +2,7 @@ import "./DefinitionMode.css";
 import { withFuncProps } from "../withFuncProps";
 import { TextField, FormHelperText } from "@mui/material";
 import { missingWordDef, checkMissingWordExist } from '../WordSnake/FuncProps';
-
+import FooterNav from "../FooterNav";
 import React from "react";
 
 class DefinitionMode extends React.Component<any,any>{
@@ -138,6 +138,7 @@ class DefinitionMode extends React.Component<any,any>{
                         </ul>
                     </div>
                 )}
+            <FooterNav/>
             </div>
         );
     }
