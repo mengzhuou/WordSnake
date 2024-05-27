@@ -58,7 +58,23 @@ class Menu extends React.Component<any,any>{
     }
     
     handleWordAdditionMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        this.setState({ wordAdditionMessage: event.target.value });
+        let inputString = event.target.value.trim();
+        if (
+            inputString.startsWith('-') ||
+            inputString.startsWith('\'')) {
+            alert('Apostrophes and/or hyphens cannot be used in the beginning of a word.');
+        }
+        else {
+            const isValid = /^[a-zA-Z' -]*$/.test(inputString); 
+            if (isValid) {
+                this.setState({
+                    wordAdditionMessage: inputString
+                });
+            } 
+            else {
+                alert('Special character(s) or number(s) are not accepted (except apostrophes, hyphens).');
+            }
+        }
     }
     
     handleWordAdditionSubmit = () => {
