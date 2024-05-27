@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import FooterNav from "./FooterNav";
 import errImg from "./404.png";
 import { withFuncProps } from "./withFuncProps";
 
@@ -23,7 +22,6 @@ class NotFound extends Component<any, NotFoundProps>  {
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
                 </div>
                 <img className="errImg" src={errImg} alt="Not Found"/>
-                <FooterNav/>
             </div>
         );
     }

@@ -1,8 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
-
 const FooterNav = () => {
-  const navigate = useNavigate();
-
   return (
     <footer>
         <div className="footer-text">

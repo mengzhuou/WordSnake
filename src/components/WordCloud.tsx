@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import WordCloud from 'react-d3-cloud';
-import FooterNav from "./FooterNav";
 import { withFuncProps } from "./withFuncProps";
 import { collection, DocumentData, getDocs } from 'firebase/firestore';
 import db from "./WordSnake/firebase";
@@ -78,7 +77,6 @@ class WordCloudComponent extends Component<any, WordCloudState> {
               // rotate={(word) => word.value % 2}
             />
         </div>
-        <FooterNav/>
       </div>
     );
   }
