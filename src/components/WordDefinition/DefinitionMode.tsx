@@ -44,7 +44,7 @@ class DefinitionMode extends React.Component<any,any>{
     
 
     handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const inputString = event.target.value;
+        const inputString = event.target.value.trim();
         if (
             inputString.startsWith('-') || 
             inputString.startsWith('\''))
@@ -59,7 +59,7 @@ class DefinitionMode extends React.Component<any,any>{
                 errMessage: ""
             });
         } else {
-            const isValid = /^[a-zA-Z'-]*$/.test(inputString);
+            const isValid = /^[a-zA-Z' -]*$/.test(inputString);
 
             if (isValid) {
                 this.setState({
