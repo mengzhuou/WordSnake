@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { collection, addDoc } from 'firebase/firestore';
 import db from "../WordSnake/firebase";
+import { checkWordExist, checkMissingWordExist } from '../WordSnake/FuncProps';
 
 interface WordAdditionProps {
     message: string,
@@ -27,16 +28,25 @@ class WordAdditionModel extends Component<WordAdditionProps> {
 
         let lowercaseWord = message.toLowerCase();
 
-        const collectionRef = collection(db, "WordAdditionRequest");
-        const adminFeedback = "No";
-        const payload = {Word: lowercaseWord, Time: time, Admin: adminFeedback};
-        try {
-            await addDoc(collectionRef, payload);
-            alert("Submit Successfully! Thank you " + String.fromCharCode(10084));
-            onClose();
-        } catch (error) {
-            console.error("Error submitting word: ", error);
+        const isWordExist = await checkWordExist(lowercaseWord);
+        const missingWordExists = await checkMissingWordExist(lowercaseWord);
+
+        if (isWordExist || missingWordExists) {
+            alert("You can't request for a word that exists in our dictionary.")
         }
+        else{
+            const collectionRef = collection(db, "WordAdditionRequest");
+            const adminFeedback = "No";
+            const payload = {Word: lowercaseWord, Time: time, Admin: adminFeedback};
+            try {
+                await addDoc(collectionRef, payload);
+                alert("Submit Successfully! Thank you " + String.fromCharCode(10084));
+                onClose();
+            } catch (error) {
+                console.error("Error submitting word: ", error);
+            }
+        }
+
     }
 
     render() {
