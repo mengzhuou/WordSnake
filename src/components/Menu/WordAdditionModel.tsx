@@ -25,9 +25,11 @@ class WordAdditionModel extends Component<WordAdditionProps> {
             return;
         }
 
+        let lowercaseWord = message.toLowerCase();
+
         const collectionRef = collection(db, "WordAdditionRequest");
         const adminFeedback = "No";
-        const payload = {Word: message, Time: time, Admin: adminFeedback};
+        const payload = {Word: lowercaseWord, Time: time, Admin: adminFeedback};
         try {
             await addDoc(collectionRef, payload);
             alert("Submit Successfully! Thank you " + String.fromCharCode(10084));
