@@ -101,6 +101,7 @@
 
 .textField{
     width: 30%;
+    z-index: 0;
 }
 
 @media (max-width: 730px){

@@ -3,12 +3,19 @@ import { withFuncProps } from "../withFuncProps";
 import { TextField, FormHelperText } from "@mui/material";
 import { missingWordDef, checkMissingWordExist } from '../WordSnake/FuncProps';
 import React from "react";
+import WordAdditionModel from "../Menu/WordAdditionModel";
 
 class DefinitionMode extends React.Component<any,any>{
     constructor(props:any){
         super(props);
-        this.state = {wordList:[], 
-            inputValue: '', storedInputValue: '', errMessage: ''
+        this.state = {
+            wordList:[], 
+            inputValue: '', 
+            storedInputValue: '', 
+            errMessage: '',
+            showWordAdditionModel: false,
+            wordAdditionMessage: "",
+            time: new Date()
         };
         this.forceup = this.forceup.bind(this);
         this.menuNav = this.menuNav.bind(this);
@@ -41,8 +48,39 @@ class DefinitionMode extends React.Component<any,any>{
             }
         }
     };
-    
 
+    handleWordAdditionModelOpen = () => {
+        this.setState({ showWordAdditionModel: true })
+    }
+    
+    handleWordAdditionModelClose = () => {
+        this.setState({ showWordAdditionModel: false, wordAdditionMessage: "" })
+    }
+    
+    handleWordAdditionMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        let inputString = event.target.value.trim();
+        if (
+            inputString.startsWith('-') ||
+            inputString.startsWith('\'')) {
+            alert('Apostrophes and/or hyphens cannot be used in the beginning of a word.');
+        }
+        else {
+            const isValid = /^[a-zA-Z' -]*$/.test(inputString); 
+            if (isValid) {
+                this.setState({
+                    wordAdditionMessage: inputString
+                });
+            } 
+            else {
+                alert('Special character(s) or number(s) are not accepted (except apostrophes, hyphens).');
+            }
+        }
+    }
+    
+    handleWordAdditionSubmit = () => {
+        this.handleWordAdditionModelClose();
+    }
+    
     handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputString = event.target.value.trim();
         if (
@@ -108,14 +146,29 @@ class DefinitionMode extends React.Component<any,any>{
     }
     
     render(){
-        const { wordList, errMessage } = this.state;
+        const { 
+            wordList, errMessage,
+            showWordAdditionModel, wordAdditionMessage, time
+        } = this.state;
         return (
             <div className="App">
                 <div className="topnav">
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
+                    <button 
+                        className="topnavButton" onClick={this.handleWordAdditionModelOpen}>Add A Word
+                    </button>
+                    {showWordAdditionModel && 
+                        <WordAdditionModel
+                            message={wordAdditionMessage}
+                            time={time}
+                            onClose={this.handleWordAdditionModelClose}
+                            onChange={this.handleWordAdditionMessageChange}
+                            onSubmit={this.handleWordAdditionSubmit}
+                        />
+                    }
                 </div>    
                 <h1 className="wsTitle">Word Definition</h1>
-                <div>
+                <div className="definitionTextField">
                     <TextField
                         label = "Type a word for definition"
                         value = {this.state.inputValue}

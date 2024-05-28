@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import CountdownTimer from "./CountdownTimer";
 import { collection, getDocs, DocumentData, addDoc } from 'firebase/firestore';
 import db from "./firebase";
+import WordAdditionModel from "../Menu/WordAdditionModel";
 
 interface ClassicModeState {
     isGameStarted: boolean;
@@ -26,6 +27,9 @@ interface ClassicModeState {
     initialDataLoaded: boolean;
     dbErrorMessage: string;
     isError: boolean;
+    showWordAdditionModel: boolean;
+    wordAdditionMessage: string;
+    time: Date;
 }
 
 
@@ -47,6 +51,9 @@ class ClassicMode extends Component<any, ClassicModeState> {
             initialDataLoaded: false,
             dbErrorMessage: "",
             isError: false,
+            showWordAdditionModel: false,
+            wordAdditionMessage: "",
+            time: new Date()
         };
         this.menuNav = this.menuNav.bind(this);
     }
@@ -85,6 +92,38 @@ class ClassicMode extends Component<any, ClassicModeState> {
             }
         }
     };
+
+    handleWordAdditionModelOpen = () => {
+        this.setState({ showWordAdditionModel: true })
+    }
+    
+    handleWordAdditionModelClose = () => {
+        this.setState({ showWordAdditionModel: false, wordAdditionMessage: "" })
+    }
+    
+    handleWordAdditionMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        let inputString = event.target.value.trim();
+        if (
+            inputString.startsWith('-') ||
+            inputString.startsWith('\'')) {
+            alert('Apostrophes and/or hyphens cannot be used in the beginning of a word.');
+        }
+        else {
+            const isValid = /^[a-zA-Z' -]*$/.test(inputString); 
+            if (isValid) {
+                this.setState({
+                    wordAdditionMessage: inputString
+                });
+            } 
+            else {
+                alert('Special character(s) or number(s) are not accepted (except apostrophes, hyphens).');
+            }
+        }
+    }
+    
+    handleWordAdditionSubmit = () => {
+        this.handleWordAdditionModelClose();
+    }
 
     handleEndGame = () => {
         this.updateGameState(false, true)
@@ -264,7 +303,8 @@ class ClassicMode extends Component<any, ClassicModeState> {
         const { firstWord, inputValue, errMessage,
             isGameStarted, showWords, canbeSaved,
             showRanking, leaderBoardList,
-            isGameOver, history, isError
+            isGameOver, history, isError,
+            showWordAdditionModel, wordAdditionMessage, time
         } = this.state;
         const sortedWords = history.sort();
 
@@ -282,6 +322,18 @@ class ClassicMode extends Component<any, ClassicModeState> {
                     <button className="topnavButton" onClick={this.handleShowWords} hidden={!isGameStarted}>{showWords ? 'Hide Words' : 'Show Words'}</button>
                     <button className="topnavButton" onClick={this.toggleRanking}>Rank</button>
                     <button className="topnavButton" onClick={this.toggleSavedRecord} hidden={!canbeSaved}>Save Score </button>
+                    <button 
+                        className="topnavButton" onClick={this.handleWordAdditionModelOpen}>Add A Word
+                    </button>
+                    {showWordAdditionModel && 
+                        <WordAdditionModel
+                            message={wordAdditionMessage}
+                            time={time}
+                            onClose={this.handleWordAdditionModelClose}
+                            onChange={this.handleWordAdditionMessageChange}
+                            onSubmit={this.handleWordAdditionSubmit}
+                        />
+                    }
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>
                 </div>
 
