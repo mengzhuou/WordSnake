@@ -68,22 +68,26 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
 
                 <form className="fbform" onSubmit={this.fbSubmit}>
                     <h1 className="helpTitle">FEEDBACK</h1>
-                    <p>Name: </p>
-                    <input
-                        type="text"
-                        name="name"
-                        value={name}
-                        onChange={this.handleChange}
-                        placeholder="Enter your name"
-                    />
-                    <p>Email: Optional</p>
-                    <input
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={this.handleChange}
-                        placeholder="Enter your email"
-                    />
+                    <div className="inline-wrapper">
+                        <p className="nameText">Name:</p>
+                        <input
+                            type="text"
+                            name="name"
+                            value={name}
+                            onChange={this.handleChange}
+                            placeholder="Enter your name"
+                        />
+                    </div>
+                    <div className="inline-wrapper">
+                        <p className="emailText">Email:</p>
+                        <input
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={this.handleChange}
+                            placeholder="Enter your email"
+                        />
+                    </div>
                     <textarea
                         className="feedbackTextArea"
                         name="message"
