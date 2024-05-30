@@ -3,22 +3,41 @@ import { collection, addDoc } from 'firebase/firestore';
 import db from "../WordSnake/firebase";
 
 interface FeedbackModelProps {
+    name: string,
+    email: string,
     message: string,
     time: Date,
     onClose: () => void,
-    onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void,
+    onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
     onSubmit: (event: React.FormEvent) => void 
 }
 
-class FeedbackModel extends Component<FeedbackModelProps> {
+interface FeedbackModelState {
+    name: string,
+    email: string,
+    message: string,
+}
+
+class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
     constructor(props: FeedbackModelProps) {
         super(props);
+        this.state = {
+            name: this.props.name,
+            email: this.props.email,
+            message: this.props.message,
+        };
+    }
+
+    handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = event.target;
+        this.setState({ [name]: value } as Pick<FeedbackModelState, keyof FeedbackModelState>);
     }
 
     fbSubmit = async (event: React.FormEvent) => {
         event.preventDefault(); // Prevent the form from submitting
 
-        const { message, time, onClose } = this.props;
+        const { name, email, message } = this.state;
+        const { time, onClose } = this.props;
 
         if (!message) {
             alert("You can't submit an empty message. Please try again.");
@@ -27,7 +46,7 @@ class FeedbackModel extends Component<FeedbackModelProps> {
 
         const collectionRef = collection(db, "Feedback");
         const adminFeedback = "No";
-        const payload = {Comment: message, Time: time, Admin: adminFeedback};
+        const payload = { Name: name, Email: email, Comment: message, Time: time, Admin: adminFeedback };
         try {
             await addDoc(collectionRef, payload);
             alert("Submit Successfully! Thank you " + String.fromCharCode(10084));
@@ -38,7 +57,8 @@ class FeedbackModel extends Component<FeedbackModelProps> {
     }
 
     render() {
-        const { message, onClose, onChange } = this.props;
+        const { onClose } = this.props;
+        const { name, email, message } = this.state;
 
         return (
             <div className="fbpopup">
@@ -48,11 +68,33 @@ class FeedbackModel extends Component<FeedbackModelProps> {
 
                 <form className="fbform" onSubmit={this.fbSubmit}>
                     <h1 className="helpTitle">FEEDBACK</h1>
-                    <textarea className="feedbackTextArea" placeholder="Enter your feedback..."  value={message} onChange={onChange}></textarea>
+                    <p>Name: </p>
+                    <input
+                        type="text"
+                        name="name"
+                        value={name}
+                        onChange={this.handleChange}
+                        placeholder="Enter your name"
+                    />
+                    <p>Email: Optional</p>
+                    <input
+                        type="email"
+                        name="email"
+                        value={email}
+                        onChange={this.handleChange}
+                        placeholder="Enter your email"
+                    />
+                    <textarea
+                        className="feedbackTextArea"
+                        name="message"
+                        placeholder="Enter your feedback..."
+                        value={message}
+                        onChange={this.handleChange}
+                    ></textarea>
 
                     <div className="fbButtonRow">
-                        <button type="submit" className="fbSubmitButton" onClick={this.fbSubmit}>Submit</button>
-                        <button className="fbCancelButton" onClick={onClose}>Cancel</button>
+                        <button type="submit" className="fbSubmitButton">Submit</button>
+                        <button type="button" className="fbCancelButton" onClick={onClose}>Cancel</button>
                     </div>
                 </form>
             </div>
