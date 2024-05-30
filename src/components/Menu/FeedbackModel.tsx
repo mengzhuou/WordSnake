@@ -95,7 +95,7 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
                     <textarea
                         className="feedbackTextArea"
                         name="message"
-                        placeholder="[Must Fill] Enter your feedback"
+                        placeholder="Enter your feedback"
                         value={message}
                         onChange={this.handleChange}
                     ></textarea>
