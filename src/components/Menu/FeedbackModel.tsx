@@ -39,8 +39,12 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
         const { name, email, message } = this.state;
         const { time, onClose } = this.props;
 
+        if (!name) {
+            alert("Please fill out Name field.");
+            return;
+        }
         if (!message) {
-            alert("You can't submit an empty message. Please try again.");
+            alert("Please fill out Feedback field.");
             return;
         }
 
@@ -69,7 +73,7 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
                 <form className="fbform" onSubmit={this.fbSubmit}>
                     <h1 className="helpTitle">FEEDBACK</h1>
                     <div className="inline-wrapper">
-                        <p className="nameText">Name:</p>
+                        <p className="nameText"><span className="mustFillStar">*</span>Name:</p>
                         <input
                             type="text"
                             name="name"
@@ -91,7 +95,7 @@ class FeedbackModel extends Component<FeedbackModelProps, FeedbackModelState> {
                     <textarea
                         className="feedbackTextArea"
                         name="message"
-                        placeholder="Enter your feedback..."
+                        placeholder="[Must Fill] Enter your feedback"
                         value={message}
                         onChange={this.handleChange}
                     ></textarea>

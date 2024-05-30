@@ -12,6 +12,11 @@
     resize: vertical;
 }
 
+.mustFillStar{
+    color: #f00;
+    margin-right: 2px;
+}
+
 .inline-wrapper .nameText {
     margin-right: 10px; 
 }
