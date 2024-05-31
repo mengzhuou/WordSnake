@@ -45,7 +45,7 @@ export const checkWordExist = async (word: string): Promise<boolean> => {
 };
 
 export const checkMissingWordExist = async (word: string): Promise<boolean> => {
-  const missingWords = ["kite", "fuck", "hell", "nigga", "rizz", "rizzler", "nina"];
+  const missingWords = ["kite", "fuck", "hell", "nigga", "rizz", "rizzler", "nina", "rape"];
   const missingWordExists = missingWords.includes(word);
   return missingWordExists;
 }
@@ -59,6 +59,7 @@ export const missingWordDef = (word: string): string => {
     "rizz": "an ability to charm and woo a person",
     "rizzler": "an extremely confident, charming, and seductive person. This individual has the confidence (or “rizz”) to approach anyone and ask them out or spark a conversation.",
     "nina":"Meaning:Little girl. Nina is a girl's name with various possible origins, arguably the most well-known being Spanish. Aptly meaning “little girl,” this simple title never seems to go out of style. In Russian, Nina is a variation of the name Anne, a commonly-used and classic name across many English-speaking countries.",
+    "rape":"Rape is a type of sexual assault involving sexual intercourse or other forms of sexual penetration carried out against a person without their consent.",
     
   };
 

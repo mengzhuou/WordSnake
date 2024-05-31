@@ -54,6 +54,9 @@
   flex-wrap: wrap;
   justify-content: center;
   max-width: 100%;
+  border: 2px inset #cccccc;
+  padding: 10px; 
+  background-color: #fff7cdba;
 }
 
 .scoreStyle{
@@ -74,7 +77,7 @@
   max-width: 100%;
   border: 2px inset #cccccc;
   padding: 10px; 
-  background-color: azure;
+  background-color: #fff7cdba;
 }
 
 @keyframes fadeIn {

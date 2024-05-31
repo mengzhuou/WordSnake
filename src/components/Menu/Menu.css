@@ -77,7 +77,7 @@
     color: black;
     text-decoration: none;
     font-size: 30px;
-    background-color: #fdffc1;
+    background-color: #fff7cdba;
     cursor: pointer;
     font-family: 'Times New Roman', Times, serif;
     border-radius: 25px;
@@ -359,7 +359,7 @@ textarea{
     display: flex;
     flex-direction:column;
     align-items: center;
-    background-color:#c7fcd1;
+    background-color:#d0f4d7;
     font-family: 'Times New Roman', Times, serif; 
     overflow:auto;
     scrollbar-width: none;  /* Firefox */
