@@ -58,7 +58,7 @@
 
 .wsMenuTitle {
     text-align: center;
-    font-size: 50px;
+    font-size: 60px;
     font-weight: bold;
     font-family: 'Roboto', sans-serif; 
     color: #333;
@@ -66,7 +66,7 @@
     letter-spacing: 2px;
     text-transform: uppercase; 
     transition: transform 0.3s ease-in-out;
-    margin: 5% 5% 0% 5%;
+    margin: 2% 5% 1% 5%;
 }
   
 .wsMenuTitle:hover {
@@ -77,13 +77,14 @@
     color: black;
     text-decoration: none;
     font-size: 30px;
-    background-color: #c8f3ce;
+    background-color: #fdffc1;
     cursor: pointer;
     font-family: 'Times New Roman', Times, serif;
     border-radius: 25px;
     padding: 2px 12px 2px 12px;
     font-weight: bold;
     display: block;
+    padding: 6px 16px;
 }
 
 .buttonContainer {
