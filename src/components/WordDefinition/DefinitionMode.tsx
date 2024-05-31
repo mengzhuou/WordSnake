@@ -182,7 +182,7 @@ class DefinitionMode extends React.Component<any,any>{
                     </FormHelperText>
                 </div>
                 {wordList.length > 0 && (
-                    <div>
+                    <div className="defContainer">
                         <ul>
                             {wordList.map((word: string) => (
                                 <li key={word}>{word}</li>
