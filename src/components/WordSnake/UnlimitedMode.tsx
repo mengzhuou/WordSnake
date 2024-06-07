@@ -38,6 +38,7 @@ interface UnlimitedModeState {
   
 
 class UnlimitedMode extends Component<any, UnlimitedModeState> {
+    inputRef: React.RefObject<HTMLInputElement>;
     constructor(props: any) {
         super(props);
         this.state = {
@@ -62,6 +63,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
             time: new Date()
         };
         this.menuNav = this.menuNav.bind(this);
+        this.inputRef = React.createRef();
     }
 
     forceup = async (inputValue: string) => {
@@ -213,6 +215,8 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                 history: [],
                 inputValue: '',
                 showWords: true
+            }, () => {
+                this.inputRef.current?.focus();
             });
         }
 
@@ -369,6 +373,8 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                             display: isGameStarted ? 'block' : 'none',
                         }}
                         fullWidth={true}
+                        autoFocus={true}
+                        inputRef={this.inputRef}
                     />
                 </div>
                 <div>

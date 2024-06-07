@@ -67,7 +67,6 @@
 .container li{
   display: flex;
   font-family: initial;
-  min-width: 100px;
 }
 
 .wordListStyle {

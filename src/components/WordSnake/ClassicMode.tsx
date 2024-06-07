@@ -34,6 +34,7 @@ interface ClassicModeState {
 
 
 class ClassicMode extends Component<any, ClassicModeState> {
+    inputRef: React.RefObject<HTMLInputElement>;
     constructor(props: any) {
         super(props);
         this.state = {
@@ -56,6 +57,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
             time: new Date()
         };
         this.menuNav = this.menuNav.bind(this);
+        this.inputRef = React.createRef();
     }
 
     forceup = async (inputValue: string) => {
@@ -206,6 +208,8 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 history: [],
                 inputValue: '',
                 showWords: true
+            }, () => {
+                this.inputRef.current?.focus();
             });
         }
 
@@ -345,7 +349,7 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 )}
 
                 <div className="textField">
-                    <TextField
+                    <TextField 
                         label={`Enter a word starts with '${firstWord}'`}
                         value={inputValue}
                         onChange={this.handleInputChange}
@@ -354,6 +358,8 @@ class ClassicMode extends Component<any, ClassicModeState> {
                             display: isGameStarted ? 'block' : 'none',
                         }}
                         fullWidth={true}
+                        autoFocus={true}
+                        inputRef={this.inputRef}
                     />
                 </div>
                 <div>
