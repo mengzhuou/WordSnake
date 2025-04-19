@@ -12,10 +12,6 @@ interface WordAdditionProps {
 }
 
 class WordAdditionModel extends Component<WordAdditionProps> {
-    constructor(props: WordAdditionProps) {
-        super(props);
-    }
-
     wordAdditionSubmit = async (event: React.FormEvent) => {
         event.preventDefault(); // Prevent the form from submitting
 

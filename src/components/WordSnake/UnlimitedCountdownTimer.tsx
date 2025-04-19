@@ -25,7 +25,7 @@ const UnlimitedCountdownTimer: React.FC<Props> = ({ duration, wordLength, onTime
     if (timeLeft === 0) {
       onTimeUp();
     }
-  }, [timeLeft]);
+  }, [timeLeft, onTimeUp]);
 
   useEffect(() => {
     if (isTimerUpdated) {

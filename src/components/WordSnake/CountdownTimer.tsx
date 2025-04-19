@@ -22,7 +22,7 @@ const CountdownTimer: React.FC<Props> = ({ duration, onTimeUp }) => {
     if (timeLeft === 0) {
       onTimeUp();
     }
-  }, [timeLeft]);
+  }, [timeLeft, onTimeUp]);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);

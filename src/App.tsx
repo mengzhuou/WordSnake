@@ -13,10 +13,6 @@ import FooterNav from "./components/FooterNav";
 import React from "react";
 
 class App extends React.Component<any,any>{
-  constructor(props:any){
-    super(props);
-  }
-
   render() {
     return (
       <Router>
