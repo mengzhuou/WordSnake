@@ -26,8 +26,14 @@ jobs:
     - name: ✅ Run Lint
       run: npx eslint . --ext .ts,.tsx
 
-    - name: 🧪 Run Tests
-      run: npm test -- --watchAll=false
+    - name: 🧪 Run Tests with Coverage
+    run: npm test -- --coverage --watchAll=false
+
+    - name: 🔍 Run SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
     - name: 🔨 Build
       run: npm run build
