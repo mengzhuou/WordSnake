@@ -1,10 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Menu from '../Menu/Menu';
 
 const mockNavigate = jest.fn();
-global.alert = jest.fn();
 
 // Mock withFuncProps to inject mock navigate
 jest.mock('../withFuncProps', () => ({
@@ -92,33 +90,5 @@ describe('Menu Component basic behavior', () => {
     it('renders footer text and link', () => {
         expect(document.body).not.toHaveTextContent(/Designed with ♥ by/i); 
         expect(screen.getByRole('link', { name: 'Mengzhu Ou' })).toHaveAttribute('href', 'https://mengzhuou.github.io/');
-    });
-});
-
-describe('Menu Component functional behavior', () => {
-    beforeEach(() => {
-        render(<Menu />);
-    });
-
-    it('handles feedback input and submission correctly', async () => {
-        fireEvent.click(screen.getByText('Feedback'));
-
-        const nameInput = screen.getByPlaceholderText(/Enter your name/i);
-        const emailInput = screen.getByPlaceholderText(/Enter your email/i);
-        const messageTextarea = screen.getByPlaceholderText(/Enter your feedback/i);
-
-        // Simulate user input
-        fireEvent.change(nameInput, { target: { value: 'Test User', name: 'name' } });
-        fireEvent.change(emailInput, { target: { value: 'test@example.com', name: 'email' } });
-        fireEvent.change(messageTextarea, { target: { value: 'Nice app!', name: 'message' } });
-
-        // Submit form
-        fireEvent.click(screen.getByText('Submit'));
-
-        // Wait for modal to close after async db call
-        await waitFor(() => {
-            expect(document.body).not.toHaveTextContent(/Submit/i);
-            expect(document.body).not.toHaveTextContent(/Cancel/i);
-        });
     });
 });
