@@ -2,9 +2,19 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import FeedbackModel from '../Menu/FeedbackModel';
+import { addDoc } from 'firebase/firestore';
 
 global.alert = jest.fn();
 
+jest.mock('firebase/firestore', () => {
+    const originalModule = jest.requireActual('firebase/firestore');
+    return {
+        ...originalModule,
+        addDoc: jest.fn(), // mock addDoc
+    };
+});
+
+console.error = jest.fn(); 
 
 describe('FeedbackModel Component functional behavior', () => {
     beforeEach(() => {
@@ -57,4 +67,24 @@ describe('FeedbackModel Component functional behavior', () => {
         });
     });
     
+    it('logs error when addDoc fails', async () => {
+        addDoc.mockRejectedValueOnce(new Error('Simulated Firebase failure'));
+
+        const nameInput = screen.getByPlaceholderText(/Enter your name/i);
+        const emailInput = screen.getByPlaceholderText(/Enter your email/i);
+        const messageTextarea = screen.getByPlaceholderText(/Enter your feedback/i);
+
+        fireEvent.change(nameInput, { target: { value: 'Error Tester', name: 'name' } });
+        fireEvent.change(emailInput, { target: { value: 'error@example.com', name: 'email' } });
+        fireEvent.change(messageTextarea, { target: { value: 'Trigger error case', name: 'message' } });
+
+        fireEvent.click(screen.getByText('Submit'));
+
+        await waitFor(() => {
+            expect(console.error).toHaveBeenCalledWith(
+                "Error submitting feedback: ",
+                expect.any(Error)
+            );
+        });
+    });
 });
