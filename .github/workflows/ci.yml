@@ -27,7 +27,7 @@ jobs:
       run: npx eslint . --ext .ts,.tsx
 
     - name: 🧪 Run Tests with Coverage
-    run: npm test -- --coverage --watchAll=false
+      run: npm test -- --coverage --watchAll=false
 
     - name: 🔍 Run SonarQube Scan
       uses: sonarsource/sonarqube-scan-action@master
