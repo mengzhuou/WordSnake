@@ -12,6 +12,12 @@ interface WordAdditionProps {
 }
 
 class WordAdditionModel extends Component<WordAdditionProps> {
+    constructor(props: WordAdditionProps) {
+        super(props);
+        this.state = {
+            message: this.props.message,
+        };
+    }
     wordAdditionSubmit = async (event: React.FormEvent) => {
         event.preventDefault(); // Prevent the form from submitting
 
@@ -57,7 +63,13 @@ class WordAdditionModel extends Component<WordAdditionProps> {
                 <form className="fbform" onSubmit={this.wordAdditionSubmit}>
                     <h1 className="helpTitle">Add A Word</h1>
                     <p className="wordAdditionText">If the word does not exist in our dictionary, you may request for adding such word. The word will be available in all mode (Definition/Unlimited/Classic) once the admin approved it.</p>
-                    <textarea className="wordAdditionTextArea" placeholder="Type a word..." value={message} onChange={onChange}></textarea>
+                    <textarea
+                        className="wordAdditionTextArea" 
+                        placeholder="Type a word..." 
+                        name="message"
+                        value={message} 
+                        onChange={onChange}
+                    ></textarea>
 
                     <div className="fbButtonRow">
                         <button type="submit" className="fbSubmitButton" onClick={this.wordAdditionSubmit}>Submit</button>
