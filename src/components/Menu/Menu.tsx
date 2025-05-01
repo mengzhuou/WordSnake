@@ -43,15 +43,6 @@ class Menu extends React.Component<any, any> {
         this.setState({ showFeedbackModel: false, feedbackMessage: "" });
     };
 
-    handleFeedbackChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
-        this.setState({ [name]: value } as any);
-    };
-
-    handleFeedbackSubmit = () => {
-        this.handleFeedbackModelClose();
-    };
-
     handleWordAdditionModelOpen = () => {
         this.setState({ showWordAdditionModel: true });
     };
@@ -140,8 +131,6 @@ class Menu extends React.Component<any, any> {
                                 message={feedbackMessage}
                                 time={time}
                                 onClose={this.handleFeedbackModelClose}
-                                onChange={this.handleFeedbackChange}
-                                onSubmit={this.handleFeedbackSubmit}
                             />
                         }
                     </div>

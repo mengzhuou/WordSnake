@@ -8,8 +8,6 @@ interface FeedbackModelProps {
     message: string,
     time: Date,
     onClose: () => void,
-    onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
-    onSubmit: (event: React.FormEvent) => void 
 }
 
 interface FeedbackModelState {
