@@ -4,24 +4,27 @@ import db from "../WordSnake/firebase";
 import { checkWordExist, checkMissingWordExist } from '../WordSnake/FuncProps';
 
 interface WordAdditionProps {
-    message: string,
     time: Date,
     onClose: () => void,
-    onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void,
-    onSubmit: (event: React.FormEvent) => void 
 }
 
-class WordAdditionModel extends Component<WordAdditionProps> {
+interface WordAdditionState {
+    message: string;
+}
+
+
+class WordAdditionModel extends Component<WordAdditionProps, WordAdditionState> {
     constructor(props: WordAdditionProps) {
         super(props);
         this.state = {
-            message: this.props.message,
+            message: "",
         };
     }
     wordAdditionSubmit = async (event: React.FormEvent) => {
         event.preventDefault(); // Prevent the form from submitting
 
-        const { message, time, onClose } = this.props;
+        const { time, onClose } = this.props;
+        const { message } = this.state;
 
         if (!message) {
             alert("You can't submit an empty request. Please try again.");
@@ -48,11 +51,31 @@ class WordAdditionModel extends Component<WordAdditionProps> {
                 console.error("Error submitting word: ", error);
             }
         }
-
     }
 
+    wordAdditionMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        console.log('called')
+        let inputString = event.target.value.trim();
+        if (
+            inputString.startsWith('-') ||
+            inputString.startsWith('\'')
+        ) {
+            alert('Apostrophes and/or hyphens cannot be used in the beginning of a word.');
+        } else {
+            const isValid = /^[a-zA-Z' -]*$/.test(inputString);
+            if (isValid) {
+                this.setState({
+                    message: inputString
+                });
+            } else {
+                alert('Special character(s) or number(s) are not accepted (except apostrophes, hyphens).');
+            }
+        }
+    };
+
     render() {
-        const { message, onClose, onChange } = this.props;
+        const { onClose } = this.props;
+        const { message } = this.state;
 
         return (
             <div className="fbpopup">
@@ -68,7 +91,7 @@ class WordAdditionModel extends Component<WordAdditionProps> {
                         placeholder="Type a word..." 
                         name="message"
                         value={message} 
-                        onChange={onChange}
+                        onChange={this.wordAdditionMessageChange}
                     ></textarea>
 
                     <div className="fbButtonRow">

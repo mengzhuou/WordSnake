@@ -32,7 +32,6 @@ interface UnlimitedModeState {
     dbErrorMessage: string;
     isError: boolean;
     showWordAdditionModel: boolean;
-    wordAdditionMessage: string;
     time: Date;
   }
   
@@ -59,7 +58,6 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
             dbErrorMessage: "",
             isError: false,
             showWordAdditionModel: false,
-            wordAdditionMessage: "",
             time: new Date()
         };
         this.menuNav = this.menuNav.bind(this);
@@ -109,31 +107,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
     }
     
     handleWordAdditionModelClose = () => {
-        this.setState({ showWordAdditionModel: false, wordAdditionMessage: "" })
-    }
-    
-    handleWordAdditionMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let inputString = event.target.value.trim();
-        if (
-            inputString.startsWith('-') ||
-            inputString.startsWith('\'')) {
-            alert('Apostrophes and/or hyphens cannot be used in the beginning of a word.');
-        }
-        else {
-            const isValid = /^[a-zA-Z' -]*$/.test(inputString); 
-            if (isValid) {
-                this.setState({
-                    wordAdditionMessage: inputString
-                });
-            } 
-            else {
-                alert('Special character(s) or number(s) are not accepted (except apostrophes, hyphens).');
-            }
-        }
-    }
-    
-    handleWordAdditionSubmit = () => {
-        this.handleWordAdditionModelClose();
+        this.setState({ showWordAdditionModel: false })
     }
 
     handleEndGame = () => {
@@ -321,7 +295,7 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
             isGameStarted, showWords, canbeSaved,
             timeLeft, isTimerUpdated, showRanking, leaderBoardList,
             isGameOver, history, timerInputLength,
-            showWordAdditionModel, wordAdditionMessage, time
+            showWordAdditionModel, time
         } = this.state;
         const sortedWords = history.sort();
 
@@ -346,11 +320,8 @@ class UnlimitedMode extends Component<any, UnlimitedModeState> {
                     </button>
                     {showWordAdditionModel && 
                         <WordAdditionModel
-                            message={wordAdditionMessage}
                             time={time}
                             onClose={this.handleWordAdditionModelClose}
-                            onChange={this.handleWordAdditionMessageChange}
-                            onSubmit={this.handleWordAdditionSubmit}
                         />
                     }
                     <button className="topnavButton" onClick={this.menuNav}>Menu</button>

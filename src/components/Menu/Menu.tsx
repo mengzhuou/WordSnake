@@ -16,7 +16,6 @@ class Menu extends React.Component<any, any> {
             feedbackMessage: "",
             feedbackName: "",
             feedbackEmail: "",
-            wordAdditionMessage: "",
         };
         this.defModeNav = this.defModeNav.bind(this);
         this.classicModeNav = this.classicModeNav.bind(this);
@@ -48,30 +47,7 @@ class Menu extends React.Component<any, any> {
     };
 
     handleWordAdditionModelClose = () => {
-        this.setState({ showWordAdditionModel: false, wordAdditionMessage: "" });
-    };
-
-    handleWordAdditionMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let inputString = event.target.value.trim();
-        if (
-            inputString.startsWith('-') ||
-            inputString.startsWith('\'')
-        ) {
-            alert('Apostrophes and/or hyphens cannot be used in the beginning of a word.');
-        } else {
-            const isValid = /^[a-zA-Z' -]*$/.test(inputString);
-            if (isValid) {
-                this.setState({
-                    wordAdditionMessage: inputString
-                });
-            } else {
-                alert('Special character(s) or number(s) are not accepted (except apostrophes, hyphens).');
-            }
-        }
-    };
-
-    handleWordAdditionSubmit = () => {
-        this.handleWordAdditionModelClose();
+        this.setState({ showWordAdditionModel: false});
     };
 
     handleHelpModelOpen = () => {
@@ -85,7 +61,7 @@ class Menu extends React.Component<any, any> {
     render() {
         const {
             showFeedbackModel, feedbackMessage, feedbackName, feedbackEmail,
-            showWordAdditionModel, wordAdditionMessage,
+            showWordAdditionModel, 
             time,
             showHelpModel
         } = this.state;
@@ -109,11 +85,8 @@ class Menu extends React.Component<any, any> {
                         </button>
                         {showWordAdditionModel &&
                             <WordAdditionModel
-                                message={wordAdditionMessage}
                                 time={time}
                                 onClose={this.handleWordAdditionModelClose}
-                                onChange={this.handleWordAdditionMessageChange}
-                                onSubmit={this.handleWordAdditionSubmit}
                             />
                         }
                     </div>
