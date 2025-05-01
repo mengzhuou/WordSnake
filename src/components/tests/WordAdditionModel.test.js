@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import WordAdditionModel from '../Menu/WordAdditionModel';
+import { checkMissingWordExist } from '../WordSnake/FuncProps';
 
 global.alert = jest.fn();
 console.error = jest.fn(); 
@@ -40,21 +41,30 @@ describe('WordAdditionModel Component functional behavior', () => {
     beforeEach(() => {
         render(<WordAdditionModelWrapper />);
     });
-    // beforeEach(() => {
-    //     render(<WordAdditionModel message="" time={new Date()} onClose={jest.fn()} onChange={jest.fn()} onSubmit={jest.fn()} />);
-    // });
 
     it('handles word request input and submission correctly', async () => {
         const messageTextarea = screen.getByPlaceholderText(/Type a word.../i);
 
-        // Simulate user input
         fireEvent.change(messageTextarea, { target: { value: 'nina', name: 'message' } });
 
-        // Submit form
         fireEvent.click(screen.getByText('Submit'));
 
         await waitFor(() => {
             expect(global.alert).toHaveBeenCalledWith(expect.stringContaining('Submit Successfully'));
+        });        
+    });
+
+    it('handles existing word request input and submission failed', async () => {
+        checkMissingWordExist.mockResolvedValueOnce(true);
+
+        const messageTextarea = screen.getByPlaceholderText(/Type a word.../i);
+
+        fireEvent.change(messageTextarea, { target: { value: 'kite', name: 'message' } });
+
+        fireEvent.click(screen.getByText('Submit'));
+
+        await waitFor(() => {
+            expect(global.alert).toHaveBeenCalledWith(expect.stringContaining("You can't request for a word that exists in our dictionary."));
         });        
     });
 
