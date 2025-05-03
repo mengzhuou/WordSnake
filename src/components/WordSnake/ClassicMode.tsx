@@ -149,7 +149,6 @@ class ClassicMode extends Component<any, ClassicModeState> {
                 const lowerInput = inputValue.toLowerCase();
                 if (lowerInput.length === 1) {
                     if (inputValue === "a" || inputValue === "i" || inputValue === "o"){
-                        console.log("called but not")
                         this.setState({ storedInputValue: lowerInput, ForceUpdateNow: true, inputValue: "" })
                         this.forceup(lowerInput);
                     } 

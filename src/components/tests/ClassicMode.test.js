@@ -53,6 +53,59 @@ describe('ClassicMode Component', () => {
         });
     });
 
+    it('reject empty input', async () => {
+        fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "apple" } });
+        fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "" } });
+        fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Enter', code: 'Enter' });
+
+        await waitFor(() => {
+            expect(screen.queryByText(/does not exist/i)).not.toBeInTheDocument();
+        });
+    });
+
+    it('reject input ending with `\` or `-`', async () => {
+        fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "apple`\`" } });
+        fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Enter', code: 'Enter' });
+
+        await waitFor(() => {
+            expect(screen.queryByText(/The word already exist. Please type another word./i)).toBeInTheDocument();
+        });
+        fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "test-" } });
+        fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Enter', code: 'Enter' });
+
+        await waitFor(() => {
+            expect(screen.queryByText(/The word already exist. Please type another word./i)).not.toBeInTheDocument();
+        });
+    });
+
+    it('shows nothing if keydown is not Enter', async () => {
+        fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "" } });
+        fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Escape', code: 'Escape' });
+
+        expect(screen.queryByText(/astWord is undefined or empty/i)).not.toBeInTheDocument();
+    });
+    
+    it('reject input with length less or equal to 1', async () => {
+        fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "a" } });
+        fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Enter', code: 'Enter' });
+
+        await waitFor(() => {
+            expect(screen.queryByText(/This single letter does not form a word/i)).not.toBeInTheDocument();
+        });
+        fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "i" } });
+        fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Enter', code: 'Enter' });
+
+        await waitFor(() => {
+            expect(screen.queryByText(/This single letter does not form a word/i)).not.toBeInTheDocument();
+        });
+        fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "o" } });
+        fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Enter', code: 'Enter' });
+
+        await waitFor(() => {
+            expect(screen.queryByText(/This single letter does not form a word/i)).not.toBeInTheDocument();
+        });
+    });
+
     it('opens and closes Add A Word model', () => {
         fireEvent.click(screen.getByText('Add A Word'));
         expect(screen.getByText(/Submit/i)).toBeInTheDocument();
