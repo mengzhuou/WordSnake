@@ -63,6 +63,10 @@ class ClassicMode extends Component<any, ClassicModeState> {
             this.setState({ errMessage: 'The word already exist. Please type another word.', inputValue: "", storedInputValue: "" })
         } else {
             const lastWord = this.state.wordList[this.state.wordList.length - 1]
+            if (!lastWord || lastWord.length === 0) {
+                console.error("lastWord is undefined or empty");
+                return;
+            }
             const lastLetter = lastWord[lastWord.length - 1]
 
             const isWordExist = await checkWordExist(inputValue);
