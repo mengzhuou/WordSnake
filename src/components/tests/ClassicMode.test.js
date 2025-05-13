@@ -158,7 +158,7 @@ describe('ClassicMode updateGameState behavior', () => {
         
         fireEvent.click(screen.getByText('Start Game'));
         
-        fireEvent.change(screen.getByLabelText(/Enter a word starts with/i), { target: { value: 'a' } });
+        fireEvent.change(screen.getByLabelText(/Enter a word starts with/i), { target: { value: 'apple' } });
         fireEvent.keyDown(screen.getByLabelText(/Enter a word starts with/i), { key: 'Enter', code: 'Enter' });
         
         fireEvent.click(screen.getByText('Save Score')); 
@@ -167,4 +167,53 @@ describe('ClassicMode updateGameState behavior', () => {
             expect(screen.getByText(/Your Score:/)).toBeInTheDocument();
         });
     });
+
+    it('handles Confirm button click with different input endings and single letters', async () => {
+        fireEvent.click(screen.getByText('Start Game'));
+    
+        fireEvent.change(screen.getByLabelText(/Enter a word starts with/i), {
+            target: { value: "word'" }
+        });
+        fireEvent.click(screen.getByText('Confirm'));
+        await waitFor(() => {
+            expect(screen.getByText(/apostrophes and\/or hyphens/i)).toBeInTheDocument();
+        });
+    
+        // Ends with hyphen
+        fireEvent.change(screen.getByLabelText(/Enter a word starts with/i), {
+            target: { value: "word-" }
+        });
+        fireEvent.click(screen.getByText('Confirm'));
+        await waitFor(() => {
+            expect(screen.getByText(/apostrophes and\/or hyphens/i)).toBeInTheDocument();
+        });
+    
+        // Single letter that is not a valid word
+        fireEvent.change(screen.getByLabelText(/Enter a word starts with/i), {
+            target: { value: "x" }
+        });
+        fireEvent.click(screen.getByText('Confirm'));
+        await waitFor(() => {
+            expect(screen.getByText(/does not form a word/i)).toBeInTheDocument();
+        });
+    
+        // Valid single letter word: "a"
+        fireEvent.change(screen.getByLabelText(/Enter a word starts with/i), {
+            target: { value: "a" }
+        });
+        fireEvent.click(screen.getByText('Confirm'));
+        await waitFor(() => {
+            expect(screen.queryByText(/does not form a word/i)).not.toBeInTheDocument();
+        });
+    
+        // Valid longer word
+        fireEvent.change(screen.getByLabelText(/Enter a word starts with/i), {
+            target: { value: "apple" }
+        });
+        fireEvent.click(screen.getByText('Confirm'));
+        await waitFor(() => {
+            expect(screen.queryByText(/does not exist/i)).not.toBeInTheDocument();
+        });
+    });
+    
 });
