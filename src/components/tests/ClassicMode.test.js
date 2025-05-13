@@ -119,3 +119,23 @@ describe('ClassicMode Component', () => {
         expect(mockNavigate).toHaveBeenCalledWith('/');
     });
 });
+
+describe('ClassicMode Restart Button', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+        // Mock reload method
+        delete (window).location;
+        (window).location = { reload: jest.fn() };
+
+        render(<ClassicMode />);
+    });
+
+    it('calls window.location.reload when Restart button is clicked', async () => {
+        fireEvent.click(screen.getByText('Start Game'));
+
+        const restartButton = screen.getByText('Restart');
+        fireEvent.click(restartButton);
+
+        expect(window.location.reload).toHaveBeenCalled();
+    });
+});
