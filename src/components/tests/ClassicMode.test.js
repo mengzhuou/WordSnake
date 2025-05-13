@@ -50,7 +50,7 @@ describe('ClassicMode Component', () => {
         await waitFor(() => expect(screen.getByText(/does not form a word/i)).toBeInTheDocument());
     });
 
-    it('accepts valid input and updates word list', async () => {
+    it('do not show error for valid input', async () => {
         fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "apple" } });
         fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Enter', code: 'Enter' });
 
@@ -215,5 +215,25 @@ describe('ClassicMode updateGameState behavior', () => {
             expect(screen.queryByText(/does not exist/i)).not.toBeInTheDocument();
         });
     });
-    
 });
+
+// describe('ClassicMode handleShowWords behavior', () => {
+//     beforeEach(() => {
+//         jest.clearAllMocks();
+//         render(<ClassicMode />);
+//     });
+
+//     it('toggles showWords state and updates button text', async () => {
+//         fireEvent.click(screen.getByText('Start Game'));
+
+//         // fireEvent.change(screen.getByLabelText(/Enter a word starts with/i), { target: { value: 'apple' } });
+//         // fireEvent.keyDown(screen.getByLabelText(/Enter a word starts with/i), { key: 'Enter', code: 'Enter' });
+
+//         fireEvent.change(screen.getByRole('textbox'), { target: { value: 'apple' } });
+//         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter', code: 'Enter' });
+
+//         await waitFor(() => {
+//             expect(screen.getByText('apple')).toBeInTheDocument();
+//         });
+//     });
+// });
