@@ -18,6 +18,12 @@ jest.mock('../withFuncProps', () => ({
 
 global.prompt = jest.fn(() => 'Tester');
 
+jest.mock('../WordSnake/CountdownTimer', () => {
+    return (props) => {
+        props.onTimeUp();
+    };
+});
+
 describe('ClassicMode Component', () => {
     beforeEach(() => {
         jest.clearAllMocks();
@@ -87,19 +93,19 @@ describe('ClassicMode Component', () => {
     
     it('reject input with length less or equal to 1', async () => {
         fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "a" } });
-        fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Enter', code: 'Enter' });
+        fireEvent.click(screen.getByText('Confirm'));
 
         await waitFor(() => {
             expect(screen.queryByText(/This single letter does not form a word/i)).not.toBeInTheDocument();
         });
         fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "i" } });
-        fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Enter', code: 'Enter' });
+        fireEvent.click(screen.getByText('Confirm'));
 
         await waitFor(() => {
             expect(screen.queryByText(/This single letter does not form a word/i)).not.toBeInTheDocument();
         });
         fireEvent.change(screen.getByLabelText(/Enter a word/), { target: { value: "o" } });
-        fireEvent.keyDown(screen.getByLabelText(/Enter a word/), { key: 'Enter', code: 'Enter' });
+        fireEvent.click(screen.getByText('Confirm'));
 
         await waitFor(() => {
             expect(screen.queryByText(/This single letter does not form a word/i)).not.toBeInTheDocument();
@@ -137,5 +143,28 @@ describe('ClassicMode Restart Button', () => {
         fireEvent.click(restartButton);
 
         expect(window.location.reload).toHaveBeenCalled();
+    });
+});
+
+describe('ClassicMode updateGameState behavior', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+        render(<ClassicMode />);
+    });
+
+    it('ends the game and shows sorted history (isGameOver = true)', async () => {
+        global.prompt = jest.fn(() => 'Tester');
+        global.alert = jest.fn(); 
+        
+        fireEvent.click(screen.getByText('Start Game'));
+        
+        fireEvent.change(screen.getByLabelText(/Enter a word starts with/i), { target: { value: 'a' } });
+        fireEvent.keyDown(screen.getByLabelText(/Enter a word starts with/i), { key: 'Enter', code: 'Enter' });
+        
+        fireEvent.click(screen.getByText('Save Score')); 
+
+        await waitFor(() => {
+            expect(screen.getByText(/Your Score:/)).toBeInTheDocument();
+        });
     });
 });
